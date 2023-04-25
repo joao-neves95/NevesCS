@@ -5,12 +5,13 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.Static", "src\NevesCS.Static\NevesCS.Static.csproj", "{2867CFB2-50D1-478B-AFF2-F12A7B5435E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NevesCS.NonStatic", "src\NevesCS.NonStatic\NevesCS.NonStatic.csproj", "{BD7A21D3-0FB5-401A-BCCC-13250A3EBC2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.NonStatic", "src\NevesCS.NonStatic\NevesCS.NonStatic.csproj", "{BD7A21D3-0FB5-401A-BCCC-13250A3EBC2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NevesCS.Tests", "src\NevesCS.Tests\NevesCS.Tests.csproj", "{1474BF22-C182-41F8-8C2B-6F92B599ED45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.Tests", "src\NevesCS.Tests\NevesCS.Tests.csproj", "{1474BF22-C182-41F8-8C2B-6F92B599ED45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0E12F1C7-7D9B-4E49-A715-19D52C5EE4A9}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		README.md = README.md
 	EndProjectSection
