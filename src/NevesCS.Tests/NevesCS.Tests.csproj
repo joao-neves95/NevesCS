@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NevesCS.AspNetCore.Abstractions\NevesCS.AspNetCore.Abstractions.csproj" />
+    <ProjectReference Include="..\NevesCS.AspNetCore\NevesCS.AspNetCore.csproj" />
     <ProjectReference Include="..\NevesCS.NonStatic\NevesCS.NonStatic.csproj" />
     <ProjectReference Include="..\NevesCS.Static\NevesCS.Static.csproj" />
   </ItemGroup>
