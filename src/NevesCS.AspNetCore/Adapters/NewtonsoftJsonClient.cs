@@ -1,5 +1,5 @@
 ﻿
-using NevesCS.AspNetCore.Interfaces;
+using NevesCS.AspNetCore.Abstractions.Interfaces;
 
 using Newtonsoft.Json;
 

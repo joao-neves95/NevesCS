@@ -1,16 +1,13 @@
-﻿
-using System.Net;
-
-using FluentAssertions;
-
+﻿using System.Net;
 using Microsoft.Extensions.Options;
 
+using NevesCS.AspNetCore.Abstractions.Models.Configuration;
+using NevesCS.AspNetCore.Adapters;
+using NevesCS.Tests.Mocks;
+
+using FluentAssertions;
 using Moq;
 using Moq.Protected;
-
-using NevesCS.AspNetCore.Adapters;
-using NevesCS.AspNetCore.Models.Configuration;
-using NevesCS.Tests.Mocks;
 
 namespace NevesCS.Tests.AspNetCore.Adapters
 {

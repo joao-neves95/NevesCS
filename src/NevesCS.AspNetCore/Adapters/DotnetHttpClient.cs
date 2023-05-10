@@ -1,8 +1,7 @@
-﻿
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
-using NevesCS.AspNetCore.Interfaces;
-using NevesCS.AspNetCore.Models.Configuration;
+using NevesCS.AspNetCore.Abstractions.Interfaces;
+using NevesCS.AspNetCore.Abstractions.Models.Configuration;
 using NevesCS.Static.Extensions;
 
 using Polly;

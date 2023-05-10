@@ -1,5 +1,5 @@
 ﻿
-namespace NevesCS.AspNetCore.Interfaces
+namespace NevesCS.AspNetCore.Abstractions.Interfaces
 {
     /// <summary>
     /// A wrapper to perform Json operations.

@@ -1,5 +1,5 @@
 ﻿
-namespace NevesCS.AspNetCore.Models.Configuration
+namespace NevesCS.AspNetCore.Abstractions.Models.Configuration
 {
     public class HttpConfig
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace NevesCS.AspNetCore.Models.ApiExceptions
+namespace NevesCS.AspNetCore.Abstractions.Models.ApiExceptions
 {
     public class InternalServerErrorException : Exception
     {

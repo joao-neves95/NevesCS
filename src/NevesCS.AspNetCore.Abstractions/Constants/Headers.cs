@@ -1,5 +1,5 @@
 ﻿
-namespace NevesCS.AspNetCore.Constants
+namespace NevesCS.AspNetCore.Abstractions.Constants
 {
     public static class Headers
     {

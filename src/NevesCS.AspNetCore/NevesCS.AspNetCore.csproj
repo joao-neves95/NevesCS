@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NevesCS.AspNetCore.Abstractions\NevesCS.AspNetCore.Abstractions.csproj" />
     <ProjectReference Include="..\NevesCS.Static\NevesCS.Static.csproj" />
   </ItemGroup>
 

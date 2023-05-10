@@ -1,9 +1,8 @@
-﻿
+﻿using System.Net;
+
 using Microsoft.AspNetCore.Mvc;
 
-using NevesCS.AspNetCore.Models.ApiExceptions;
-
-using System.Net;
+using NevesCS.AspNetCore.Abstractions.Models.ApiExceptions;
 
 namespace NevesCS.AspNetCore.Extensions
 {

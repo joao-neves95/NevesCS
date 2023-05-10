@@ -1,7 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-using NevesCS.AspNetCore.Constants;
+using NevesCS.AspNetCore.Abstractions.Constants;
 
 namespace NevesCS.AspNetCore.Extensions
 {
