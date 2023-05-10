@@ -21,5 +21,14 @@ namespace NevesCS.Tests.Static.Extensions
         {
             source.EqualsIgnoreCase(target).Should().Be(expected);
         }
+
+        [Theory]
+        [InlineData(null, "", false)]
+        [InlineData("abc", null, false)]
+        [InlineData(null, null, true)]
+        public void EqualsIgnoreCaseAndNull_Should_Pass_IfBothAreNull(string source, string target, bool expected)
+        {
+            source.EqualsIgnoreCaseAndNull(target).Should().Be(expected);
+        }
     }
 }
