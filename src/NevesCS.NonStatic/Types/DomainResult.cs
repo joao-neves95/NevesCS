@@ -2,7 +2,6 @@
 using CSharpFunctionalExtensions;
 
 using NevesCS.Static.Enums;
-using NevesCS.Static.Extensions;
 
 namespace NevesCS.NonStatic.Types
 {

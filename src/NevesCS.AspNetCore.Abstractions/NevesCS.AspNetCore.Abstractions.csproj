@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\NevesCS.props"/>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Version>$(FrameworkVersion)</Version>
+
+    <PackageId>NevesCS.AspNetCore.Abstractions</PackageId>
+    <Product>NevesCS.AspNetCore.Abstractions</Product>
+    <Description>Library that provides abstractions for AspNetCore.</Description>
   </PropertyGroup>
 
 </Project>

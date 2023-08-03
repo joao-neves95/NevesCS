@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\NevesCS.props"/>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Version>$(FrameworkVersion)</Version>
+
+    <PackageId>NevesCS.Static</PackageId>
+    <Product>NevesCS.Static</Product>
+    <Description>Library that provides static utilities.</Description>
   </PropertyGroup>
 
   <ItemGroup>

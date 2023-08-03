@@ -1,9 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\NevesCS.props"/>
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Version>$(FrameworkVersion)</Version>
+
+    <PackageId>NevesCS.AspNetCore</PackageId>
+    <Product>NevesCS.AspNetCore</Product>
+    <Description>Library that provides utilities for AspNetCore.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +15,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
-    <PackageReference Include="Polly" Version="7.2.3" />
-    <PackageReference Include="Poly" Version="1.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Polly" Version="7.2.4" />
   </ItemGroup>
 
   <ItemGroup>
