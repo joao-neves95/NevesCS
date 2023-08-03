@@ -1,4 +1,5 @@
-﻿
+﻿using NevesCS.Static.Utils;
+
 namespace NevesCS.Static.Extensions
 {
     public static class StringExtensions
@@ -16,6 +17,11 @@ namespace NevesCS.Static.Extensions
         public static bool EqualsIgnoreCase(this string source, string target)
         {
             return source?.Equals(target, StringComparison.OrdinalIgnoreCase) == true;
+        }
+
+        public static Guid HashIntoGuid(this string source)
+        {
+            return GuidUtils.StringHashIntoGuid(source);
         }
     }
 }

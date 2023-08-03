@@ -1,7 +1,7 @@
-﻿
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using NevesCS.Static.Extensions;
+using NevesCS.Static.Utils;
 
 namespace NevesCS.Tests.Static.Extensions
 {
@@ -29,6 +29,17 @@ namespace NevesCS.Tests.Static.Extensions
         public void EqualsIgnoreCaseAndNull_Should_Pass_IfBothAreNull(string source, string target, bool expected)
         {
             source.EqualsIgnoreCaseAndNull(target).Should().Be(expected);
+        }
+
+        [Fact]
+        public void HashIntoGuid_Should_ComputeTheCorrectGuid()
+        {
+            const string input = "Test_Name";
+            Guid expectedOutput = GuidUtils.StringHashIntoGuid(input);
+
+            var result = input.HashIntoGuid();
+
+            result.Should().Be(expectedOutput);
         }
     }
 }
