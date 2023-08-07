@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\NevesCS.props"/>
+  <Import Project="..\..\NevesCS.props" />
 
   <PropertyGroup>
     <Version>$(FrameworkVersion)</Version>
@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.38.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SpecFlow" Version="3.9.74" />
   </ItemGroup>
 
 </Project>
