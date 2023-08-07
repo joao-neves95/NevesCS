@@ -16,7 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/joao-neves95/NevesCS</RepositoryUrl>
 
-    <FrameworkVersion>0.1.0</FrameworkVersion>
+    <FrameworkVersion>0.1.1</FrameworkVersion>
 
     <SwashbuckleVersion Condition="$(TargetFramework) == 'net6.0' OR $(TargetFramework) == 'net7.0'">6.5.0</SwashbuckleVersion>
   </PropertyGroup>
