@@ -21,7 +21,7 @@ namespace NevesCS.Static.Extensions
 
         public static Guid HashIntoGuid(this string source)
         {
-            return GuidUtils.StringHashIntoGuid(source);
+            return GuidUtils.HashStringIntoGuid(source);
         }
     }
 }
