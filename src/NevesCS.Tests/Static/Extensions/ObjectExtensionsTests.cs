@@ -29,6 +29,22 @@ namespace NevesCS.Tests.Static.Extensions
             action.Should().NotThrow();
         }
 
+        [Fact]
+        public void SetPropertyDynamically_Should_SetValue()
+        {
+            const string dev = "J. P. M. Neves";
+            const int appId = 123456789;
+
+            var mockClass = (object)new DataGame();
+
+            mockClass.SetPropertyDynamically(nameof(DataGame.Developer), dev);
+            mockClass.SetPropertyDynamically(nameof(DataGame.AppId), appId);
+
+            var castResult = (DataGame)mockClass;
+            castResult.Developer.Should().Be(dev);
+            castResult.AppId.Should().Be(appId);
+        }
+
         private IEnumerable<string> GetMockEnumerable() => new[] { 1, 2, 3 }.Select(x => x.ToString());
 
         [Fact]

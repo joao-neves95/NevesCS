@@ -1,4 +1,5 @@
-﻿
+﻿using System.Reflection;
+
 namespace NevesCS.Static.Extensions
 {
     public static class ObjectExtensions
@@ -11,6 +12,22 @@ namespace NevesCS.Static.Extensions
             }
 
             return @object;
+        }
+
+        /// <summary>
+        /// <code>
+        /// myClassInstance.SetPropertyDynamically(
+        ///     nameof(MyClass.WithThisProperty),
+        ///     someValueToAdd);
+        /// </code>
+        /// </summary>
+        public static void SetPropertyDynamically(this object target, string propertyName, object value)
+        {
+            target
+                .GetType()
+                .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance)
+                !
+                .SetValue(target, value);
         }
 
         /// <summary>
