@@ -35,7 +35,7 @@ namespace NevesCS.Tests.Static.Extensions
         public void HashIntoGuid_Should_ComputeTheCorrectGuid()
         {
             const string input = "Test_Name";
-            Guid expectedOutput = GuidUtils.StringHashIntoGuid(input);
+            Guid expectedOutput = GuidUtils.HashStringIntoGuid(input);
 
             var result = input.HashIntoGuid();
 
