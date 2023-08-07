@@ -11,6 +11,7 @@ namespace NevesCS.AspNetCore.Adapters
     public sealed class DotnetHttpClient : IHttpClientAdapter
     {
         private readonly HttpClient _httpClient;
+
         private readonly IJsonClientAdapter _jsonClient;
 
         private readonly TimeSpan[] _sleepDurationPolicy;
@@ -26,7 +27,7 @@ namespace NevesCS.AspNetCore.Adapters
             _sleepDurationPolicy = GetSleepDurationPolicy(appConfig.ThrowIfNull().Value.NumberOfHttpRetries).ToArray();
         }
 
-        public async Task<TResponse?> GetAsync<TResponse>(string endpoint)
+        public async Task<TResponse?> GetAsync<TResponse>(string endpoint, CancellationToken cancellationToken = default)
         {
             if (endpoint is null)
             {
@@ -36,7 +37,9 @@ namespace NevesCS.AspNetCore.Adapters
             var pollyResponse = await Policy
                 .Handle<HttpRequestException>()
                 .WaitAndRetryAsync(_sleepDurationPolicy)
-                .ExecuteAndCaptureAsync(async () => await _httpClient.GetStreamAsync(endpoint));
+                .ExecuteAndCaptureAsync(
+                    async (cancelToken) => await _httpClient.GetStreamAsync(endpoint, cancelToken),
+                    cancellationToken);
 
             if (pollyResponse.FinalException is not null)
             {
