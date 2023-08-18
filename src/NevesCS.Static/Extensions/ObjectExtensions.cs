@@ -15,6 +15,20 @@ namespace NevesCS.Static.Extensions
         }
 
         /// <summary>
+        /// Return true if the <paramref name="target"/> has the requested property.
+        ///
+        /// </summary>
+        public static bool HasProperty(
+            this object target,
+            string propertyName)
+        {
+            return target
+                .GetType()
+                .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance)
+                != null;
+        }
+
+        /// <summary>
         /// <code>
         /// myClassInstance.SetPropertyDynamically(
         ///     nameof(MyClass.WithThisProperty),
@@ -63,11 +77,6 @@ namespace NevesCS.Static.Extensions
             }
 
             methodInfo.Invoke(targetProperty, new[] { value });
-        }
-
-        public static string Serialize(this object @obj)
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(@obj);
         }
     }
 }

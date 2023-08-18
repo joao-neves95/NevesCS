@@ -30,6 +30,15 @@ namespace NevesCS.Tests.Static.Extensions
         }
 
         [Fact]
+        public void HasProperty_Should_Pass()
+        {
+            var mockClass = (object)new DataGame();
+
+            mockClass.HasProperty(nameof(DataGame.Developer)).Should().Be(true);
+            mockClass.HasProperty(nameof(Array.Length)).Should().Be(false);
+        }
+
+        [Fact]
         public void SetPropertyDynamically_Should_SetValue()
         {
             const string dev = "J. P. M. Neves";
