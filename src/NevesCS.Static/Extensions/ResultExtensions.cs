@@ -1,4 +1,6 @@
-﻿using CSharpFunctionalExtensions;
+﻿using NevesCS.Static.Extensions.Vendor;
+
+using CSharpFunctionalExtensions;
 
 namespace NevesCS.Static.Extensions
 {
