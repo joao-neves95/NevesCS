@@ -54,6 +54,20 @@ namespace NevesCS.Tests.Static.Extensions
             castResult.AppId.Should().Be(appId);
         }
 
+        [Fact]
+        public void SetPropertyDynamically_Should_SetsTheValueOfASubProperty()
+        {
+            var mockClass = (object)new DataGame();
+
+            mockClass.SetPropertyDynamically(nameof(DataGame.Platforms), new DataPlatforms());
+            mockClass.SetPropertyDynamically($"{nameof(DataGame.Platforms)}.{nameof(DataPlatforms.Linux)}", true);
+
+            var castResult = (DataGame)mockClass;
+            castResult.Platforms.Linux.Should().Be(true);
+            castResult.Platforms.Windows.Should().Be(false);
+            castResult.Platforms.Mac.Should().Be(false);
+        }
+
         private IEnumerable<string> GetMockEnumerable() => new[] { 1, 2, 3 }.Select(x => x.ToString());
 
         [Fact]

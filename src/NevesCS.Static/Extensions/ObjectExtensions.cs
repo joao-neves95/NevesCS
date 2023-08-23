@@ -34,14 +34,28 @@ namespace NevesCS.Static.Extensions
         ///     nameof(MyClass.WithThisProperty),
         ///     someValueToAdd);
         /// </code>
+        /// <code>
+        /// myClassInstance.SetPropertyDynamically(
+        ///     "ThisProperty.WithThisSubProperty"
+        ///     someValueToAdd);
+        /// </code>
         /// </summary>
-        public static void SetPropertyDynamically(this object target, string propertyName, object value)
+        public static void SetPropertyDynamically(this object target, string propertyPath, object value)
         {
-            target
+            var subPropertyNames = propertyPath.Split('.');
+
+            for (int i = 0; i < subPropertyNames.Length - 1; i++)
+            {
+                var property = target.GetType().GetProperty(subPropertyNames[i]);
+                target = property.GetValue(target) ?? throw new NullReferenceException(subPropertyNames[i]);
+            }
+
+            var finalProperty = target
                 .GetType()
-                .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance)
-                !
-                .SetValue(target, value);
+                .GetProperty(subPropertyNames.Last())
+                ?? throw new MissingFieldException(subPropertyNames.Last());
+
+            finalProperty.SetValue(target, value);
         }
 
         /// <summary>
