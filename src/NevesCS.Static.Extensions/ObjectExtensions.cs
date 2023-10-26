@@ -14,6 +14,11 @@ namespace NevesCS.Static.Extensions
             return @object;
         }
 
+        public static bool In<TIn>(this TIn? @object, IEnumerable<TIn> target)
+        {
+            return target.Contains(@object);
+        }
+
         /// <summary>
         /// Return true if the <paramref name="target"/> has the requested property.
         ///

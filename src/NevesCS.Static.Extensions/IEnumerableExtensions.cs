@@ -10,5 +10,11 @@ namespace NevesCS.Static.Extensions
                 action(item);
             }
         }
+
+        // TODO: (optimized)
+        public static bool In<T>(this IEnumerable<T>? enumerable, IEnumerable<T> target)
+        {
+            throw new NotImplementedException("TODO");
+        }
     }
 }

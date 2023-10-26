@@ -1,8 +1,6 @@
-﻿using NevesCS.Static.Extensions.Vendor;
+﻿using CSharpFunctionalExtensions;
 
-using CSharpFunctionalExtensions;
-
-namespace NevesCS.Static.Extensions
+namespace NevesCS.Static.Extensions.Vendor
 {
     public static class ResultExtensions
     {
