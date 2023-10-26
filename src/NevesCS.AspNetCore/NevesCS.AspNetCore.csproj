@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\NevesCS.props"/>
+  <Import Project="..\..\NevesCS.props" />
 
   <PropertyGroup>
     <Version>$(FrameworkVersion)</Version>
@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NevesCS.AspNetCore.Abstractions\NevesCS.AspNetCore.Abstractions.csproj" />
-    <ProjectReference Include="..\NevesCS.Static\NevesCS.Static.csproj" />
+    <ProjectReference Include="..\NevesCS.Static.Extensions\NevesCS.Static.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

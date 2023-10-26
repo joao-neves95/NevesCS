@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\NevesCS.props" />
+
+  <PropertyGroup>
+    <Version>$(FrameworkVersion)</Version>
+
+    <PackageId>NevesCS.Static.Extensions</PackageId>
+    <Product>NevesCS.Static.Extensions</Product>
+    <Description>Library that provides static utilities.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.40.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SpecFlow" Version="3.9.74" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NevesCS.Static\NevesCS.Static.csproj" />
+  </ItemGroup>
+
+</Project>
