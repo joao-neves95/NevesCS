@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+﻿using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
 {
@@ -6,14 +6,7 @@ namespace NevesCS.Static.Extensions
     {
         public static string GetDescription(this Enum enumValue)
         {
-            var field = enumValue.GetType().GetField(enumValue.ToString());
-
-            if (field is null || Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is not DescriptionAttribute attribute)
-            {
-                throw new ArgumentException($"{nameof(DescriptionAttribute)} not found.", nameof(enumValue));
-            }
-
-            return attribute.Description;
+            return EnumUtils.GetDescription(enumValue);
         }
     }
 }

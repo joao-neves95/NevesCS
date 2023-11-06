@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+﻿using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
 {
@@ -23,14 +23,9 @@ namespace NevesCS.Static.Extensions
         /// Return true if the <paramref name="target"/> has the requested property.
         ///
         /// </summary>
-        public static bool HasProperty(
-            this object target,
-            string propertyName)
+        public static bool HasProperty(this object target, string propertyName)
         {
-            return target
-                .GetType()
-                .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance)
-                != null;
+            return ObjectUtils.HasProperty(target, propertyName);
         }
 
         /// <summary>
@@ -45,22 +40,9 @@ namespace NevesCS.Static.Extensions
         ///     someValueToAdd);
         /// </code>
         /// </summary>
-        public static void SetPropertyDynamically(this object target, string propertyPath, object value)
+        public static object SetPropertyDynamically(this object target, string propertyPath, object value)
         {
-            var subPropertyNames = propertyPath.Split('.');
-
-            for (int i = 0; i < subPropertyNames.Length - 1; i++)
-            {
-                var property = target.GetType().GetProperty(subPropertyNames[i]);
-                target = property.GetValue(target) ?? throw new NullReferenceException(subPropertyNames[i]);
-            }
-
-            var finalProperty = target
-                .GetType()
-                .GetProperty(subPropertyNames.Last())
-                ?? throw new MissingFieldException(subPropertyNames.Last());
-
-            finalProperty.SetValue(target, value);
+            return ObjectUtils.SetPropertyDynamically(target, propertyPath, value);
         }
 
         /// <summary>
@@ -78,24 +60,7 @@ namespace NevesCS.Static.Extensions
             string methodName,
             object value)
         {
-            var propertyInfo = target
-                .GetType()
-                .GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance)
-                ?? throw new MissingFieldException(propertyName);
-
-            var methodInfo = propertyInfo
-                .PropertyType
-                .GetMethod(methodName, BindingFlags.Public | BindingFlags.Instance)
-                ?? throw new MissingMethodException(methodName);
-
-            var targetProperty = propertyInfo.GetValue(target);
-
-            if (!methodInfo.IsStatic && targetProperty == null)
-            {
-                throw new NullReferenceException(propertyName);
-            }
-
-            methodInfo.Invoke(targetProperty, new[] { value });
+            ObjectUtils.CallMethodOfPropertyDynamically(target, propertyName, methodName, value);
         }
     }
 }
