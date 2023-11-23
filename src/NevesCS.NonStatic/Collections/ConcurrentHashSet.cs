@@ -1,7 +1,8 @@
-﻿
+using NevesCS.Abstractions.Traits;
+
 namespace NevesCS.NonStatic.Collections
 {
-    public sealed class ConcurrentHashSet<T> : IDisposable
+    public sealed class ConcurrentHashSet<T> : ICountable, IDisposable
     {
         private readonly HashSet<T> InternalHashSet = new();
 
@@ -10,6 +11,11 @@ namespace NevesCS.NonStatic.Collections
         ~ConcurrentHashSet()
         {
             Dispose(false);
+        }
+
+        public int Count()
+        {
+            return InternalHashSet.Count;
         }
 
         public bool Contains(T item)
