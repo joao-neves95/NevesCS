@@ -1,13 +1,10 @@
-﻿namespace NevesCS.Static.Utils
+namespace NevesCS.Static.Utils
 {
     public static class IEnumerableUtils
     {
         public static void ForEach<T>(IEnumerable<T> enumeration, Action<T> action)
         {
-            foreach (T item in enumeration)
-            {
-                action(item);
-            }
+            Array.ForEach(enumeration.ToArray(), action);
         }
 
         public static T? TryGetElementAtOr<T>(IEnumerable<T> enumeration, Index index, T? defaultValue = default)
