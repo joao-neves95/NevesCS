@@ -1,4 +1,4 @@
-﻿namespace NevesCS.Static.Utils
+namespace NevesCS.Static.Utils
 {
     public static class CalculationUtils
     {
@@ -9,14 +9,21 @@
 
         public static int Concat(int left, int right)
         {
-            int rightLength = 10;
+            return (left * ((int)Math.Pow(10, DigitCount(right)))) + right;
+        }
 
-            while (rightLength <= right)
+        public static int DigitCount(int value)
+        {
+            var counter = 1;
+            var widthMeter = 10;
+
+            while (widthMeter <= value)
             {
-                rightLength *= 10;
+                widthMeter *= 10;
+                ++counter;
             }
 
-            return (left * rightLength) + right;
+            return counter;
         }
     }
 }
