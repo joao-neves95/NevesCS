@@ -1,4 +1,4 @@
-﻿using NevesCS.Static.Utils;
+using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
 {
@@ -6,12 +6,7 @@ namespace NevesCS.Static.Extensions
     {
         public static T ThrowIfNull<T>(this T? @object)
         {
-            if (@object == null)
-            {
-                throw new ArgumentNullException(typeof(T).Name);
-            }
-
-            return @object;
+            return ObjectUtils.ThrowIfNull(@object);
         }
 
         public static bool In<TIn>(this TIn? @object, IEnumerable<TIn> target)

@@ -1,4 +1,4 @@
-﻿using NevesCS.Static.Utils;
+using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
 {
@@ -12,6 +12,11 @@ namespace NevesCS.Static.Extensions
         public static int Concat(this int value, int right)
         {
             return CalculationUtils.Concat(value, right);
+        }
+
+        public static int DigitCount(this int value)
+        {
+            return CalculationUtils.DigitCount(value);
         }
     }
 }

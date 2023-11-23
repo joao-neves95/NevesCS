@@ -1,9 +1,19 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace NevesCS.Static.Utils
 {
     public static class ObjectUtils
     {
+        public static T ThrowIfNull<T>(T? @object)
+        {
+            if (@object == null)
+            {
+                throw new ArgumentNullException(typeof(T).Name);
+            }
+
+            return @object;
+        }
+
         public static bool HasProperty(object target, string propertyName)
         {
             return target
