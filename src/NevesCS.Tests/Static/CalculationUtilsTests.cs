@@ -3,7 +3,7 @@ using NevesCS.Static.Utils;
 
 using FluentAssertions;
 
-namespace NevesCS.Tests.Static.Utils
+namespace NevesCS.Tests.Static
 {
     public class CalculationUtilsTests
     {

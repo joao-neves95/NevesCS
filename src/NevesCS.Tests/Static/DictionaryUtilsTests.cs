@@ -4,7 +4,7 @@ using Moq;
 
 using NevesCS.Static.Utils;
 
-namespace NevesCS.Tests.Static.Utils
+namespace NevesCS.Tests.Static
 {
     public class DictionaryUtilsTests
     {
@@ -38,7 +38,7 @@ namespace NevesCS.Tests.Static.Utils
 
         private void VerifyGetOrCreateResult(Dictionary<string, object> targetDict, string key, string value, bool wasCalled)
         {
-            var targetDict2 = targetDict.Clone();
+            var targetDict2 = targetDict.CloneIntoNew();
 
             DictionaryUtils.GetOrCreate(targetDict, key, factoryMock.Object).Should().Be(value);
             targetDict2.GetOrCreate(key, factoryMock.Object).Should().Be(value);

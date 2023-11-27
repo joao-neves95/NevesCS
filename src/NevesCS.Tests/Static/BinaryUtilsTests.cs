@@ -5,7 +5,7 @@ using NevesCS.Static.Extensions;
 using NevesCS.Static.Utils;
 using NevesCS.Tests.Mocks;
 
-namespace NevesCS.Tests.Static.Utils
+namespace NevesCS.Tests.Static
 {
     public class BinaryUtilsTests
     {

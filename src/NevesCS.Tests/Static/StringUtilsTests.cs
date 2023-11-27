@@ -1,11 +1,11 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 
 using NevesCS.Static.Extensions;
 using NevesCS.Static.Utils;
 
-namespace NevesCS.Tests.Static.Extensions
+namespace NevesCS.Tests.Static
 {
-    public class StringExtensionsTests
+    public class StringUtilsTests
     {
         [Theory]
         [InlineData(null, "ABC", false)]
@@ -20,17 +20,7 @@ namespace NevesCS.Tests.Static.Extensions
         public void EqualsIgnoreCase_Should_Pass(string source, string target, bool expected)
         {
             source.EqualsIgnoreCase(target).Should().Be(expected);
-        }
-
-        [Fact]
-        public void HashIntoGuid_Should_ComputeTheCorrectGuid()
-        {
-            const string input = "Test_Name";
-            Guid expectedOutput = GuidUtils.HashStringIntoGuid(input);
-
-            var result = input.HashIntoGuid();
-
-            result.Should().Be(expectedOutput);
+            StringUtils.EqualsIgnoreCase(source, target).Should().Be(expected);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
     <LangVersion>11</LangVersion>
@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>

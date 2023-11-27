@@ -1,7 +1,12 @@
-﻿namespace NevesCS.Static.Utils
+namespace NevesCS.Static.Utils
 {
     public static class StringUtils
     {
+        public static string CloneIntoNew(string source)
+        {
+            return new string(source);
+        }
+
         public static bool EqualsIgnoreCase(string source, string target)
         {
             return source?.Equals(target, StringComparison.OrdinalIgnoreCase) == true;

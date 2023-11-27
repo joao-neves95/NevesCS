@@ -2,7 +2,7 @@ namespace NevesCS.Static.Utils
 {
     public static class DictionaryUtils
     {
-        public static IDictionary<TKey, TValue> Clone<TKey, TValue>(IDictionary<TKey, TValue> target)
+        public static IDictionary<TKey, TValue> CloneIntoNew<TKey, TValue>(IDictionary<TKey, TValue> target)
             where TKey : notnull
         {
             return new Dictionary<TKey, TValue>(target);
