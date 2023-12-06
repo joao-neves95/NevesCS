@@ -22,6 +22,20 @@ namespace NevesCS.Tests.Static
         }
 
         [Theory]
+        [InlineData(50, 100, 50, 0.5)]
+        [InlineData(98.5658, 100, 98.5658, 0.985658)]
+        [InlineData(555, 1110, 50, 0.5)]
+        [InlineData(279.72, 1110, 25, 0.25)]
+        public void Percentage_Passes(decimal part, decimal total, decimal expected, decimal expectedFractional)
+        {
+            CalculationUtils.Percentage(part, total).Should().Be(expected);
+            part.PercentageOf(total).Should().Be(expected);
+
+            CalculationUtils.FractionalPercentage(part, total).Should().Be(expectedFractional);
+            part.FractionalPercentageOf(total).Should().Be(expectedFractional);
+        }
+
+        [Theory]
         [InlineData(1039, 7056, 10397056)]
         [InlineData(23, 100, 23100)]
         [InlineData(200, 23, 20023)]
