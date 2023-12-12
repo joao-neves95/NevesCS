@@ -1,22 +1,22 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 
 using NevesCS.Static.Extensions;
+using NevesCS.Static.Utils;
 using NevesCS.Tests.Mocks;
 
-namespace NevesCS.Tests.Static.Extensions
+namespace NevesCS.Tests.Static
 {
-    public class ObjectExtensionsTests
+    public class ObjectUtilsTests
     {
         [Fact]
         public void ThrowIfNull_Should_Throw_IfNullClass()
         {
             MockClass mockClass = null!;
 
-            var action = () => mockClass.ThrowIfNull();
+            MockClass action1() => mockClass.ThrowIfNull();
+            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass);
 
-            action.Should()
-                .Throw<ArgumentNullException>()
-                .WithParameterName(nameof(MockClass));
+            Array.ForEach(new[] { action1, action2 }, action => action.Should().Throw<ArgumentNullException>().WithParameterName(nameof(MockClass)));
         }
 
         [Fact]
@@ -24,9 +24,10 @@ namespace NevesCS.Tests.Static.Extensions
         {
             MockClass mockClass = new();
 
-            var action = () => mockClass.ThrowIfNull();
+            MockClass action1() => mockClass.ThrowIfNull();
+            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass);
 
-            action.Should().NotThrow();
+            Array.ForEach(new[] { action1, action2 }, action => action.Should().NotThrow());
         }
 
         [Fact]
@@ -35,7 +36,10 @@ namespace NevesCS.Tests.Static.Extensions
             var mockClass = (object)new DataGame();
 
             mockClass.HasProperty(nameof(DataGame.Developer)).Should().Be(true);
+            ObjectUtils.HasProperty(mockClass, nameof(DataGame.Developer)).Should().Be(true);
+
             mockClass.HasProperty(nameof(Array.Length)).Should().Be(false);
+            ObjectUtils.HasProperty(mockClass, nameof(Array.Length)).Should().Be(false);
         }
 
         [Fact]

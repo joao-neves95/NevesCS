@@ -1,14 +1,17 @@
-﻿
+using NevesCS.Static.Utils;
+
 namespace NevesCS.Static.Extensions
 {
     public static class IEnumerableExtensions
     {
         public static void ForEach<T>(this IEnumerable<T> enumeration, Action<T> action)
         {
-            foreach (T item in enumeration)
-            {
-                action(item);
-            }
+            IEnumerableUtils.ForEach(enumeration, action);
+        }
+
+        public static T? TryGetElementAtOr<T>(this IEnumerable<T> enumeration, Index index, T? defaultValue = default)
+        {
+            return IEnumerableUtils.TryGetElementAtOr(enumeration, index, defaultValue);
         }
     }
 }

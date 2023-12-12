@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.AspNetCore", "src\N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.Abstractions", "src\NevesCS.Abstractions\NevesCS.Abstractions.csproj", "{13D140CE-B386-4C84-A210-276EACD087CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NevesCS.Static.Extensions", "src\NevesCS.Static.Extensions\NevesCS.Static.Extensions.csproj", "{8724E908-77B0-444F-8394-969B8FE68241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.Static.Extensions", "src\NevesCS.Static.Extensions\NevesCS.Static.Extensions.csproj", "{8724E908-77B0-444F-8394-969B8FE68241}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

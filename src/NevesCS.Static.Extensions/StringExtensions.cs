@@ -1,27 +1,31 @@
-﻿using NevesCS.Static.Utils;
+using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
 {
     public static class StringExtensions
     {
-        public static bool EqualsIgnoreCaseAndNull(this string source, string target)
+        public static string CloneIntoNew(this string source)
         {
-            if (source == default && target == default)
-            {
-                return true;
-            }
-
-            return source?.EqualsIgnoreCase(target) == true;
+            return new string(source);
         }
 
         public static bool EqualsIgnoreCase(this string source, string target)
         {
-            return source?.Equals(target, StringComparison.OrdinalIgnoreCase) == true;
+            return StringUtils.EqualsIgnoreCase(source, target);
         }
 
-        public static Guid HashIntoGuid(this string source)
+        public static Guid HashStringIntoGuid(this string source)
         {
             return GuidUtils.HashStringIntoGuid(source);
         }
+
+#if NET7_0_OR_GREATER
+
+        public static async Task<Guid> HashStringIntoGuidAsync(this string source)
+        {
+            return await GuidUtils.HashStringIntoGuidAsync(source);
+        }
+
+#endif
     }
 }

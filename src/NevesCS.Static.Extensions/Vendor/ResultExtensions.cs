@@ -12,7 +12,7 @@ namespace NevesCS.Static.Extensions.Vendor
             }
             catch (Exception ex)
             {
-                return Result.Failure<TOut>(ex.Serialize());
+                return Result.Failure<TOut>(ex.ToJson());
             }
         }
     }
