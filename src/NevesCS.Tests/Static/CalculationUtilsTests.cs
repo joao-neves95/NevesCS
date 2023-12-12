@@ -7,6 +7,22 @@ namespace NevesCS.Tests.Static
 {
     public class CalculationUtilsTests
     {
+        [Fact]
+        public void SafeAverage_DoesNotThrow_IfSourceIsNullOrEmpty()
+        {
+            var input = Array.Empty<int>();
+            var actionNoThrow = () => CalculationUtils.SafeAverage(input, x => x);
+            var actionToThrow = () => input.Average();
+
+            actionNoThrow.Should().NotThrow();
+            actionToThrow.Should().Throw<Exception>();
+
+            var a = new[] { 10, 2, 38, 23, 38, 23, 21 };
+            const decimal aExpectedResult = 22.142857142857142857142857143M;
+            CalculationUtils.SafeAverage(a, x => x).Should().Be(aExpectedResult);
+            a.SafeAverage(x => x).Should().Be(aExpectedResult);
+        }
+
         [Theory]
         [InlineData(1, false)]
         [InlineData(2, true)]
@@ -25,7 +41,7 @@ namespace NevesCS.Tests.Static
         [InlineData(50, 100, 50, 0.5)]
         [InlineData(98.5658, 100, 98.5658, 0.985658)]
         [InlineData(555, 1110, 50, 0.5)]
-        [InlineData(279.72, 1110, 25, 0.25)]
+        [InlineData(279.72, 1110, 25.2, 0.252)]
         public void Percentage_Passes(decimal part, decimal total, decimal expected, decimal expectedFractional)
         {
             CalculationUtils.Percentage(part, total).Should().Be(expected);

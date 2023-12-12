@@ -13,6 +13,7 @@ namespace NevesCS.Static.Utils
         ///
         /// </summary>
         public static decimal SafeAverage<TSource>(IEnumerable<TSource> source, Func<TSource, decimal> selector)
+            where TSource : struct, IComparable
         {
             return source?.Any() != true
                 ? 0

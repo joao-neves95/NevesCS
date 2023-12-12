@@ -9,6 +9,11 @@ namespace NevesCS.Static.Extensions
             return CalculationUtils.IsEven(value);
         }
 
+        public static double ToThePowerOf(this int target, int exponent)
+        {
+            return Math.Pow(target, exponent);
+        }
+
         public static int Concat(this int value, int right)
         {
             return CalculationUtils.Concat(value, right);

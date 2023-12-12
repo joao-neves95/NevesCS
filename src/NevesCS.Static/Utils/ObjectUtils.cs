@@ -14,6 +14,10 @@ namespace NevesCS.Static.Utils
             return @object;
         }
 
+        /// <summary>
+        /// Return true if the <paramref name="target"/> has the requested property.
+        ///
+        /// </summary>
         public static bool HasProperty(object target, string propertyName)
         {
             return target
@@ -22,6 +26,20 @@ namespace NevesCS.Static.Utils
                 != null;
         }
 
+        /// <summary>
+        /// <code>
+        /// ObjectUtils.SetPropertyDynamically(
+        ///     myClassInstance,
+        ///     nameof(MyClass.WithThisProperty),
+        ///     someValueToAdd);
+        /// </code>
+        /// <code>
+        /// ObjectUtils.SetPropertyDynamically(
+        ///     myClassInstance,
+        ///     "ThisProperty.WithThisSubProperty"
+        ///     someValueToAdd);
+        /// </code>
+        /// </summary>
         public static object SetPropertyDynamically(object target, string propertyPath, object value)
         {
             var subPropertyNames = propertyPath.Split('.');
@@ -42,6 +60,16 @@ namespace NevesCS.Static.Utils
             return target;
         }
 
+        /// <summary>
+        /// E.g.:
+        /// <code>
+        /// ObjectUtils.CallMethodOfPropertyDynamically(
+        ///     myClassInstance,
+        ///     nameof(MyClass.WithThisListProperty),
+        ///     nameof(MyClass.WithThisListProperty.AddRange),
+        ///     someListOfValuesToAdd);
+        /// </code>
+        /// </summary>
         public static void CallMethodOfPropertyDynamically(
             object target,
             string propertyName,
