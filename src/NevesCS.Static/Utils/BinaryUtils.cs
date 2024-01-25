@@ -17,7 +17,7 @@ namespace NevesCS.Static.Utils
             var memoryStream = new MemoryStream();
             using var writer = new BinaryWriter(memoryStream);
 
-            foreach (var property in typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            foreach (var property in typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToArray())
             {
                 var value = property.GetValue(target);
 
@@ -45,7 +45,9 @@ namespace NevesCS.Static.Utils
             var memoryStream = new MemoryStream(serializedData);
             using var reader = new BinaryReader(memoryStream, Encoding.UTF8);
 
-            var allPropertyInfos = typeof(T).GetProperties(BindingFlags.Instance | BindingFlags.Public).ToDictionary(prop => prop.Name, prop => prop);
+            var allPropertyInfos = typeof(T)
+                .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .ToDictionary(prop => prop.Name, prop => prop);
 
             var typeConverterCache = new Dictionary<Type, TypeConverter>();
 
@@ -60,14 +62,14 @@ namespace NevesCS.Static.Utils
 
                 object? value = string.Concat(currentPropAndValue.Skip(Ints.One));
 
-                if (propertyInfo.PropertyType != Types.String)
+                if (propertyInfo.PropertyType != TypeOf.String)
                 {
                     var converter = DictionaryUtils.GetOrCreate(
                         typeConverterCache,
                         propertyInfo.PropertyType,
                         () => TypeDescriptor.GetConverter(propertyInfo.PropertyType));
 
-                    if (!converter.CanConvertFrom(Types.String))
+                    if (!converter.CanConvertFrom(TypeOf.String))
                     {
                         //throw new NotImplementedException($"Cannot parse property type of {propertyInfo.PropertyType.Name} (not implemented).");
 
