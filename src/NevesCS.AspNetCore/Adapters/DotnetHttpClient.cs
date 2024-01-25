@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Options;
 
 using NevesCS.AspNetCore.Abstractions.Interfaces;
 using NevesCS.AspNetCore.Abstractions.Models.Configuration;
@@ -24,7 +24,9 @@ namespace NevesCS.AspNetCore.Adapters
             _httpClient = httpClient.ThrowIfNull();
             _jsonClient = jsonClient.ThrowIfNull();
 
-            _sleepDurationPolicy = GetSleepDurationPolicy(appConfig.ThrowIfNull().Value.NumberOfHttpRetries).ToArray();
+            _sleepDurationPolicy = GetSleepDurationPolicy(
+                !appConfig.IsNull() ? appConfig.Value.NumberOfHttpRetries : 3)
+                .ToArray();
         }
 
         public async Task<TResponse?> GetAsync<TResponse>(string endpoint, CancellationToken cancellationToken = default)
