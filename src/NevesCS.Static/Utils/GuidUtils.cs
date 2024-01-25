@@ -27,7 +27,7 @@ namespace NevesCS.Static.Utils
         /// </summary>
         public static async Task<Guid> HashStringIntoGuidAsync(string target, CancellationToken cancellationToken = default)
         {
-            using var byteStream = new MemoryStream(Encoding.UTF8.GetBytes(target));
+            await using var byteStream = new MemoryStream(Encoding.UTF8.GetBytes(target));
             var hashBytes = await MD5.HashDataAsync(byteStream, cancellationToken);
 
             return new Guid(hashBytes);
