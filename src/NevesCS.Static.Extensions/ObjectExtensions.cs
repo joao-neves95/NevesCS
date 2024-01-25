@@ -4,9 +4,24 @@ namespace NevesCS.Static.Extensions
 {
     public static class ObjectExtensions
     {
+        public static bool IsNull<T>(this T? @object)
+        {
+            return ObjectUtils.IsNull(@object);
+        }
+
+        public static T? SetIfNotNull<T>(this T? target, T? newValue)
+        {
+            return ObjectUtils.SetIfNotNull(target, newValue);
+        }
+
         public static T ThrowIfNull<T>(this T? @object)
         {
             return ObjectUtils.ThrowIfNull(@object);
+        }
+
+        public static T ThrowIfNull<T>(this T? @object, string parameterName)
+        {
+            return ObjectUtils.ThrowIfNull(@object, parameterName);
         }
 
         public static bool In<TIn>(this TIn? @object, IEnumerable<TIn> target)

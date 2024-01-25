@@ -4,11 +4,38 @@ namespace NevesCS.Static.Utils
 {
     public static class ObjectUtils
     {
+        public static bool IsNull<T>(T? @object)
+        {
+            return @object == null;
+        }
+
+        public static T? SetIfNotNull<T>(T? target, T? newValue)
+        {
+            if (IsNull(newValue))
+            {
+                return target;
+            }
+
+            target = newValue;
+
+            return target;
+        }
+
         public static T ThrowIfNull<T>(T? @object)
         {
             if (@object == null)
             {
                 throw new ArgumentNullException(typeof(T).Name);
+            }
+
+            return @object;
+        }
+
+        public static T ThrowIfNull<T>(T? @object, string parameterName)
+        {
+            if (@object == null)
+            {
+                throw new ArgumentNullException(parameterName);
             }
 
             return @object;
