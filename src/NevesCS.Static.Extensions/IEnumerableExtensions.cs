@@ -13,5 +13,10 @@ namespace NevesCS.Static.Extensions
         {
             return IEnumerableUtils.TryGetElementAtOr(enumeration, index, defaultValue);
         }
+
+        public static bool ContainsObjectValue<TObject, TValue>(IEnumerable<TValue> enumeration, TObject testObject, Func<TObject, TValue> selector)
+        {
+            return IEnumerableUtils.ContainsObjectValue(enumeration, testObject, selector);
+        }
     }
 }

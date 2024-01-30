@@ -18,5 +18,10 @@ namespace NevesCS.Static.Utils
                 return defaultValue;
             }
         }
+
+        public static bool ContainsObjectValue<TObject, TValue>(this IEnumerable<TValue> enumeration, TObject testObject, Func<TObject, TValue> selector)
+        {
+            return enumeration.Contains(selector(testObject));
+        }
     }
 }
