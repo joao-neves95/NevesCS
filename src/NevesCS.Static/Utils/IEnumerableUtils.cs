@@ -19,7 +19,7 @@ namespace NevesCS.Static.Utils
             }
         }
 
-        public static bool ContainsObjectValue<TObject, TValue>(this IEnumerable<TValue> enumeration, TObject testObject, Func<TObject, TValue> selector)
+        public static bool ContainsObjectValue<TObject, TValue>(IEnumerable<TValue> enumeration, TObject testObject, Func<TObject, TValue> selector)
         {
             return enumeration.Contains(selector(testObject));
         }
