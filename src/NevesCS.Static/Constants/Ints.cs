@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace NevesCS.Static.Constants
 {
+    [ExcludeFromCodeCoverage]
     public static class Ints
     {
         public const int Zero = 0;

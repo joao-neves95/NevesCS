@@ -1,6 +1,8 @@
-﻿
+using System.Diagnostics.CodeAnalysis;
+
 namespace NevesCS.AspNetCore.Abstractions.Models.ApiExceptions
 {
+    [ExcludeFromCodeCoverage]
     public class NotFoundException : Exception
     {
         public NotFoundException() : base()
