@@ -41,6 +41,11 @@ namespace NevesCS.Static.Utils
             return @object;
         }
 
+        public static TOut Into<TIn, TOut>(TIn source, Func<TIn, TOut> convertFunction)
+        {
+            return convertFunction(source);
+        }
+
         /// <summary>
         /// Return true if the <paramref name="target"/> has the requested property.
         ///

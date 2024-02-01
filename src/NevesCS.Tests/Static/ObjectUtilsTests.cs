@@ -72,6 +72,16 @@ namespace NevesCS.Tests.Static
         }
 
         [Fact]
+        public void Into_Should_TransferObjects()
+        {
+            const string fakeName = "This is a name I need";
+            MockClass mockClass = new() { UselessString = fakeName };
+
+            ObjectUtils.Into(mockClass, mock => new DataGame() { Name = mock.UselessString }).Name.Should().Be(fakeName);
+            mockClass.Into(mock => new DataGame() { Name = mock.UselessString }).Name.Should().Be(fakeName);
+        }
+
+        [Fact]
         public void HasProperty_Should_Pass()
         {
             var mockClass = (object)new DataGame();

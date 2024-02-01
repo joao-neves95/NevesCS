@@ -24,9 +24,14 @@ namespace NevesCS.Static.Extensions
             return ObjectUtils.ThrowIfNull(@object, parameterName);
         }
 
-        public static bool In<TIn>(this TIn? @object, IEnumerable<TIn> target)
+        public static bool IsIn<TIn>(this TIn? @object, IEnumerable<TIn> target)
         {
             return target.Contains(@object);
+        }
+
+        public static TOut Into<TIn, TOut>(this TIn source, Func<TIn, TOut> convertFunction)
+        {
+            return ObjectUtils.Into(source, convertFunction);
         }
 
         /// <summary>
