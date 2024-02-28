@@ -47,6 +47,43 @@ namespace NevesCS.Static.Utils
         }
 
         /// <summary>
+        /// Enumerates all parameters in <paramref name="targets"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> Enumerate<T>(params T[] targets)
+        {
+            foreach (var item in targets)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Repeats the same instance (<paramref name="source"/>) times the number defined by <paramref name="repeatTimes"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> Enumerate<T>(T source, int repeatTimes)
+        {
+            for (int i = 1; i <= repeatTimes; ++i)
+            {
+                yield return source;
+            }
+        }
+
+        /// <summary>
+        /// Enumerates clones of the source instance times the number defined by <paramref name="repeatTimes"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> EnumerateClones<T>(ICloneable source, int repeatTimes = 0)
+            where T : ICloneable
+        {
+            for (int i = 1; i <= repeatTimes; ++i)
+            {
+                yield return (T)source.Clone();
+            }
+        }
+
+        /// <summary>
         /// Return true if the <paramref name="target"/> has the requested property.
         ///
         /// </summary>

@@ -35,6 +35,25 @@ namespace NevesCS.Static.Extensions
         }
 
         /// <summary>
+        /// Enumerates the same instance reference (<paramref name="source"/>) times the number defined by <paramref name="repeatTimes"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> Enumerate<T>(this T source, int repeatTimes = 0)
+        {
+            return ObjectUtils.Enumerate(source, repeatTimes);
+        }
+
+        /// <summary>
+        /// Enumerates clones of the source instance times the number defined by <paramref name="repeatTimes"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> EnumerateClones<T>(this ICloneable source, int repeatTimes = 0)
+            where T : ICloneable
+        {
+            return ObjectUtils.EnumerateClones<T>(source, repeatTimes);
+        }
+
+        /// <summary>
         /// Return true if the <paramref name="target"/> has the requested property.
         ///
         /// </summary>

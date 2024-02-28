@@ -1,9 +1,9 @@
-﻿
+
 using Newtonsoft.Json;
 
 namespace NevesCS.Tests.Mocks
 {
-    internal sealed class DataGame
+    internal sealed class DataGame : ICloneable
     {
         [JsonProperty("appid")]
         public int AppId { get; set; }
@@ -55,5 +55,13 @@ namespace NevesCS.Tests.Mocks
 
         [JsonProperty("header_image")]
         public string HeaderImage { get; set; }
+
+        public object Clone()
+        {
+            return new DataGame()
+            {
+                AppId = AppId,
+            };
+        }
     }
 }
