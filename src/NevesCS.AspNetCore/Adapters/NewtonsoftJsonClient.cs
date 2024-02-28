@@ -1,4 +1,4 @@
-﻿using NevesCS.AspNetCore.Abstractions.Interfaces;
+using NevesCS.AspNetCore.Abstractions.Interfaces;
 
 using Newtonsoft.Json;
 
@@ -6,6 +6,11 @@ namespace NevesCS.AspNetCore.Adapters
 {
     public sealed class NewtonsoftJsonClient : IJsonClientAdapter
     {
+        public TResult? DeserializeObject<TResult>(string jsonString)
+        {
+            return JsonConvert.DeserializeObject<TResult>(jsonString);
+        }
+
         public TResult? DeserializeStream<TResult>(Stream jsonStream)
         {
             if (jsonStream is null)

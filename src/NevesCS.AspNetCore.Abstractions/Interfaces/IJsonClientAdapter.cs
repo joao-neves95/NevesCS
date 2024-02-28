@@ -1,4 +1,3 @@
-﻿
 namespace NevesCS.AspNetCore.Abstractions.Interfaces
 {
     /// <summary>
@@ -7,6 +6,8 @@ namespace NevesCS.AspNetCore.Abstractions.Interfaces
     /// </summary>
     public interface IJsonClientAdapter
     {
+        public TResult? DeserializeObject<TResult>(string jsonString);
+
         public TResult? DeserializeStream<TResult>(Stream jsonStream);
     }
 }
