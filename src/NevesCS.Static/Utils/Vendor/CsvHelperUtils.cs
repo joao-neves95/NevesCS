@@ -16,7 +16,7 @@ namespace NevesCS.Static.Utils.Vendor
             await streamWriter.FlushAsync();
         }
 
-        public static async Task<IAsyncEnumerable<T>> ReadCsvFileAsync<T>(string filePath, CancellationToken cancellationToken = default)
+        public static IAsyncEnumerable<T> ReadCsvFileAsync<T>(string filePath, CancellationToken cancellationToken = default)
         {
             using var streamReader = new StreamReader(filePath);
             using var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture);
