@@ -16,6 +16,19 @@ namespace NevesCS.Static.Utils
                 sourceDate.Kind);
         }
 
+        public static DateTimeOffset From(DateTime sourceDate, TimeSpan offset)
+        {
+            return new DateTimeOffset(
+                sourceDate.Year,
+                sourceDate.Month,
+                sourceDate.Day,
+                sourceDate.Hour,
+                sourceDate.Minute,
+                sourceDate.Second,
+                sourceDate.Millisecond,
+                offset);
+        }
+
         public static DateTimeOffset From(DateTimeOffset sourceDate)
         {
             return new DateTimeOffset(
@@ -28,6 +41,20 @@ namespace NevesCS.Static.Utils
                 sourceDate.Millisecond,
                 sourceDate.Microsecond,
                 sourceDate.Offset);
+        }
+
+        /// <summary>
+        ///  Gets a <see cref="System.DateTime"/> value that represents the date component of the current System.DateTimeOffset object.
+        ///
+        /// </summary>
+        public static DateTimeOffset GetDateWithOffset(DateTimeOffset dateTimeOffset)
+        {
+            return From(dateTimeOffset.Date, dateTimeOffset.Offset);
+        }
+
+        public static TimeSpan GetMachineOffset()
+        {
+            return DateTimeOffset.Now.Offset;
         }
 
         public static DateTime SetHours(

@@ -4,8 +4,6 @@ using NevesCS.Static.Constants;
 using NevesCS.Static.Extensions;
 using NevesCS.Static.Utils;
 
-using System.Globalization;
-
 namespace NevesCS.Tests.Static
 {
     public class DateTimeUtilsTests
@@ -31,11 +29,11 @@ namespace NevesCS.Tests.Static
         public void ToStartOfDay_ReturnsCorrect()
         {
             var date1 = DateTimeOffset.UtcNow.ToStartOfDay();
-            date1.Should().Be(date1.Date);
+            date1.Should().Be(date1.GetDateWithOffset());
             date1.TimeOfDay.Should().Be(new TimeSpan(0, 0, 0));
 
             var date2 = DateTimeOffset.Now.ToStartOfDay();
-            date2.Should().Be(date2.Date);
+            date2.Should().Be(date2.GetDateWithOffset());
             date2.TimeOfDay.Should().Be(new TimeSpan(0, 0, 0));
 
             var date3 = new DateTimeOffset(2024, 02, 21, 18, 18, 15, TimeSpan.Zero).ToStartOfDay();

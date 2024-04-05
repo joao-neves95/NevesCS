@@ -4,6 +4,15 @@ namespace NevesCS.Static.Extensions
 {
     public static class DateTimeExtensions
     {
+        /// <summary>
+        ///  Gets a <see cref="System.DateTime"/> value that represents the date component of the current System.DateTimeOffset object.
+        ///
+        /// </summary>
+        public static DateTimeOffset GetDateWithOffset(this DateTimeOffset source)
+        {
+            return DateTimeUtils.GetDateWithOffset(source);
+        }
+
         public static DateTime SetHours(
             this DateTime sourceDateTime,
             double? hours = null,
