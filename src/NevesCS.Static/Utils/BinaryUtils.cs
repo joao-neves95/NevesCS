@@ -60,7 +60,7 @@ namespace NevesCS.Static.Utils
                     continue;
                 }
 
-                object? value = string.Concat(currentPropAndValue.Skip(Ints.One));
+                object? value = string.Concat(currentPropAndValue.Skip(Ints.One).ToArray());
 
                 if (propertyInfo.PropertyType != TypeOf.String)
                 {

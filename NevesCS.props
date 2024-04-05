@@ -1,5 +1,9 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <Authors>João Neves (_SHIVAYL_)</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/joao-neves95/NevesCS</RepositoryUrl>
+
     <!--<TargetFrameworks>net6.0;net7.0</TargetFrameworks>-->
     <TargetFramework>net7.0</TargetFramework>
     <LangVersion>11</LangVersion>
@@ -12,10 +16,6 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
-
-    <Authors>João Neves (_SHIVAYL_)</Authors>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/joao-neves95/NevesCS</RepositoryUrl>
 
     <FrameworkVersion>0.3.0</FrameworkVersion>
 
