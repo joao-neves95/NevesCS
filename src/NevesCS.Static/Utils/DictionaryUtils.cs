@@ -8,6 +8,18 @@ namespace NevesCS.Static.Utils
             return new Dictionary<TKey, TValue>(target);
         }
 
+        public static IDictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(IDictionary<TKey, TValue> target, TKey key, TValue value)
+            where TValue : new()
+        {
+            target[key] = value;
+
+            return target;
+        }
+
+        /// <summary>
+        /// Get an item by key, or adds a new return value from the <paramref name="valueFactory"/>.
+        ///
+        /// </summary>
         public static TValue GetOrCreate<TKey, TValue>(IDictionary<TKey, TValue> target, TKey key, Func<TValue>? valueFactory = null)
             where TValue : new()
         {
