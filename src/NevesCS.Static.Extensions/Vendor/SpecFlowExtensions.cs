@@ -1,4 +1,4 @@
-﻿using NevesCS.Static.Utils;
+using NevesCS.Static.Utils;
 
 using System.Reflection;
 

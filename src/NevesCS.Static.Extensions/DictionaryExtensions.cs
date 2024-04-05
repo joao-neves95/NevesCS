@@ -8,6 +8,12 @@ namespace NevesCS.Static.Utils
             return DictionaryUtils.CloneIntoNew(target);
         }
 
+        public static IDictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
+            where TValue : new()
+        {
+            return DictionaryUtils.AddOrUpdate(target, key, value);
+        }
+
         public static TValue GetOrCreate<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, Func<TValue>? valueFactory = null)
             where TValue : new()
         {

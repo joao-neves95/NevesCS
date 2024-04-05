@@ -19,13 +19,9 @@ namespace NevesCS.Static.Extensions
             return GuidUtils.HashStringIntoGuid(source);
         }
 
-#if NET7_0_OR_GREATER
-
         public static async Task<Guid> HashStringIntoGuidAsync(this string source)
         {
             return await GuidUtils.HashStringIntoGuidAsync(source);
         }
-
-#endif
     }
 }

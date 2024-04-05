@@ -9,6 +9,47 @@ namespace NevesCS.Tests.Static
     public class ObjectUtilsTests
     {
         [Fact]
+        public void SetIfNotNull_Should_NotSet_IfNull()
+        {
+            MockClass mockClass = new();
+            MockClass nullMockClass = null!;
+            mockClass.SetIfNotNull(nullMockClass).Should().NotBeNull();
+
+            object targetObj = 123;
+            object nullObject = null!;
+            targetObj.SetIfNotNull(nullObject).Should().NotBeNull();
+
+            decimal? targetNum = 123;
+            decimal? nullNum = null;
+            targetNum.SetIfNotNull(nullNum).Should().NotBeNull();
+        }
+
+        [Fact]
+        public void SetIfNotNull_Should_Set_IfNotNull()
+        {
+            MockClass mockClass = new() { UselessList = new() { "1" } };
+            MockClass newClass = new() { UselessList = new() { "2" } };
+            mockClass.SetIfNotNull(newClass)?.UselessList[0].Should().Be("2");
+
+            MockClass mockNullClass = null!;
+            mockNullClass.SetIfNotNull(newClass)?.UselessList[0].Should().Be("2");
+
+            object targetObj = 123;
+            object newObject = 321;
+            targetObj.SetIfNotNull(newObject).Should().Be(321);
+
+            object targetNullObj = null!;
+            targetNullObj.SetIfNotNull(newObject).Should().Be(321);
+
+            decimal? targetNum = 123;
+            decimal? newNum = 321;
+            targetNum.SetIfNotNull(newNum).Should().Be(321);
+
+            decimal? targetNullNum = null;
+            targetNullNum.SetIfNotNull(newNum).Should().Be(321);
+        }
+
+        [Fact]
         public void ThrowIfNull_Should_Throw_IfNullClass()
         {
             MockClass mockClass = null!;
@@ -28,6 +69,48 @@ namespace NevesCS.Tests.Static
             MockClass action2() => ObjectUtils.ThrowIfNull(mockClass);
 
             Array.ForEach(new[] { action1, action2 }, action => action.Should().NotThrow());
+        }
+
+        [Fact]
+        public void Into_Should_TransferObjects()
+        {
+            const string fakeName = "This is a name I need";
+            MockClass mockClass = new() { UselessString = fakeName };
+
+            ObjectUtils.Into(mockClass, mock => new DataGame() { Name = mock.UselessString }).Name.Should().Be(fakeName);
+            mockClass.Into(mock => new DataGame() { Name = mock.UselessString }).Name.Should().Be(fakeName);
+        }
+
+        [Fact]
+        public void Enumerate_Should_EnumerateAllParams()
+        {
+            var result = ObjectUtils.Enumerate(new DataGame() { AppId = 1 }, new DataGame() { AppId = 2 }, new DataGame() { AppId = 3 }).ToArray();
+
+            result[0].AppId.Should().Be(1);
+            result[1].AppId.Should().Be(2);
+            result[2].AppId.Should().Be(3);
+        }
+
+        [Fact]
+        public void Enumerate_Should_EnumerateXTimes()
+        {
+            var subject = new DataGame() { AppId = 123 };
+
+            subject.Enumerate(0).ToArray().Length.Should().Be(0);
+            subject.Enumerate(1).ToArray().Length.Should().Be(1);
+            subject.Enumerate(3).ToArray().Length.Should().Be(3);
+            subject.Enumerate(10).ToArray().Length.Should().Be(10);
+        }
+
+        [Fact]
+        public void EnumerateClones_Should_EnumerateClonesXTimes()
+        {
+            DataGame subject = new() { AppId = 123 };
+
+            subject.EnumerateClones<DataGame>(0).ToArray().Length.Should().Be(0);
+            subject.EnumerateClones<DataGame>(1).ToArray().Length.Should().Be(1);
+            subject.EnumerateClones<DataGame>(3).ToArray().Length.Should().Be(3);
+            subject.EnumerateClones<DataGame>(10).ToArray().Length.Should().Be(10);
         }
 
         [Fact]

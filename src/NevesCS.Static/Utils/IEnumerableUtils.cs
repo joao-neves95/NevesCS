@@ -7,6 +7,16 @@ namespace NevesCS.Static.Utils
             Array.ForEach(enumeration.ToArray(), action);
         }
 
+        public static bool None<T>(IEnumerable<T> enumeration)
+        {
+            return !enumeration.Any();
+        }
+
+        public static bool None<T>(IEnumerable<T> enumeration, Func<T, bool> predicate)
+        {
+            return !enumeration.Any(predicate);
+        }
+
         public static T? TryGetElementAtOr<T>(IEnumerable<T> enumeration, Index index, T? defaultValue = default)
         {
             try
@@ -17,6 +27,11 @@ namespace NevesCS.Static.Utils
             {
                 return defaultValue;
             }
+        }
+
+        public static bool ContainsObjectValue<TObject, TValue>(IEnumerable<TValue> enumeration, TObject testObject, Func<TObject, TValue> selector)
+        {
+            return enumeration.Contains(selector(testObject));
         }
     }
 }

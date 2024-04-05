@@ -4,6 +4,23 @@ namespace NevesCS.Static.Utils
 {
     public static class ObjectUtils
     {
+        public static bool IsNull<T>(T? @object)
+        {
+            return @object == null;
+        }
+
+        public static T? SetIfNotNull<T>(T? target, T? newValue)
+        {
+            if (IsNull(newValue))
+            {
+                return target;
+            }
+
+            target = newValue;
+
+            return target;
+        }
+
         public static T ThrowIfNull<T>(T? @object)
         {
             if (@object == null)
@@ -12,6 +29,58 @@ namespace NevesCS.Static.Utils
             }
 
             return @object;
+        }
+
+        public static T ThrowIfNull<T>(T? @object, string parameterName)
+        {
+            if (@object == null)
+            {
+                throw new ArgumentNullException(parameterName);
+            }
+
+            return @object;
+        }
+
+        public static TOut Into<TIn, TOut>(TIn source, Func<TIn, TOut> convertFunction)
+        {
+            return convertFunction(source);
+        }
+
+        /// <summary>
+        /// Enumerates all parameters in <paramref name="targets"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> Enumerate<T>(params T[] targets)
+        {
+            foreach (var item in targets)
+            {
+                yield return item;
+            }
+        }
+
+        /// <summary>
+        /// Repeats the same instance (<paramref name="source"/>) times the number defined by <paramref name="repeatTimes"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> Enumerate<T>(T source, int repeatTimes)
+        {
+            for (int i = 1; i <= repeatTimes; ++i)
+            {
+                yield return source;
+            }
+        }
+
+        /// <summary>
+        /// Enumerates clones of the source instance times the number defined by <paramref name="repeatTimes"/>.
+        ///
+        /// </summary>
+        public static IEnumerable<T> EnumerateClones<T>(ICloneable source, int repeatTimes = 0)
+            where T : ICloneable
+        {
+            for (int i = 1; i <= repeatTimes; ++i)
+            {
+                yield return (T)source.Clone();
+            }
         }
 
         /// <summary>

@@ -1,8 +1,6 @@
 using NevesCS.Static.Constants;
 
-#if NET7_0_OR_GREATER
 using System.Numerics;
-#endif
 
 namespace NevesCS.Static.Utils
 {
@@ -12,8 +10,8 @@ namespace NevesCS.Static.Utils
         /// Computes the average and returns 0 in case the source is null or empty (does not throw).
         ///
         /// </summary>
-        public static decimal SafeAverage<TSource>(IEnumerable<TSource> source, Func<TSource, decimal> selector)
-            where TSource : struct, IComparable
+        public static decimal SafeAverage<T>(IEnumerable<T> source, Func<T, decimal> selector)
+            where T : INumber<T>
         {
             return source?.Any() != true
                 ? 0
@@ -31,7 +29,7 @@ namespace NevesCS.Static.Utils
         /// </summary>
         public static decimal Percentage(decimal part, decimal total)
         {
-            return (part * 100) / total;
+            return (part * Ints.OneHundred) / total;
         }
 
         /// <summary>
@@ -40,7 +38,7 @@ namespace NevesCS.Static.Utils
         /// </summary>
         public static decimal FractionalPercentage(decimal part, decimal total)
         {
-            return Percentage(part, total) / 100;
+            return Percentage(part, total) / Ints.OneHundred;
         }
 
         public static int Concat(int left, int right)
@@ -61,8 +59,6 @@ namespace NevesCS.Static.Utils
 
             return counter;
         }
-
-#if NET7_0_OR_GREATER
 
         public static T Add<T>(T left, T right)
             where T : INumber<T>
@@ -87,7 +83,5 @@ namespace NevesCS.Static.Utils
         {
             return left / right;
         }
-
-#endif
     }
 }

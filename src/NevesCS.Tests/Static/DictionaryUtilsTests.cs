@@ -36,6 +36,34 @@ namespace NevesCS.Tests.Static
             VerifyGetOrCreateResult(dict, "1", fakeString, false);
         }
 
+        [Fact]
+        public void AddOrUpdate_Should_Add_If_ValueDoesNotExist()
+        {
+            var dict = new Dictionary<string, object>();
+
+            DictionaryUtils.AddOrUpdate(dict, "A", "a");
+            dict.AddOrUpdate("B", "b");
+
+            var allValues = dict.Values.ToArray();
+            allValues.Should().BeEquivalentTo(new[] { "a", "b" });
+        }
+
+        [Fact]
+        public void AddOrUpdate_Should_Update_If_ValueExists()
+        {
+            var dict = new Dictionary<string, object>()
+            {
+                { "A", "b" },
+                { "B", "a" },
+            };
+
+            DictionaryUtils.AddOrUpdate(dict, "A", "a");
+            dict.AddOrUpdate("B", "b");
+
+            var allValues = dict.Values.ToArray();
+            allValues.Should().BeEquivalentTo(new[] { "a", "b" });
+        }
+
         private void VerifyGetOrCreateResult(Dictionary<string, object> targetDict, string key, string value, bool wasCalled)
         {
             var targetDict2 = targetDict.CloneIntoNew();
@@ -43,6 +71,7 @@ namespace NevesCS.Tests.Static
             DictionaryUtils.GetOrCreate(targetDict, key, factoryMock.Object).Should().Be(value);
             targetDict2.GetOrCreate(key, factoryMock.Object).Should().Be(value);
 
+            // 2 times because it should be called by both dictionaries 1 time.
             factoryMock.Verify(mock => mock(), wasCalled ? Times.Exactly(2) : Times.Never());
         }
     }
