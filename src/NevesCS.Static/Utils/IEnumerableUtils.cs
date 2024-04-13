@@ -2,6 +2,10 @@ namespace NevesCS.Static.Utils
 {
     public static class IEnumerableUtils
     {
+        /// <summary>
+        /// It materializes/consumes the enumerable and performs a foreach in it.
+        ///
+        /// </summary>
         public static void ForEach<T>(IEnumerable<T> enumeration, Action<T> action)
         {
             Array.ForEach(enumeration.ToArray(), action);

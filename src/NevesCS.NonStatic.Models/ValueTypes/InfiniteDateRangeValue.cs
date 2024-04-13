@@ -1,4 +1,6 @@
-namespace NevesCS.NonStatic.ValueTypes
+using NevesCS.Abstractions.Traits;
+
+namespace NevesCS.NonStatic.Models.ValueTypes
 {
     public readonly struct InfiniteDateRangeValue
     {
@@ -23,18 +25,19 @@ namespace NevesCS.NonStatic.ValueTypes
 
         public override readonly bool Equals(object obj)
         {
-            return obj is FiniteDateRange dr
+            return obj is FiniteDateRangeValue dr
                 && dr.Start == Start;
+        }
+
+
+        public static bool operator !=(InfiniteDateRangeValue left, InfiniteDateRangeValue right)
+        {
+            return !left.Equals(right);
         }
 
         public static bool operator ==(InfiniteDateRangeValue left, InfiniteDateRangeValue right)
         {
             return left.Equals(right);
-        }
-
-        public static bool operator !=(InfiniteDateRangeValue left, InfiniteDateRangeValue right)
-        {
-            return !left.Equals(right);
         }
     }
 }

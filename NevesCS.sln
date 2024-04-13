@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.Abstractions", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.Static.Extensions", "src\NevesCS.Static.Extensions\NevesCS.Static.Extensions.csproj", "{8724E908-77B0-444F-8394-969B8FE68241}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NevesCS.NonStatic.Models", "src\NevesCS.NonStatic.Models\NevesCS.NonStatic.Models.csproj", "{D55B94A4-E1A9-4F47-96BE-5CD638BA9230}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{8724E908-77B0-444F-8394-969B8FE68241}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8724E908-77B0-444F-8394-969B8FE68241}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8724E908-77B0-444F-8394-969B8FE68241}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D55B94A4-E1A9-4F47-96BE-5CD638BA9230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D55B94A4-E1A9-4F47-96BE-5CD638BA9230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D55B94A4-E1A9-4F47-96BE-5CD638BA9230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D55B94A4-E1A9-4F47-96BE-5CD638BA9230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

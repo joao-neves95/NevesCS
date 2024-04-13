@@ -1,4 +1,4 @@
-﻿using NevesCS.Abstractions.Traits;
+using NevesCS.Abstractions.Traits;
 
 namespace NevesCS.NonStatic.ValueTypes
 {

@@ -1,8 +1,10 @@
-namespace NevesCS.NonStatic.ValueTypes
+using NevesCS.Abstractions.Traits;
+
+namespace NevesCS.NonStatic.Models.ValueTypes
 {
-    public readonly struct FiniteDateRange
+    public readonly struct FiniteDateRangeValue : IConvertible<(DateTimeOffset start, DateTimeOffset end)>
     {
-        public FiniteDateRange(DateTimeOffset start, DateTimeOffset end)
+        public FiniteDateRangeValue(DateTimeOffset start, DateTimeOffset end)
         {
             if (start == default)
             {
@@ -29,19 +31,24 @@ namespace NevesCS.NonStatic.ValueTypes
 
         public override readonly bool Equals(object obj)
         {
-            return obj is FiniteDateRange dr
+            return obj is FiniteDateRangeValue dr
                 && dr.Start == Start
                 && dr.End == End;
         }
 
-        public static bool operator ==(FiniteDateRange left, FiniteDateRange right)
+        public static bool operator ==(FiniteDateRangeValue left, FiniteDateRangeValue right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(FiniteDateRange left, FiniteDateRange right)
+        public static bool operator !=(FiniteDateRangeValue left, FiniteDateRangeValue right)
         {
             return !left.Equals(right);
+        }
+
+        public (DateTimeOffset start, DateTimeOffset end) To<Out>()
+        {
+            return (Start, End);
         }
     }
 }

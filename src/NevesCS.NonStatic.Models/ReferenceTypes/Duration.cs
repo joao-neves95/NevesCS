@@ -1,6 +1,6 @@
-﻿using NevesCS.Abstractions.Traits;
+using NevesCS.Abstractions.Traits;
 
-namespace NevesCS.NonStatic.ReferenceTypes
+namespace NevesCS.NonStatic.Models.ReferenceTypes
 {
     public class Duration : IDuration
     {

@@ -1,6 +1,6 @@
-﻿namespace NevesCS.NonStatic.ReferenceTypes
+namespace NevesCS.NonStatic.Models.ValueTypes
 {
-    public class MinMaxValue<T>
+    public struct MinMaxValue<T>
     {
         public MinMaxValue(T min, T max)
         {

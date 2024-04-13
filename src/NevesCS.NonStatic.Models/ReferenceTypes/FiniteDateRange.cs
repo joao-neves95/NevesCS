@@ -1,6 +1,8 @@
-namespace NevesCS.NonStatic.ReferenceTypes
+using NevesCS.Abstractions.Traits;
+
+namespace NevesCS.NonStatic.Models.ReferenceTypes
 {
-    public class FiniteDateRange
+    public class FiniteDateRange : IConvertible<(DateTimeOffset start, DateTimeOffset end)>
     {
         public FiniteDateRange(DateTimeOffset start, DateTimeOffset end)
         {
@@ -42,6 +44,11 @@ namespace NevesCS.NonStatic.ReferenceTypes
         public static bool operator !=(FiniteDateRange left, FiniteDateRange right)
         {
             return !left.Equals(right);
+        }
+
+        public (DateTimeOffset start, DateTimeOffset end) To<Out>()
+        {
+            return (Start, End);
         }
     }
 }

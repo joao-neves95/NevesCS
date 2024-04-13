@@ -1,4 +1,4 @@
-﻿namespace NevesCS.NonStatic.ValueTypes
+namespace NevesCS.NonStatic.Models.ValueTypes
 {
     public struct CoordinatesValue
     {

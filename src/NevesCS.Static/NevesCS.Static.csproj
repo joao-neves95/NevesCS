@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NevesCS.Abstractions\NevesCS.Abstractions.csproj" />
+    <ProjectReference Include="..\NevesCS.NonStatic.Models\NevesCS.NonStatic.Models.csproj" />
   </ItemGroup>
 
 </Project>

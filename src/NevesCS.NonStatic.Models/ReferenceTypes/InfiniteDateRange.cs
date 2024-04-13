@@ -1,4 +1,4 @@
-namespace NevesCS.NonStatic.ReferenceTypes
+namespace NevesCS.NonStatic.Models.ReferenceTypes
 {
     public class InfiniteDateRange
     {
