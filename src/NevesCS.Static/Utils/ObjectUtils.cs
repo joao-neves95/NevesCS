@@ -84,6 +84,24 @@ namespace NevesCS.Static.Utils
         }
 
         /// <summary>
+        /// Creates a new array with the object.
+        ///
+        /// </summary>
+        public static object[] ToArray(object source)
+        {
+            return ToArray<object>(source);
+        }
+
+        /// <summary>
+        /// Creates a new array with the object.
+        ///
+        /// </summary>
+        public static T[] ToArray<T>(object source)
+        {
+            return new[] { (T)source };
+        }
+
+        /// <summary>
         /// Return true if the <paramref name="target"/> has the requested property.
         ///
         /// </summary>

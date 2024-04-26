@@ -114,6 +114,20 @@ namespace NevesCS.Tests.Static
         }
 
         [Fact]
+        public void ToArray_Should_CreateNewArrayWithTheObject()
+        {
+            DataGame subject = new() { AppId = 123 };
+
+            var array1 = subject.ToArray();
+            var array2 = ObjectUtils.ToArray(subject);
+
+            array1[0].Should().BeSameAs(subject);
+            array1.Should().HaveCount(1);
+            array2[0].Should().BeSameAs(subject);
+            array2.Should().HaveCount(1);
+        }
+
+        [Fact]
         public void HasProperty_Should_Pass()
         {
             var mockClass = (object)new DataGame();
