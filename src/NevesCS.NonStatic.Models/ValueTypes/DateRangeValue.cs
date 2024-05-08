@@ -1,8 +1,8 @@
 namespace NevesCS.NonStatic.Models.ReferenceTypes
 {
-    public class InfiniteDateRange
+    public struct DateRangeValue
     {
-        public InfiniteDateRange(DateTimeOffset start)
+        public DateRangeValue(DateTimeOffset start, DateTimeOffset? end)
         {
             if (start == default)
             {
@@ -10,6 +10,7 @@ namespace NevesCS.NonStatic.Models.ReferenceTypes
             }
 
             Start = start;
+            End = end;
         }
 
         public DateTimeOffset Start { get; }
@@ -23,15 +24,15 @@ namespace NevesCS.NonStatic.Models.ReferenceTypes
 
         public override bool Equals(object obj)
         {
-            return obj is InfiniteDateRange dr && dr.Start == Start;
+            return obj is DateRangeValue dr && dr.Start == Start;
         }
 
-        public static bool operator ==(InfiniteDateRange left, InfiniteDateRange right)
+        public static bool operator ==(DateRangeValue left, DateRangeValue right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(InfiniteDateRange left, InfiniteDateRange right)
+        public static bool operator !=(DateRangeValue left, DateRangeValue right)
         {
             return !left.Equals(right);
         }
