@@ -2,6 +2,7 @@ using FluentAssertions;
 
 using Moq;
 
+using NevesCS.Static.Extensions;
 using NevesCS.Static.Utils;
 
 namespace NevesCS.Tests.Static
