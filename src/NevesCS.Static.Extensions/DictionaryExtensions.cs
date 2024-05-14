@@ -16,6 +16,16 @@ namespace NevesCS.Static.Extensions
             return DictionaryUtils.GetOrCreate(target, key, valueFactory);
         }
 
+        public static async Task<TValue> GetOrCreateAsync<TKey, TValue>(
+            this IDictionary<TKey, TValue> target,
+            TKey key,
+            Func<Task<TValue>>? valueFactory = null)
+
+            where TValue : new()
+        {
+            return await DictionaryUtils.GetOrCreateAsync(target, key, valueFactory);
+        }
+
         public static IDictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
             where TValue : new()
         {

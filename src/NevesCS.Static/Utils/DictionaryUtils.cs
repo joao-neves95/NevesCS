@@ -23,6 +23,26 @@ namespace NevesCS.Static.Utils
         public static TValue GetOrCreate<TKey, TValue>(IDictionary<TKey, TValue> target, TKey key, Func<TValue>? valueFactory = null)
             where TValue : new()
         {
+            return
+                GetOrCreateAsync(
+                    target,
+                    key,
+                    () => (valueFactory == null ? null : Task.FromResult(valueFactory()))!)
+                .GetAwaiter()
+                .GetResult();
+        }
+
+        /// <summary>
+        /// Get an item by key, or adds a new return value from the <paramref name="valueFactory"/>.
+        ///
+        /// </summary>
+        public static async Task<TValue> GetOrCreateAsync<TKey, TValue>(
+            IDictionary<TKey, TValue> target,
+            TKey key,
+            Func<Task<TValue>>? valueFactory = null)
+
+            where TValue : new()
+        {
             if (!target.TryGetValue(key, out TValue? existingValue))
             {
                 if (valueFactory == null)
@@ -31,7 +51,7 @@ namespace NevesCS.Static.Utils
                 }
                 else
                 {
-                    existingValue = valueFactory();
+                    existingValue = await valueFactory();
                 }
 
                 target.Add(key, existingValue);
