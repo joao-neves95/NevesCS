@@ -9,18 +9,6 @@ namespace NevesCS.Static.Utils
             return @object == null;
         }
 
-        public static T? SetIfNotNull<T>(T? target, T? newValue)
-        {
-            if (IsNull(newValue))
-            {
-                return target;
-            }
-
-            target = newValue;
-
-            return target;
-        }
-
         public static T ThrowIfNull<T>(T? @object)
         {
             if (@object == null)
@@ -39,6 +27,23 @@ namespace NevesCS.Static.Utils
             }
 
             return @object;
+        }
+
+        public static T Set<T>(T target, Action<T> setter)
+        {
+            setter(target);
+
+            return target;
+        }
+
+        public static T? SetIfNotNull<T>(T? target, Action<T> setter)
+        {
+            if (IsNull(target))
+            {
+                return target;
+            }
+
+            return Set(target!, setter);
         }
 
         public static TOut Into<TIn, TOut>(TIn source, Func<TIn, TOut> convertFunction)

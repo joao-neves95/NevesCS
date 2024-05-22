@@ -9,11 +9,6 @@ namespace NevesCS.Static.Extensions
             return ObjectUtils.IsNull(@object);
         }
 
-        public static T? SetIfNotNull<T>(this T? target, T? newValue)
-        {
-            return ObjectUtils.SetIfNotNull(target, newValue);
-        }
-
         public static T ThrowIfNull<T>(this T? @object)
         {
             return ObjectUtils.ThrowIfNull(@object);
@@ -27,6 +22,16 @@ namespace NevesCS.Static.Extensions
         public static bool IsIn<TIn>(this TIn? @object, IEnumerable<TIn> target)
         {
             return target.Contains(@object);
+        }
+
+        public static T Set<T>(this T target, Action<T> setter)
+        {
+            return ObjectUtils.Set(target, setter);
+        }
+
+        public static T? SetIfNotNull<T>(this T? target, Action<T> setter)
+        {
+            return ObjectUtils.SetIfNotNull(target, setter);
         }
 
         public static TOut Into<TIn, TOut>(this TIn source, Func<TIn, TOut> convertFunction)
