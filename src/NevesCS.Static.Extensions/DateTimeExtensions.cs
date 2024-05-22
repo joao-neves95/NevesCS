@@ -1,3 +1,4 @@
+using NevesCS.Static.Constants;
 using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
@@ -83,6 +84,16 @@ namespace NevesCS.Static.Extensions
         public static DateTimeOffset ToStartOfWeek(this DateTimeOffset date)
         {
             return DateTimeUtils.ToStartOfWeek(date);
+        }
+
+        public static string ToIso8601FormatString(this DateTimeOffset date)
+        {
+            return DateTimeUtils.ToIso8601FormatString(date);
+        }
+
+        public static string ToSqlQueryFormatString(this DateTimeOffset date)
+        {
+            return DateTimeUtils.ToSqlQueryFormatString(date);
         }
     }
 }
