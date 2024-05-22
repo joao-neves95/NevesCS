@@ -85,15 +85,5 @@ namespace NevesCS.Static.Extensions
         {
             return DateTimeUtils.ToStartOfWeek(date);
         }
-
-        public static string ToIso8601FormatString(this DateTimeOffset date)
-        {
-            return DateTimeUtils.ToIso8601FormatString(date);
-        }
-
-        public static string ToSqlQueryFormatString(this DateTimeOffset date)
-        {
-            return DateTimeUtils.ToSqlQueryFormatString(date);
-        }
     }
 }

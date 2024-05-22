@@ -31,5 +31,15 @@ namespace NevesCS.Static.Utils
 
             return tz;
         }
+
+        public static DateTimeOffset ConvertToLondonTimeZone(DateTimeOffset source)
+        {
+            return ConvertToTimeZone(source, London);
+        }
+
+        public static DateTimeOffset ConvertToTimeZone(DateTimeOffset source, TimeZoneInfo timeZoneInfo)
+        {
+            return TimeZoneInfo.ConvertTime(source, timeZoneInfo);
+        }
     }
 }

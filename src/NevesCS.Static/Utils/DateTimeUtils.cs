@@ -185,15 +185,5 @@ namespace NevesCS.Static.Utils
         {
             return new DateTimeOffset(ToStartOfWeek(date.DateTime), date.Offset);
         }
-
-        public static string ToIso8601FormatString(DateTimeOffset date)
-        {
-            return date.ToString(DateStringFormat.ISO_8601);
-        }
-
-        public static string ToSqlQueryFormatString(DateTimeOffset date)
-        {
-            return date.ToString(DateStringFormat.SQL_QUERY);
-        }
     }
 }
