@@ -1,7 +1,6 @@
-﻿
 using System.ComponentModel;
 
-namespace NevesCS.Static.Enums
+namespace NevesCS.NonStatic.Models
 {
     public enum ResultType
     {

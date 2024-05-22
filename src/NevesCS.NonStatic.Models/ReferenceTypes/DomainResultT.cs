@@ -1,38 +1,30 @@
-﻿
-//using CSharpFunctionalExtensions;
+using LanguageExt;
 
-//namespace NevesCS.NonStatic.ReferenceTypes
-//{
-//    public class DomainResult<T> : DomainResult
-//    {
-//        private Maybe<T> Value { get; set; }
+namespace NevesCS.NonStatic.ReferenceTypes
+{
+    public class DomainResult<T> : DomainResult
+    {
+        private Option<T> Value { get; set; }
 
-//        public bool HasValue => Value.HasValue;
+        public bool HasValue => Value.IsSome;
 
-//        public Maybe<T> GetValue()
-//        {
-//            return Value;
-//        }
+        public Option<T> GetValue()
+        {
+            return Value;
+        }
 
-//        public DomainResult<T> SetValue(Maybe<T> value)
-//        {
-//            Value = value;
+        public DomainResult<T> SetValue(Option<T> value)
+        {
+            Value = value;
 
-//            return this;
-//        }
+            return this;
+        }
 
-//        public new DomainResult<T> Combine(Result result)
-//        {
-//            base.Combine(result);
+        public new DomainResult<T> Combine(DomainResult result)
+        {
+            base.Combine(result);
 
-//            return this;
-//        }
-
-//        public new DomainResult<T> Combine(DomainResult migrationResultDto)
-//        {
-//            base.Combine(migrationResultDto);
-
-//            return this;
-//        }
-//    }
-//}
+            return this;
+        }
+    }
+}

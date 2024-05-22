@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-using NevesCS.Static.Enums;
+using NevesCS.NonStatic.Models;
 using NevesCS.Static.Extensions;
 using NevesCS.Static.Utils;
 
