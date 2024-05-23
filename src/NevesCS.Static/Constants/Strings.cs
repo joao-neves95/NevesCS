@@ -7,6 +7,10 @@ namespace NevesCS.Static.Constants
     {
         public const string Space = " ";
 
-        public const string SymbolEqual = "=";
+        public const string Underscore = "_";
+
+        public const string Minus = "-";
+
+        public const string Equal = "=";
     }
 }

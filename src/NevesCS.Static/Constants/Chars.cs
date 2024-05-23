@@ -10,5 +10,9 @@ namespace NevesCS.Static.Constants
         public const char Equal = '=';
 
         public const char Period = '.';
+
+        public const char Underscore = '_';
+
+        public const char Minus = '-';
     }
 }
