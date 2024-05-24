@@ -29,12 +29,12 @@ namespace NevesCS.Static.Utils.Vendor
             await streamWriter.FlushAsync();
         }
 
-        public static IAsyncEnumerable<T> ReadCsvFileAsync<T>(string filePath, CancellationToken cancellationToken = default)
+        public static async Task<List<T>> ReadCsvFileAsync<T>(string filePath, CancellationToken cancellationToken = default)
         {
             using var streamReader = new StreamReader(filePath, encoding: Encoding.UTF8);
             using var csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture);
 
-            return csvReader.GetRecordsAsync<T>(cancellationToken);
+            return await csvReader.GetRecordsAsync<T>(cancellationToken).ToListAsync();
         }
     }
 }
