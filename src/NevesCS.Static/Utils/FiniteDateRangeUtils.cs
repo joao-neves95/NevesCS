@@ -1,41 +1,32 @@
-using NevesCS.NonStatic.Models.ReferenceTypes;
 using NevesCS.NonStatic.Models.ValueTypes;
+using NevesCS.NonStatic.Models.ValueTypes.Traits;
 
 namespace NevesCS.Static.Utils
 {
     public static class FiniteDateRangeUtils
     {
-        public static IEnumerable<FiniteDateRange> SplitDateRangeByDay(FiniteDateRange range, int daysToSplitBy)
+        public static IEnumerable<FiniteDateRangeValue> SplitByDays(IToFiniteDateRangeValueConvertible range, int daysToSplitBy)
         {
-            return SplitDateRangeByDay(range.To<(DateTimeOffset, DateTimeOffset)>(), daysToSplitBy)
-                .Select(rangeTuple => new FiniteDateRange(rangeTuple.Item1, rangeTuple.Item2));
+            return SplitByDays(range.ToFiniteDateRangeValue(), daysToSplitBy);
         }
 
-        public static IEnumerable<FiniteDateRangeValue> SplitDateRangeByDay(FiniteDateRangeValue range, int daysToSplitBy)
+        public static IEnumerable<FiniteDateRangeValue> SplitByDays(FiniteDateRangeValue range, int daysToSplitBy)
         {
-            return SplitDateRangeByDay(range.To<(DateTimeOffset, DateTimeOffset)>(), daysToSplitBy)
-                .Select(rangeTuple => new FiniteDateRangeValue(rangeTuple.Item1, rangeTuple.Item2));
-        }
-
-        public static IEnumerable<(DateTimeOffset, DateTimeOffset)> SplitDateRangeByDay(
-            (DateTimeOffset start, DateTimeOffset end) range,
-            int daysToSplitBy)
-        {
-            var days = (range.end - range.start).TotalDays;
+            var days = (range.End - range.Start).TotalDays;
             var count = days / daysToSplitBy;
 
             for (double index = 0; index < count; ++index)
             {
-                var start = index == 0 ? range.start : range.start.AddDays(index * daysToSplitBy);
+                var start = index == 0 ? range.Start : range.Start.AddDays(index * daysToSplitBy);
                 var end = start.AddDays(daysToSplitBy);
 
-                if (start < range.end)
+                if (start < range.End)
                 {
-                    yield return (
+                    yield return new FiniteDateRangeValue(
                         start,
-                        end > range.end
-                            ? range.end
-                            : end.AddSeconds(-1));
+                        end > range.End
+                            ? range.End
+                            : end.AddTicks(-1));
                 }
             }
         }
