@@ -6,5 +6,10 @@ namespace NevesCS.Static.Utils
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         }
+
+        public static string GetDesktopPath()
+        {
+            return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        }
     }
 }

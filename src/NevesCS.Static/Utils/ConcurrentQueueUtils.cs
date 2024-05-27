@@ -6,14 +6,14 @@ namespace NevesCS.Static.Utils
     {
         public static IEnumerable<T> DequeueAllNonBlocking<T>(ConcurrentQueue<T> target)
         {
-            while (target.TryDequeue(out T? logTicket))
+            while (target.TryDequeue(out T? item))
             {
-                if (logTicket == null)
+                if (item == null)
                 {
                     yield break;
                 }
 
-                yield return logTicket;
+                yield return item;
             }
         }
     }
