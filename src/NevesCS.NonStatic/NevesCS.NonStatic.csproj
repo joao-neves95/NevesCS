@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="CSharpFunctionalExtensions" Version="2.42.0" />
+    <PackageReference Include="RestSharp" Version="111.0.0" />
   </ItemGroup>
 
   <ItemGroup>
