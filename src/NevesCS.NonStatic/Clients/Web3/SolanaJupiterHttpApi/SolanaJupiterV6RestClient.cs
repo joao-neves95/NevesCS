@@ -22,7 +22,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
         /// <summary>
         /// https://price.jup.ag/v6/price?ids=token1,token2&vsToken=quote-token
         /// </summary>
-        public async Task<SolanaJupiterV6GetPriceResponse?> GetPrice(
+        public async Task<SolanaJupiterV6GetPriceResponse?> GetPriceAsync(
             SolanaJupiterV6GetPriceRequest request,
             CancellationToken cancellationToken = default)
         {
