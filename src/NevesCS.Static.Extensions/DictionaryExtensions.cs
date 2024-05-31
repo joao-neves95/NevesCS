@@ -26,10 +26,10 @@ namespace NevesCS.Static.Extensions
             return await DictionaryUtils.GetOrCreateAsync(target, key, valueFactory);
         }
 
-        public static IDictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
+        public static IDictionary<TKey, TValue> Upsert<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
             where TValue : new()
         {
-            return DictionaryUtils.AddOrUpdate(target, key, value);
+            return DictionaryUtils.Upsert(target, key, value);
         }
     }
 }

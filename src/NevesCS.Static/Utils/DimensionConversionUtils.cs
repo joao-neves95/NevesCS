@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace NevesCS.Static.Utils
 {
-    public static class DimensionConversions
+    public static class DimensionConversionUtils
     {
         public static T MillimetersToCentimeters<T>(this T value)
             where T : IDivisionOperators<T, int, T>

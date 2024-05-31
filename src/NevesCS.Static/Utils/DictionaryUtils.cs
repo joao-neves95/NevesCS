@@ -8,7 +8,7 @@ namespace NevesCS.Static.Utils
             return new Dictionary<TKey, TValue>(target);
         }
 
-        public static IDictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(IDictionary<TKey, TValue> target, TKey key, TValue value)
+        public static IDictionary<TKey, TValue> Upsert<TKey, TValue>(IDictionary<TKey, TValue> target, TKey key, TValue value)
             where TValue : new()
         {
             target[key] = value;
