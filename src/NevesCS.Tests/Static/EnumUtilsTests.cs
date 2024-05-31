@@ -17,5 +17,14 @@ namespace NevesCS.Tests.Static
             enumValue.GetDescription().Should().Be(expected);
             EnumUtils.GetDescription(enumValue).Should().Be(expected);
         }
+
+        [Theory]
+        [InlineData(ResultType.Failure, "Failure")]
+        [InlineData(ResultType.Warning, "Warning")]
+        [InlineData(ResultType.Success, "Success")]
+        public void Should_GetTheEnumFromTheDescriptionAttribute(ResultType enumValue, string description)
+        {
+            EnumUtils.FromDescription<ResultType>(description).Should().Be(enumValue);
+        }
     }
 }
