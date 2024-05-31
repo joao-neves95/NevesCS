@@ -1,3 +1,4 @@
+using NevesCS.Abstractions.Options;
 using NevesCS.Static.Constants;
 
 namespace NevesCS.Static.Utils
@@ -59,7 +60,7 @@ namespace NevesCS.Static.Utils
             return DateTimeOffset.Now.Offset;
         }
 
-        public static DateTime SetHours(
+        public static DateTime SetTime(
             DateTime sourceDateTime,
             double? hours = null,
             double? minutes = null,
@@ -106,7 +107,7 @@ namespace NevesCS.Static.Utils
             double? microseconds = null)
         {
             return new DateTimeOffset(
-                SetHours(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds),
+                SetTime(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds),
                 sourceDateTime.Offset);
         }
 
@@ -142,12 +143,12 @@ namespace NevesCS.Static.Utils
 
         public static DateTime ToEndOfDay(DateTime date)
         {
-            return ToStartOfDay(date).AddDays(1).AddTicks(-1);
+            return ToStartOfDay(date).AddDays(Ints.One).AddTicks(-Ints.One);
         }
 
         public static DateTimeOffset ToEndOfDay(DateTimeOffset date)
         {
-            return ToStartOfDay(date).AddDays(1).AddTicks(-1);
+            return ToStartOfDay(date).AddDays(Ints.One).AddTicks(-Ints.One);
         }
 
         public static DateTime ToStartOfWeek(DateTime date)
@@ -159,22 +160,22 @@ namespace NevesCS.Static.Utils
                 case DayOfWeek.Monday:
                     break;
                 case DayOfWeek.Tuesday:
-                    newDate = newDate.AddDays(-1);
+                    newDate = newDate.AddDays(-Ints.One);
                     break;
                 case DayOfWeek.Wednesday:
-                    newDate = newDate.AddDays(-2);
+                    newDate = newDate.AddDays(-Ints.Two);
                     break;
                 case DayOfWeek.Thursday:
-                    newDate = newDate.AddDays(-3);
+                    newDate = newDate.AddDays(-Ints.Three);
                     break;
                 case DayOfWeek.Friday:
-                    newDate = newDate.AddDays(-4);
+                    newDate = newDate.AddDays(-Ints.Four);
                     break;
                 case DayOfWeek.Saturday:
-                    newDate = newDate.AddDays(-5);
+                    newDate = newDate.AddDays(-Ints.Five);
                     break;
                 case DayOfWeek.Sunday:
-                    newDate = newDate.AddDays(-6);
+                    newDate = newDate.AddDays(-Ints.Six);
                     break;
             }
 
@@ -184,6 +185,40 @@ namespace NevesCS.Static.Utils
         public static DateTimeOffset ToStartOfWeek(DateTimeOffset date)
         {
             return new DateTimeOffset(ToStartOfWeek(date.DateTime), date.Offset);
+        }
+
+        public static DateTimeOffset ToNext(
+            DateTimeOffset source,
+            TimeComponent timeComponent,
+            double componentQuantity = Ints.One)
+        {
+            return timeComponent switch
+            {
+                TimeComponent.Second => source
+                    .AddMilliseconds(-source.Millisecond)
+                    .AddMicroseconds(-source.Microsecond)
+                    .AddSeconds(componentQuantity),
+                TimeComponent.Minute => source
+                    .AddSeconds(-source.Second)
+                    .AddMilliseconds(-source.Millisecond)
+                    .AddMicroseconds(-source.Microsecond)
+                    .AddMinutes(componentQuantity),
+                TimeComponent.Hour => source
+                    .AddMinutes(-source.Minute)
+                    .AddSeconds(-source.Second)
+                    .AddMilliseconds(-source.Millisecond)
+                    .AddMicroseconds(-source.Microsecond)
+                    .AddHours(componentQuantity),
+                TimeComponent.Day => source
+                    .AddHours(-source.Hour)
+                    .AddMinutes(-source.Minute)
+                    .AddSeconds(-source.Second)
+                    .AddMilliseconds(-source.Millisecond)
+                    .AddMicroseconds(-source.Microsecond)
+                    .AddDays(componentQuantity),
+
+                _ => throw new NotImplementedException(),
+            };
         }
     }
 }

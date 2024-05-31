@@ -19,6 +19,7 @@ namespace NevesCS.Static.Constants
         public const int Nine = 9;
 
         public const int Ten = 10;
+        public const int Sixty = 60;
 
         public const int OneHundred = 100;
 

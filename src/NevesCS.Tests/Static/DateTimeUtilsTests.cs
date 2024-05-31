@@ -1,5 +1,6 @@
 using FluentAssertions;
 
+using NevesCS.Abstractions.Options;
 using NevesCS.Static.Constants;
 using NevesCS.Static.Extensions;
 using NevesCS.Static.Utils;
@@ -79,6 +80,38 @@ namespace NevesCS.Tests.Static
             var date1 = new DateTimeOffset(2024, 02, 21, 18, 18, 15, TimeSpan.Zero);
             date1 = date1.SetTicks(TimeTicks.OneHour);
             date1.Should().Be(new DateTimeOffset(2024, 02, 21, 01, 00, 00, TimeSpan.Zero));
+        }
+
+        [Fact]
+        public void SetTime_Passes()
+        {
+            new DateTimeOffset(2024, 02, 21, 18, 18, 15, TimeSpan.Zero).SetTime(02, 02, 02, 02, 02)
+                .Should()
+                .Be(new DateTimeOffset(2024, 02, 21, 02, 02, 02, 02, 02, TimeSpan.Zero));
+        }
+
+
+        [Fact]
+        public void ToNext_Passes()
+        {
+            var testDate = new DateTimeOffset(2024, 02, 21, 18, 18, 18, TimeSpan.Zero);
+
+            testDate.ToNext(TimeComponent.Second).Should().Be(new DateTimeOffset(2024, 02, 21, 18, 18, 19, 00, 00, TimeSpan.Zero));
+            testDate.ToNext(TimeComponent.Second, 3).Should().Be(new DateTimeOffset(2024, 02, 21, 18, 18, 21, 00, 00, TimeSpan.Zero));
+
+            testDate.ToNext(TimeComponent.Minute).Should().Be(new DateTimeOffset(2024, 02, 21, 18, 19, 00, 00, 00, TimeSpan.Zero));
+            testDate.ToNext(TimeComponent.Minute, 3).Should().Be(new DateTimeOffset(2024, 02, 21, 18, 21, 00, 00, 00, TimeSpan.Zero));
+
+            testDate.ToNext(TimeComponent.Hour).Should().Be(new DateTimeOffset(2024, 02, 21, 19, 00, 00, 00, 00, TimeSpan.Zero));
+            testDate.ToNext(TimeComponent.Hour, 3).Should().Be(new DateTimeOffset(2024, 02, 21, 21, 00, 00, 00, 00, TimeSpan.Zero));
+
+            testDate.ToNext(TimeComponent.Day).Should().Be(new DateTimeOffset(2024, 02, 22, 00, 00, 00, 00, 00, TimeSpan.Zero));
+            testDate.ToNext(TimeComponent.Day, 3).Should().Be(new DateTimeOffset(2024, 02, 24, 00, 00, 00, 00, 00, TimeSpan.Zero));
+
+            new DateTimeOffset(2024, 02, 21, 18, 18, 00, 00, 00, TimeSpan.Zero)
+                .ToNext(TimeComponent.Second)
+                .Should()
+                .Be(new DateTimeOffset(2024, 02, 21, 18, 18, 01, 00, 00, TimeSpan.Zero));
         }
     }
 }
