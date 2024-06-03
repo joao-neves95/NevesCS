@@ -10,7 +10,19 @@ namespace NevesCS.Static.Extensions
             return DictionaryUtils.CloneIntoNew(target);
         }
 
-        public static TValue GetOrCreate<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, Func<TValue>? valueFactory = null)
+        public static TValue? GetValueOr<TKey, TValue>(
+            this IDictionary<TKey, TValue> target,
+            TKey key,
+            TValue? defaultValue = default)
+        {
+            return DictionaryUtils.GetValueOr(target, key, defaultValue);
+        }
+
+        public static TValue GetOrCreate<TKey, TValue>(
+            this IDictionary<TKey, TValue> target,
+            TKey key,
+            Func<TValue>? valueFactory = null)
+
             where TValue : new()
         {
             return DictionaryUtils.GetOrCreate(target, key, valueFactory);
@@ -26,7 +38,11 @@ namespace NevesCS.Static.Extensions
             return await DictionaryUtils.GetOrCreateAsync(target, key, valueFactory);
         }
 
-        public static IDictionary<TKey, TValue> Upsert<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
+        public static IDictionary<TKey, TValue> Upsert<TKey, TValue>(
+            this IDictionary<TKey, TValue> target,
+            TKey key,
+            TValue value)
+
             where TValue : new()
         {
             return DictionaryUtils.Upsert(target, key, value);

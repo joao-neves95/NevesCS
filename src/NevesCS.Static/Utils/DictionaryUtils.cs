@@ -16,20 +16,44 @@ namespace NevesCS.Static.Utils
             return target;
         }
 
+        public static TValue? GetValueOr<TKey, TValue>(
+            IDictionary<TKey, TValue> target,
+            TKey key,
+            TValue? defaultValue = default)
+        {
+            if (!target.TryGetValue(key, out TValue? existingValue))
+            {
+                return defaultValue;
+            }
+
+            return existingValue;
+        }
+
         /// <summary>
         /// Get an item by key, or adds a new return value from the <paramref name="valueFactory"/>.
         ///
         /// </summary>
-        public static TValue GetOrCreate<TKey, TValue>(IDictionary<TKey, TValue> target, TKey key, Func<TValue>? valueFactory = null)
+        public static TValue GetOrCreate<TKey, TValue>(
+            IDictionary<TKey, TValue> target,
+            TKey key,
+            Func<TValue>? valueFactory = null)
             where TValue : new()
         {
-            return
-                GetOrCreateAsync(
-                    target,
-                    key,
-                    () => (valueFactory == null ? null : Task.FromResult(valueFactory()))!)
-                .GetAwaiter()
-                .GetResult();
+            if (!target.TryGetValue(key, out TValue? existingValue))
+            {
+                if (valueFactory == null)
+                {
+                    existingValue = new TValue();
+                }
+                else
+                {
+                    existingValue = valueFactory();
+                }
+
+                target.Add(key, existingValue);
+            }
+
+            return existingValue;
         }
 
         /// <summary>

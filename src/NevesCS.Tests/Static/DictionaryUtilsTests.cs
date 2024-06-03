@@ -38,19 +38,19 @@ namespace NevesCS.Tests.Static
         }
 
         [Fact]
-        public void AddOrUpdate_Should_Add_If_ValueDoesNotExist()
+        public void Upsert_Should_Add_If_ValueDoesNotExist()
         {
             var dict = new Dictionary<string, object>();
 
-            DictionaryUtils.AddOrUpdate(dict, "A", "a");
-            dict.AddOrUpdate("B", "b");
+            DictionaryUtils.Upsert(dict, "A", "a");
+            dict.Upsert("B", "b");
 
             var allValues = dict.Values.ToArray();
             allValues.Should().BeEquivalentTo(new[] { "a", "b" });
         }
 
         [Fact]
-        public void AddOrUpdate_Should_Update_If_ValueExists()
+        public void Upsert_Should_Update_If_ValueExists()
         {
             var dict = new Dictionary<string, object>()
             {
@@ -58,8 +58,8 @@ namespace NevesCS.Tests.Static
                 { "B", "a" },
             };
 
-            DictionaryUtils.AddOrUpdate(dict, "A", "a");
-            dict.AddOrUpdate("B", "b");
+            DictionaryUtils.Upsert(dict, "A", "a");
+            dict.Upsert("B", "b");
 
             var allValues = dict.Values.ToArray();
             allValues.Should().BeEquivalentTo(new[] { "a", "b" });
