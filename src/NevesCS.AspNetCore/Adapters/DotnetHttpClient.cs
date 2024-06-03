@@ -31,10 +31,7 @@ namespace NevesCS.AspNetCore.Adapters
 
         public async Task<TResponse?> GetAsync<TResponse>(string endpoint, CancellationToken cancellationToken = default)
         {
-            if (endpoint is null)
-            {
-                throw new ArgumentNullException(nameof(endpoint));
-            }
+            endpoint.ThrowIfNull(nameof(endpoint));
 
             var pollyResponse = await Policy
                 .Handle<HttpRequestException>()
