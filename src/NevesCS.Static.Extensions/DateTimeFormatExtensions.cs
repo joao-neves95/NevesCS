@@ -9,6 +9,11 @@ namespace NevesCS.Static.Extensions
             return DateTimeFormatUtils.ToIso8601FormatString(date);
         }
 
+        public static string ToDetailedFormatString(this DateTimeOffset date)
+        {
+            return DateTimeFormatUtils.ToDetailedFormatString(date);
+        }
+
         public static string ToSqlQueryFormatString(this DateTimeOffset date)
         {
             return DateTimeFormatUtils.ToSqlQueryFormatString(date);
