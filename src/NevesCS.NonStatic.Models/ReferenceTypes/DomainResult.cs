@@ -1,9 +1,12 @@
+using NevesCS.Abstractions.Traits;
 using NevesCS.NonStatic.Models;
 
 namespace NevesCS.NonStatic.ReferenceTypes
 {
-    public class DomainResult
+    public class DomainResult : IAuditableUtcCreation
     {
+        public DateTimeOffset CreationUtcDateTime { get; } = DateTimeOffset.UtcNow;
+
         public ResultType Outcome { get; private set; } = ResultType.Success;
 
         public bool IsSuccess => Outcome is not ResultType.Failure;
@@ -12,9 +15,9 @@ namespace NevesCS.NonStatic.ReferenceTypes
 
         public bool HasWarningMessages => WarningMessages.Count > 0;
 
-        private List<string> WarningMessages { get; } = new();
+        private List<string> WarningMessages { get; } = [];
 
-        private List<string> ErrorMessages { get; } = new();
+        private List<string> ErrorMessages { get; } = [];
 
         public DomainResult SetOutcome(ResultType resultType)
         {

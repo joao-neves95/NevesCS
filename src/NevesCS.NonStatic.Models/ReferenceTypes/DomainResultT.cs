@@ -1,19 +1,17 @@
-using LanguageExt;
-
 namespace NevesCS.NonStatic.ReferenceTypes
 {
     public class DomainResult<T> : DomainResult
     {
-        private Option<T> Value { get; set; }
+        private T? Value { get; set; }
 
-        public bool HasValue => Value.IsSome;
+        public bool HasValue => Value is not null;
 
-        public Option<T> GetValue()
+        public T? GetValue()
         {
             return Value;
         }
 
-        public DomainResult<T> SetValue(Option<T> value)
+        public DomainResult<T> SetValue(T value)
         {
             Value = value;
 
