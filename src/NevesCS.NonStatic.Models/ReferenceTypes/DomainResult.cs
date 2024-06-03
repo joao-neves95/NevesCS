@@ -19,6 +19,8 @@ namespace NevesCS.NonStatic.ReferenceTypes
 
         private List<string> ErrorMessages { get; } = [];
 
+        private List<Exception> Exceptions { get; } = [];
+
         public DomainResult SetOutcome(ResultType resultType)
         {
             if (resultType == ResultType.Failure)
@@ -43,6 +45,16 @@ namespace NevesCS.NonStatic.ReferenceTypes
             return WarningMessages;
         }
 
+        public IEnumerable<string> GetErrorMessages()
+        {
+            return ErrorMessages;
+        }
+
+        public IEnumerable<Exception> GetExceptions()
+        {
+            return Exceptions;
+        }
+
         public DomainResult AddWarningMessage(string message)
         {
             SetOutcome(ResultType.Warning);
@@ -59,12 +71,36 @@ namespace NevesCS.NonStatic.ReferenceTypes
             return this;
         }
 
+        public DomainResult AddErrorMessage(string message, Exception exception)
+        {
+            AddException(exception, message);
+
+            return this;
+        }
+
+        public DomainResult AddException(Exception exception)
+        {
+            SetOutcome(ResultType.Failure);
+            Exceptions.Add(exception);
+
+            return this;
+        }
+
+        public DomainResult AddException(Exception exception, string message)
+        {
+            AddException(exception);
+            AddErrorMessage(message);
+
+            return this;
+        }
+
         public DomainResult Combine(DomainResult result)
         {
             SetOutcome(result.Outcome);
 
             WarningMessages.AddRange(result.WarningMessages);
             ErrorMessages.AddRange(result.ErrorMessages);
+            Exceptions.AddRange(result.Exceptions);
 
             return this;
         }
