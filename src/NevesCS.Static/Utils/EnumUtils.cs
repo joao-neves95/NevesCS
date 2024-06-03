@@ -4,7 +4,8 @@ namespace NevesCS.Static.Utils
 {
     public static class EnumUtils
     {
-        public static string GetDescription(Enum enumValue)
+        public static string GetDescription<T>(T enumValue)
+            where T : Enum
         {
             var field = enumValue.GetType().GetField(enumValue.ToString());
 
@@ -16,7 +17,7 @@ namespace NevesCS.Static.Utils
             return attribute.Description;
         }
 
-        public static T FromDescription<T>(string description)
+        public static T FromDescription<T>(string description, bool checkFieldName = true)
             where T : Enum
         {
             foreach (var field in typeof(T).GetFields())
@@ -30,7 +31,7 @@ namespace NevesCS.Static.Utils
                 }
                 else
                 {
-                    if (field.Name == description)
+                    if (checkFieldName && field.Name == description)
                     {
                         return (T)field.GetValue(null)!;
                     }
