@@ -1,8 +1,8 @@
 namespace NevesCS.Abstractions.Clients
 {
-    public interface IPriceDataRequestProvider<TRequest, TResponse>
+    public interface IRequestProvider<TRequest, TResponse> : IDisposable
     {
-        public Task<TResponse?> GetPriceAsync(
+        public Task<TResponse?> RequestAsync(
             TRequest request,
             CancellationToken cancellationToken = default);
     }
