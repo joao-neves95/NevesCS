@@ -1,3 +1,4 @@
+using NevesCS.Abstractions.Options;
 using NevesCS.Static.Constants;
 using NevesCS.Static.Utils;
 
@@ -14,7 +15,7 @@ namespace NevesCS.Static.Extensions
             return DateTimeUtils.GetDateWithOffset(source);
         }
 
-        public static DateTime SetHours(
+        public static DateTime SetTime(
             this DateTime sourceDateTime,
             double? hours = null,
             double? minutes = null,
@@ -22,10 +23,10 @@ namespace NevesCS.Static.Extensions
             double? milliseconds = null,
             double? microseconds = null)
         {
-            return DateTimeUtils.SetHours(sourceDateTime, hours, minutes, seconds, milliseconds, microseconds);
+            return DateTimeUtils.SetTime(sourceDateTime, hours, minutes, seconds, milliseconds, microseconds);
         }
 
-        public static DateTimeOffset SetHours(
+        public static DateTimeOffset SetTime(
             this DateTimeOffset sourceDateTime,
             double? hours = null,
             double? minutes = null,
@@ -33,7 +34,7 @@ namespace NevesCS.Static.Extensions
             double? milliseconds = null,
             double? microseconds = null)
         {
-            return DateTimeUtils.SetHours(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds);
+            return DateTimeUtils.SetTime(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds);
         }
 
         public static DateTime SetTicks(this DateTime sourceDateTime, long ticks)
@@ -84,6 +85,14 @@ namespace NevesCS.Static.Extensions
         public static DateTimeOffset ToStartOfWeek(this DateTimeOffset date)
         {
             return DateTimeUtils.ToStartOfWeek(date);
+        }
+
+        public static DateTimeOffset ToNext(
+            this DateTimeOffset source,
+            TimeComponent timeComponent,
+            double componentQuantity = Ints.One)
+        {
+            return DateTimeUtils.ToNext(source, timeComponent, componentQuantity);
         }
     }
 }
