@@ -1,15 +1,9 @@
 using NevesCS.NonStatic.Models.ValueTypes;
-using NevesCS.NonStatic.Models.ValueTypes.Traits;
 
 namespace NevesCS.Static.Utils
 {
     public static class FiniteDateRangeUtils
     {
-        public static IEnumerable<FiniteDateRangeValue> SplitByDays(IToFiniteDateRangeValueConvertible range, int daysToSplitBy)
-        {
-            return SplitByDays(range.ToFiniteDateRangeValue(), daysToSplitBy);
-        }
-
         public static IEnumerable<FiniteDateRangeValue> SplitByDays(FiniteDateRangeValue range, int daysToSplitBy)
         {
             var days = (range.End - range.Start).TotalDays;
