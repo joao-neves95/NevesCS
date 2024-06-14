@@ -1,6 +1,7 @@
 using FluentAssertions;
 
 using NevesCS.NonStatic.Models.ReferenceTypes;
+using NevesCS.NonStatic.Models.ValueTypes;
 using NevesCS.Static.Extensions;
 
 namespace NevesCS.Tests.Static
@@ -12,10 +13,10 @@ namespace NevesCS.Tests.Static
         {
             // Arrange
             var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var dateRange = new FiniteDateRange(start, start.AddDays(360));
+            var dateRange = new FiniteDateRangeValue(start, start.AddDays(360));
 
             // Act
-            var dateRanges = dateRange.SplitDateRangeByDay(30).ToList();
+            var dateRanges = dateRange.SplitByDays(30).ToList();
 
             // Assert
             dateRanges.Count.Should().Be(360 / 30);
@@ -41,17 +42,17 @@ namespace NevesCS.Tests.Static
         {
             // Arrange
             var start = new DateTimeOffset(2023, 1, 1, 0, 0, 0, TimeSpan.Zero);
-            var dateRange = new FiniteDateRange(start, start.AddDays(daysToAdd));
+            var dateRange = new FiniteDateRangeValue(start, start.AddDays(daysToAdd));
 
             // Act
-            var dateRanges = dateRange.SplitDateRangeByDay(splitBy).ToList();
+            var dateRanges = dateRange.SplitByDays(splitBy).ToList();
 
             // Assert
             var count = (int)Math.Ceiling((double)daysToAdd / splitBy);
             Assert(dateRanges, dateRange, count);
         }
 
-        private static void Assert(List<FiniteDateRange> dateRanges, FiniteDateRange originalDateRange, int count)
+        private static void Assert(List<FiniteDateRangeValue> dateRanges, FiniteDateRangeValue originalDateRange, int count)
         {
             dateRanges.Count.Should().Be(count);
             var index = 0;
