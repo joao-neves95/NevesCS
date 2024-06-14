@@ -1,8 +1,14 @@
+using NevesCS.Abstractions.Types;
+using NevesCS.NonStatic.Models.ValueTypes;
+using NevesCS.NonStatic.Models.ValueTypes.Traits;
+
+using System.Diagnostics.CodeAnalysis;
+
 namespace NevesCS.NonStatic.Models.ReferenceTypes
 {
-    public struct DateRangeValue
+    public readonly struct DateRangeValue : INonFiniteDateRange, IToFiniteDateRangeValueConvertible
     {
-        public DateRangeValue(DateTimeOffset start, DateTimeOffset? end)
+        public DateRangeValue([NotNull, DisallowNull] DateTimeOffset start, DateTimeOffset? end)
         {
             if (start == default)
             {
@@ -25,6 +31,51 @@ namespace NevesCS.NonStatic.Models.ReferenceTypes
         public override bool Equals(object obj)
         {
             return obj is DateRangeValue dr && dr.Start == Start;
+        }
+
+        public new bool Equals(object? x, object? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IDateRange? x, IDateRange? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode([DisallowNull] IDateRange obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IDateRange? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(INonFiniteDateRange? x, INonFiniteDateRange? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode([DisallowNull] INonFiniteDateRange obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(INonFiniteDateRange? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FiniteDateRangeValue ToFiniteDateRangeValue()
+        {
+            throw new NotImplementedException();
         }
 
         public static bool operator ==(DateRangeValue left, DateRangeValue right)

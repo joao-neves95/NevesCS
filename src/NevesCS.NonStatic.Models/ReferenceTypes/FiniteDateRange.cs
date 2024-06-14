@@ -1,10 +1,18 @@
 using NevesCS.Abstractions.Traits;
+using NevesCS.Abstractions.Types;
+using NevesCS.NonStatic.Models.ValueTypes;
+using NevesCS.NonStatic.Models.ValueTypes.Traits;
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace NevesCS.NonStatic.Models.ReferenceTypes
 {
-    public class FiniteDateRange : IConvertible<(DateTimeOffset start, DateTimeOffset end)>
+    public class FiniteDateRange
+        : IFiniteDateRange,
+          IToFiniteDateRangeValueConvertible,
+          IConvertible<(DateTimeOffset start, DateTimeOffset end)>
     {
-        public FiniteDateRange(DateTimeOffset start, DateTimeOffset end)
+        public FiniteDateRange([NotNull, DisallowNull] DateTimeOffset start, DateTimeOffset end)
         {
             if (start == default)
             {
@@ -49,6 +57,51 @@ namespace NevesCS.NonStatic.Models.ReferenceTypes
         public (DateTimeOffset start, DateTimeOffset end) To<Out>()
         {
             return (Start, End);
+        }
+
+        public FiniteDateRangeValue ToFiniteDateRangeValue()
+        {
+            return new FiniteDateRangeValue(Start, End);
+        }
+
+        public new bool Equals(object? x, object? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IDateRange? x, IDateRange? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode([DisallowNull] IDateRange obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IDateRange? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IFiniteDateRange? x, IFiniteDateRange? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode([DisallowNull] IFiniteDateRange obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IFiniteDateRange? other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

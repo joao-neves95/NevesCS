@@ -1,10 +1,15 @@
-using NevesCS.Abstractions.Traits;
+using NevesCS.Abstractions.Types;
+using NevesCS.NonStatic.Models.ValueTypes.Traits;
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace NevesCS.NonStatic.Models.ValueTypes
 {
     public readonly struct InfiniteDateRangeValue
+        : INonFiniteDateRange,
+          IToFiniteDateRangeValueConvertible
     {
-        public InfiniteDateRangeValue(DateTimeOffset start)
+        public InfiniteDateRangeValue([NotNull, DisallowNull] DateTimeOffset start)
         {
             if (start == default)
             {
@@ -29,7 +34,6 @@ namespace NevesCS.NonStatic.Models.ValueTypes
                 && dr.Start == Start;
         }
 
-
         public static bool operator !=(InfiniteDateRangeValue left, InfiniteDateRangeValue right)
         {
             return !left.Equals(right);
@@ -38,6 +42,53 @@ namespace NevesCS.NonStatic.Models.ValueTypes
         public static bool operator ==(InfiniteDateRangeValue left, InfiniteDateRangeValue right)
         {
             return left.Equals(right);
+        }
+
+        public FiniteDateRangeValue ToFiniteDateRangeValue()
+        {
+            return new FiniteDateRangeValue(
+                Start,
+                End ?? DateTimeOffset.MaxValue.Add(-TimeSpan.FromDays(1)));
+        }
+
+        public new bool Equals(object? x, object? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IDateRange? x, IDateRange? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode([DisallowNull] IDateRange obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(IDateRange? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(INonFiniteDateRange? x, INonFiniteDateRange? y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetHashCode([DisallowNull] INonFiniteDateRange obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Equals(INonFiniteDateRange? other)
+        {
+            throw new NotImplementedException();
         }
     }
 }
