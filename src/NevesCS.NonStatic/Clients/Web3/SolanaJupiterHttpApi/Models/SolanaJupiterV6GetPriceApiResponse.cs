@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models
 {
-    public record SolanaJupiterV6GetPriceResponse
+    public record SolanaJupiterV6GetPriceApiResponse
     {
         [JsonPropertyName("data")]
         public Dictionary<string, SolanaJupiterTokenPriceInfo> Data { get; set; }

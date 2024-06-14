@@ -1,8 +1,9 @@
-﻿using System.Net;
+using System.Net;
 using Microsoft.Extensions.Options;
 
 using NevesCS.AspNetCore.Abstractions.Models.Configuration;
 using NevesCS.AspNetCore.Adapters;
+using NevesCS.NonStatic.Services.Vendor;
 using NevesCS.Tests.Mocks;
 
 using FluentAssertions;
@@ -15,7 +16,7 @@ namespace NevesCS.Tests.AspNetCore.Adapters
     {
         private readonly DotnetHttpClient _sut;
 
-        private readonly NewtonsoftJsonClient _newtonsoftJsonClient;
+        private readonly NewtonsoftJsonParser _newtonsoftJsonClient;
 
         private readonly Mock<IOptions<HttpConfig>> _appConfigMock;
 
@@ -53,7 +54,7 @@ namespace NevesCS.Tests.AspNetCore.Adapters
                     NumberOfHttpRetries = 1,
                 });
 
-            _newtonsoftJsonClient = new NewtonsoftJsonClient();
+            _newtonsoftJsonClient = new NewtonsoftJsonParser();
             _sut = new DotnetHttpClient(_appConfigMock.Object, _httpClientMock, _newtonsoftJsonClient);
         }
 

@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 
+using NevesCS.Abstractions.Services;
 using NevesCS.AspNetCore.Abstractions.Interfaces;
 using NevesCS.AspNetCore.Abstractions.Models.Configuration;
 using NevesCS.Static.Extensions;
@@ -12,14 +13,14 @@ namespace NevesCS.AspNetCore.Adapters
     {
         private readonly HttpClient _httpClient;
 
-        private readonly IJsonClientAdapter _jsonClient;
+        private readonly IJsonParser _jsonClient;
 
         private readonly TimeSpan[] _sleepDurationPolicy;
 
         public DotnetHttpClient(
             IOptions<HttpConfig> appConfig,
             HttpClient httpClient,
-            IJsonClientAdapter jsonClient)
+            IJsonParser jsonClient)
         {
             _httpClient = httpClient.ThrowIfNull();
             _jsonClient = jsonClient.ThrowIfNull();

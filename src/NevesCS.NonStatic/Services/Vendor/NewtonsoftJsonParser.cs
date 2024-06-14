@@ -1,11 +1,16 @@
-using NevesCS.AspNetCore.Abstractions.Interfaces;
+using NevesCS.Abstractions.Services;
 
 using Newtonsoft.Json;
 
-namespace NevesCS.AspNetCore.Adapters
+namespace NevesCS.NonStatic.Services.Vendor
 {
-    public sealed class NewtonsoftJsonClient : IJsonClientAdapter
+    public sealed class NewtonsoftJsonParser : IJsonParser
     {
+        public string? SerializeObject(object source)
+        {
+            return JsonConvert.SerializeObject(source);
+        }
+
         public TResult? DeserializeObject<TResult>(string jsonString)
         {
             return JsonConvert.DeserializeObject<TResult>(jsonString);
