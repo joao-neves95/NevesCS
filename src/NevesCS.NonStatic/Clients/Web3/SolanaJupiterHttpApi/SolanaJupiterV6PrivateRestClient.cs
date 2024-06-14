@@ -1,7 +1,10 @@
 using NevesCS.Abstractions.Clients;
 using NevesCS.Abstractions.Services;
+using NevesCS.NonStatic.Clients.Web3.Solana.Exceptions;
 using NevesCS.NonStatic.Clients.Web3.Solana.Models;
+using NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Exceptions;
 using NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models;
+using NevesCS.Static.Utils.Web3.Solana;
 
 using Solnet.Rpc;
 using Solnet.Wallet;
@@ -10,62 +13,93 @@ using System.Net.Http.Json;
 
 namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
 {
+    /// <summary>
+    /// Docs: <see href="https://station.jup.ag/docs/apis/swap-api"/>
+    ///
+    /// </summary>
     public sealed class SolanaJupiterV6PrivateRestClient
         : IRequestProvider<SolanaJupiterV6SwapRequest, SolanaJupiterV6SwapTransactionResponse>
     {
-        private readonly HttpClient HttpClient;
-
         private readonly Wallet Wallet;
-
-        private readonly IRpcClient RpcClient;
 
         private readonly IJsonParser JsonParser;
 
-        public SolanaJupiterV6PrivateRestClient(Wallet wallet, IRpcClient rpcClient, IJsonParser jsonParser)
+        private readonly IHttpClientFactory HttpClientFactory;
+
+        private readonly Cluster RpcClusterType;
+
+        public SolanaJupiterV6PrivateRestClient(
+            Wallet wallet,
+            IHttpClientFactory httpClientFactory,
+            Cluster rpcClusterType,
+            IJsonParser jsonParser)
         {
             Wallet = wallet;
-            RpcClient = rpcClient;
-            HttpClient = new HttpClient();
             JsonParser = jsonParser;
+            HttpClientFactory = httpClientFactory;
+            RpcClusterType = rpcClusterType;
         }
 
-        public void Dispose()
-        {
-            HttpClient?.Dispose();
-            GC.SuppressFinalize(this);
-        }
-
+        /// <summary>
+        /// Performs a trade swap through the Jupiter aggregator.
+        ///
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="SolanaJupiterApiException"></exception>
+        /// <exception cref="SolanaRpcException"></exception>
         public async Task<SolanaJupiterV6SwapTransactionResponse?> RequestAsync(
             SolanaJupiterV6SwapRequest request,
             CancellationToken cancellationToken = default)
         {
-            // https://station.jup.ag/docs/apis/swap-api
+            if (request.Amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(request));
+            }
 
-            var quoteResponse = await GetQuoteAsync(request, cancellationToken);
+            using var httpClient = HttpClientFactory.CreateClient();
 
-            var tx = await GetSwapTransactionAsync(quoteResponse.Value, cancellationToken);
+            // TODO: Implement an RpcClient object pool Factory
+            // - https://learn.microsoft.com/en-us/aspnet/core/performance/objectpool
+            // - https://stackoverflow.com/questions/75605876/how-to-create-an-objectpool-in-net-6-for-a-custom-parameterless-class
+            var rpcClient = ClientFactory.GetClient(cluster: RpcClusterType, httpClient: httpClient);
 
-            var simulation = await RpcClient.SimulateTransactionAsync(
-               transaction: tx
-               //, replaceRecentBlockhash: true
-               );
+            var quoteResponse = await GetQuoteAsync(request, httpClient, rpcClient, cancellationToken);
 
-            //var result = await RpcClient.SendTransactionAsync(tx);
+            var tx = await GetSwapTransactionAsync(quoteResponse.Value, httpClient, cancellationToken);
 
-            // TODO: Wait until completion or error.
+            var simulation = await rpcClient.SimulateTransactionAsync(
+               transaction: tx,
+               replaceRecentBlockhash: true);
+
+            if (!simulation.WasSuccessful || simulation.ErrorData != null || simulation.Result.Value.Error != null)
+            {
+                throw new SolanaRpcException(JsonParser.SerializeObject(simulation));
+            }
+
+            var txResponse = (await rpcClient.SendTransactionAsync(tx));
+
+            if (!txResponse.WasSuccessful || txResponse.ErrorData != null)
+            {
+                throw new SolanaRpcException(JsonParser.SerializeObject(simulation));
+            }
 
             return new SolanaJupiterV6SwapTransactionResponse()
             {
-                Id = "",
+                TxId = txResponse.Result,
             };
         }
 
+        /// <summary>
+        /// Gets the Jupiter aggragator quote and route needed to perform the trade swap.
+        ///
+        /// </summary>
+        /// <exception cref="SolanaRpcException"></exception>
         public async Task<SolanaJupiterV6QuoteApiResponse?> GetQuoteAsync(
             SolanaJupiterV6SwapRequest request,
+            HttpClient httpClient,
+            IRpcClient rpcClient,
             CancellationToken cancellationToken = default)
         {
-            // TODO: Error handling.
-
             var tokenIn = request.OrderType == JupiterOrderType.Buy
                 ? request.QuoteAssetAddress
                 : request.BaseAssetAddress;
@@ -74,7 +108,13 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
                 ? request.BaseAssetAddress
                 : request.QuoteAssetAddress;
 
-            var tokenInDecimalCountRes = (await RpcClient.GetTokenAccountInfoAsync(tokenIn));
+            var tokenInDecimalCountRes = await rpcClient.GetTokenAccountInfoAsync(tokenIn);
+
+            if (!tokenInDecimalCountRes.WasSuccessful || tokenInDecimalCountRes.ErrorData != null)
+            {
+                throw new SolanaRpcException(JsonParser.SerializeObject(tokenInDecimalCountRes));
+            }
+
             var tokenInDecimalCount = JsonParser
                 .DeserializeObject<RawRpcResponse<TokenAccountInfoResponse>>(tokenInDecimalCountRes.RawRpcResponse)
                 .Result.Value.Data.Parsed.Info.Decimals;
@@ -93,23 +133,25 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
              */
             var splippageBps = request.SlippagePercentage * 100;
 
-            var quoteResponse = (await HttpClient.GetFromJsonAsync<SolanaJupiterV6QuoteApiResponse>(
+            return (await httpClient.GetFromJsonAsync<SolanaJupiterV6QuoteApiResponse>(
                 $"{SolanaJupiterConstants.BaseUrlApiQuote}/quote"
                 + $"?inputMint={tokenIn}&outputMint={tokenOut}"
                 + $"&amount={amountIn}"
                 + $"&slippageBps={splippageBps}",
                 cancellationToken));
-
-            return quoteResponse;
         }
 
-        public async Task<byte[]?> GetSwapTransactionAsync(
+        /// <summary>
+        /// Gets the raw swap transaction to send to the Solana RPC client.
+        ///
+        /// </summary>
+        /// <exception cref="SolanaJupiterApiException"></exception>
+        public async Task<byte[]> GetSwapTransactionAsync(
             SolanaJupiterV6QuoteApiResponse quoteResponse,
+            HttpClient httpClient,
             CancellationToken cancellationToken = default)
         {
-            // TODO: Error handling.
-
-            var swapTxResponse = await HttpClient.PostAsJsonAsync(
+            var swapTxResponse = await httpClient.PostAsJsonAsync(
                 $"{SolanaJupiterConstants.BaseUrlApiQuote}/swap",
                 new SolanaJupiterV6SwapApiRequest()
                 {
@@ -118,17 +160,19 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
                 },
                 cancellationToken);
 
+            if (!swapTxResponse.IsSuccessStatusCode)
+            {
+                throw new SolanaJupiterApiException(
+                    swapTxResponse,
+                    await swapTxResponse?.RequestMessage?.Content?.ReadAsStringAsync());
+            }
+
             var swapTransactionStr = JsonParser
                 .DeserializeStream<SolanaJupiterV6SwapApiResponse>(
                     await swapTxResponse.Content.ReadAsStreamAsync(cancellationToken))
                 .SwapTransaction;
 
-            var txData = Convert.FromBase64String(swapTransactionStr);
-            var txMessage = txData[(1 + 64 * 2)..]; // Advance sig count byte + signature bytes.
-            var signature = Wallet.Account.PrivateKey.Sign(txMessage);
-            Array.Copy(signature, 0, txData, 1, signature.Length);
-
-            return txData;
+            return SolanaTransactionUtils.SignRawTransaction(swapTransactionStr, Wallet);
         }
     }
 }

@@ -1,6 +1,6 @@
 namespace NevesCS.Abstractions.Clients
 {
-    public interface IRequestProvider<TRequest, TResponse> : IDisposable
+    public interface IRequestProvider<TRequest, TResponse>
     {
         public Task<TResponse?> RequestAsync(
             TRequest request,

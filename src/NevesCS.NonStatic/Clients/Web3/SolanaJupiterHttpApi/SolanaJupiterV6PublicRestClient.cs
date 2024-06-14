@@ -1,5 +1,6 @@
 using NevesCS.Abstractions.Clients;
 using NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models;
+using NevesCS.Static.Utils;
 
 using System.Net.Http.Json;
 
@@ -8,12 +9,11 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
     public sealed class SolanaJupiterV6PublicRestClient
         : IRequestProvider<SolanaJupiterV6GetPriceRequest, SolanaJupiterV6GetPriceApiResponse>
     {
-        private readonly HttpClient HttpClient = new();
+        private readonly IHttpClientFactory HttpClientFactory;
 
-        public void Dispose()
+        public SolanaJupiterV6PublicRestClient(IHttpClientFactory httpClientFactory)
         {
-            HttpClient?.Dispose();
-            GC.SuppressFinalize(this);
+            HttpClientFactory = ObjectUtils.ThrowIfNull(httpClientFactory);
         }
 
         /// <summary>
@@ -23,7 +23,9 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
             SolanaJupiterV6GetPriceRequest request,
             CancellationToken cancellationToken = default)
         {
-            return await HttpClient.GetFromJsonAsync<SolanaJupiterV6GetPriceApiResponse>(
+            using var httpClient = HttpClientFactory.CreateClient();
+
+            return await httpClient.GetFromJsonAsync<SolanaJupiterV6GetPriceApiResponse>(
                 $"{SolanaJupiterConstants.BaseUrlApiPrice}/price?ids={string.Join(',', request.Ids)}&vsToken={request.VsToken}",
                 cancellationToken);
         }
