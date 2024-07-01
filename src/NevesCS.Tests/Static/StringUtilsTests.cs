@@ -17,10 +17,10 @@ namespace NevesCS.Tests.Static
         [InlineData("ABC", "abc", true)]
         [InlineData("abc", "ABC", true)]
         [InlineData("abc", "ABc", true)]
-        public void EqualsIgnoreCase_Should_Pass(string source, string target, bool expected)
+        public void EqualsIgnoreCase_Should_Pass(string? source, string? target, bool expected)
         {
-            source.EqualsIgnoreCase(target).Should().Be(expected);
-            StringUtils.EqualsIgnoreCase(source, target).Should().Be(expected);
+            source.EqualsIgnoreCase(target!).Should().Be(expected);
+            StringUtils.EqualsIgnoreCase(source, target!).Should().Be(expected);
         }
     }
 }
