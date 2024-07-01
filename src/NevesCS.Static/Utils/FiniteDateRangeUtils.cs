@@ -1,17 +1,22 @@
+using NevesCS.Abstractions.Types;
 using NevesCS.NonStatic.Models.ValueTypes;
-using NevesCS.NonStatic.Models.ValueTypes.Traits;
 using NevesCS.Static.Constants;
 
 namespace NevesCS.Static.Utils
 {
     public static class FiniteDateRangeUtils
     {
-        public static IEnumerable<FiniteDateRangeValue> SplitByDays(IToFiniteDateRangeValueConvertible range, int daysToSplitBy)
+        public static FiniteDateRangeValue ToFiniteDateRangeValue(IFiniteDateRange range)
         {
-            return SplitByDays(range.ToFiniteDateRangeValue(), daysToSplitBy);
+            return new FiniteDateRangeValue(range.Start, range.End);
         }
 
-        public static IEnumerable<FiniteDateRangeValue> SplitByDays(FiniteDateRangeValue range, int daysToSplitBy)
+        public static IEnumerable<FiniteDateRangeValue> SplitByDays(INonFiniteDateRange range, int daysToSplitBy)
+        {
+            return SplitByDays(NonFiniteDateRangeUtils.ToFiniteDateRangeValue(range), daysToSplitBy);
+        }
+
+        public static IEnumerable<FiniteDateRangeValue> SplitByDays(IFiniteDateRange range, int daysToSplitBy)
         {
             if (daysToSplitBy == Ints.One)
             {
@@ -49,7 +54,7 @@ namespace NevesCS.Static.Utils
             }
         }
 
-        public static IEnumerable<FiniteDateRangeValue> SplitIntoDailyRanges(FiniteDateRangeValue range)
+        public static IEnumerable<FiniteDateRangeValue> SplitIntoDailyRanges(IFiniteDateRange range)
         {
             var currentDuration = TimeSpan.Zero;
             var currentStart = range.Start;

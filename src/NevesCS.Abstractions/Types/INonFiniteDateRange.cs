@@ -1,10 +1,11 @@
 namespace NevesCS.Abstractions.Types
 {
     public interface INonFiniteDateRange
-        : IDateRange,
-          IEqualityComparer<INonFiniteDateRange>,
+        : IEqualityComparer<INonFiniteDateRange>,
           IEquatable<INonFiniteDateRange>
     {
+        public DateTimeOffset Start { get; }
+
         public DateTimeOffset? End { get; }
     }
 }
