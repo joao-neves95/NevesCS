@@ -4,16 +4,16 @@ namespace NevesCS.NonStatic.Collections
 {
     public class FixedLengthAutoDequeue<T> : IEnumerable<T>
     {
-        private readonly int FixedSize;
+        private readonly uint FixedSize;
 
         private readonly LinkedList<T> Data = new();
 
-        public FixedLengthAutoDequeue(int fixedSize)
+        public FixedLengthAutoDequeue(uint fixedSize)
         {
             FixedSize = fixedSize;
         }
 
-        public FixedLengthAutoDequeue(int fixedSize, IEnumerable<T> initValues)
+        public FixedLengthAutoDequeue(uint fixedSize, IEnumerable<T> initValues)
         {
             FixedSize = fixedSize;
 
