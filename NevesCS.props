@@ -10,6 +10,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
+    <!--<IsTrimmable>true</IsTrimmable>-->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
