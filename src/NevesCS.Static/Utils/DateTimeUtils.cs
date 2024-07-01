@@ -46,18 +46,22 @@ namespace NevesCS.Static.Utils
                 sourceDate.Offset);
         }
 
-        /// <summary>
-        ///  Gets a <see cref="System.DateTime"/> value that represents the date component of the current System.DateTimeOffset object.
-        ///
-        /// </summary>
-        public static DateTimeOffset GetDateWithOffset(DateTimeOffset dateTimeOffset)
-        {
-            return From(dateTimeOffset.Date, dateTimeOffset.Offset);
-        }
-
         public static TimeSpan GetMachineOffset()
         {
             return DateTimeOffset.Now.Offset;
+        }
+
+        public static DateTimeOffset SetTime(
+            DateTimeOffset sourceDateTime,
+            double? hours = null,
+            double? minutes = null,
+            double? seconds = null,
+            double? milliseconds = null,
+            double? microseconds = null)
+        {
+            return From(
+                SetTime(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds),
+                sourceDateTime.Offset);
         }
 
         public static DateTime SetTime(
@@ -98,17 +102,9 @@ namespace NevesCS.Static.Utils
             return newDate;
         }
 
-        public static DateTimeOffset SetHours(
-            DateTimeOffset sourceDateTime,
-            double? hours = null,
-            double? minutes = null,
-            double? seconds = null,
-            double? milliseconds = null,
-            double? microseconds = null)
+        public static DateTimeOffset SetTicks(DateTimeOffset sourceDateTime, long ticks)
         {
-            return new DateTimeOffset(
-                SetTime(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds),
-                sourceDateTime.Offset);
+            return From(SetTicks(sourceDateTime.DateTime, ticks), sourceDateTime.Offset);
         }
 
         public static DateTime SetTicks(DateTime sourceDateTime, long ticks)
@@ -116,9 +112,9 @@ namespace NevesCS.Static.Utils
             return ToStartOfDay(sourceDateTime).AddTicks(ticks);
         }
 
-        public static DateTimeOffset SetTicks(DateTimeOffset sourceDateTime, long ticks)
+        public static DateTimeOffset ToNextDayOfWeek(DateTimeOffset sourceDateTime, DayOfWeek targetDayOfWeek)
         {
-            return new DateTimeOffset(SetTicks(sourceDateTime.DateTime, ticks), sourceDateTime.Offset);
+            return From(ToNextDayOfWeek(sourceDateTime.DateTime, targetDayOfWeek), sourceDateTime.Offset);
         }
 
         public static DateTime ToNextDayOfWeek(DateTime sourceDateTime, DayOfWeek targetDayOfWeek)
@@ -126,9 +122,9 @@ namespace NevesCS.Static.Utils
             return sourceDateTime.AddDays(targetDayOfWeek - sourceDateTime.DayOfWeek);
         }
 
-        public static DateTimeOffset ToNextDayOfWeek(DateTimeOffset sourceDateTime, DayOfWeek targetDayOfWeek)
+        public static DateTimeOffset ToStartOfDay(DateTimeOffset date)
         {
-            return sourceDateTime.AddDays(targetDayOfWeek - sourceDateTime.DayOfWeek);
+            return From(ToStartOfDay(date.DateTime), date.Offset);
         }
 
         public static DateTime ToStartOfDay(DateTime date)
@@ -136,9 +132,9 @@ namespace NevesCS.Static.Utils
             return date.AddTicks(-date.TimeOfDay.Ticks);
         }
 
-        public static DateTimeOffset ToStartOfDay(DateTimeOffset date)
+        public static DateTimeOffset ToEndOfDay(DateTimeOffset date)
         {
-            return date.AddTicks(-date.TimeOfDay.Ticks);
+            return From(ToEndOfDay(date.DateTime), date.Offset);
         }
 
         public static DateTime ToEndOfDay(DateTime date)
@@ -146,9 +142,9 @@ namespace NevesCS.Static.Utils
             return ToStartOfDay(date).AddDays(Ints.One).AddTicks(-Ints.One);
         }
 
-        public static DateTimeOffset ToEndOfDay(DateTimeOffset date)
+        public static DateTimeOffset ToStartOfWeek(DateTimeOffset date)
         {
-            return ToStartOfDay(date).AddDays(Ints.One).AddTicks(-Ints.One);
+            return From(ToStartOfWeek(date.DateTime), date.Offset);
         }
 
         public static DateTime ToStartOfWeek(DateTime date)
@@ -182,13 +178,16 @@ namespace NevesCS.Static.Utils
             return newDate;
         }
 
-        public static DateTimeOffset ToStartOfWeek(DateTimeOffset date)
-        {
-            return new DateTimeOffset(ToStartOfWeek(date.DateTime), date.Offset);
-        }
-
         public static DateTimeOffset ToNext(
             DateTimeOffset source,
+            TimeComponent timeComponent,
+            double componentQuantity = Ints.One)
+        {
+            return From(ToNext(source.DateTime, timeComponent, componentQuantity), source.Offset);
+        }
+
+        public static DateTime ToNext(
+            DateTime source,
             TimeComponent timeComponent,
             double componentQuantity = Ints.One)
         {
