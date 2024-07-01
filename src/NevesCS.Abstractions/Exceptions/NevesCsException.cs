@@ -1,5 +1,8 @@
-namespace NevesCS.NonStatic.Models.Exceptions
+using System.Diagnostics.CodeAnalysis;
+
+namespace NevesCS.Abstractions.Exceptions
 {
+    [ExcludeFromCodeCoverage]
     public class NevesCsException : Exception
     {
         public NevesCsException() : base()

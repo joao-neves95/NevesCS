@@ -1,9 +1,10 @@
-using NevesCS.Abstractions.Clients;
+using NevesCS.Abstractions.Clients.Web3.Solana.Exceptions;
+using NevesCS.Abstractions.Clients.Web3.Solana.Models;
+using NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi;
+using NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Exceptions;
+using NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Models;
 using NevesCS.Abstractions.Services;
-using NevesCS.NonStatic.Clients.Web3.Solana.Exceptions;
-using NevesCS.NonStatic.Clients.Web3.Solana.Models;
-using NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Exceptions;
-using NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models;
+using NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Abstractions;
 using NevesCS.Static.Utils.Web3.Solana;
 
 using Solnet.Rpc;
@@ -17,8 +18,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
     /// Docs: <see href="https://station.jup.ag/docs/apis/swap-api"/>
     ///
     /// </summary>
-    public sealed class SolanaJupiterV6PrivateRestClient
-        : IRequestProvider<SolanaJupiterV6SwapRequest, SolanaJupiterV6SwapTransactionResponse>
+    public sealed class SolanaJupiterV6PrivateRestClient : ISolanaJupiterV6PrivateClient, ISolanaJupiterV6PrivateRpcClient
     {
         private readonly Wallet Wallet;
 
@@ -47,7 +47,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="SolanaJupiterApiException"></exception>
         /// <exception cref="SolanaRpcException"></exception>
-        public async Task<SolanaJupiterV6SwapTransactionResponse?> RequestAsync(
+        public async Task<SolanaJupiterV6SwapTransactionResponse?> SwapAsync(
             SolanaJupiterV6SwapRequest request,
             CancellationToken cancellationToken = default)
         {
@@ -61,7 +61,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
             // TODO: Implement an RpcClient object pool Factory
             // - https://learn.microsoft.com/en-us/aspnet/core/performance/objectpool
             // - https://stackoverflow.com/questions/75605876/how-to-create-an-objectpool-in-net-6-for-a-custom-parameterless-class
-            var rpcClient = ClientFactory.GetClient(cluster: RpcClusterType, httpClient: httpClient);
+            var rpcClient = CreateNewRpcClient(httpClient);
 
             var quoteResponse = await GetQuoteAsync(request, httpClient, rpcClient, cancellationToken);
 
@@ -87,6 +87,13 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
             {
                 TxId = txResponse.Result,
             };
+        }
+
+        public async Task<SolanaJupiterV6QuoteApiResponse?> GetQuoteAsync(SolanaJupiterV6SwapRequest request, CancellationToken cancellationToken = default)
+        {
+            var httpClient = HttpClientFactory.CreateClient();
+
+            return await GetQuoteAsync(request, httpClient, CreateNewRpcClient(httpClient), cancellationToken);
         }
 
         /// <summary>
@@ -141,6 +148,11 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
                 cancellationToken));
         }
 
+        public async Task<byte[]> GetSwapTransactionAsync(SolanaJupiterV6QuoteApiResponse quoteResponse, CancellationToken cancellationToken = default)
+        {
+            return await GetSwapTransactionAsync(quoteResponse, HttpClientFactory.CreateClient(), cancellationToken);
+        }
+
         /// <summary>
         /// Gets the raw swap transaction to send to the Solana RPC client.
         ///
@@ -173,6 +185,11 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
                 .SwapTransaction;
 
             return SolanaTransactionUtils.SignRawTransaction(swapTransactionStr, Wallet);
+        }
+
+        private IRpcClient CreateNewRpcClient(HttpClient httpClient)
+        {
+            return ClientFactory.GetClient(cluster: RpcClusterType, httpClient: httpClient);
         }
     }
 }

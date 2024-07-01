@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace NevesCS.NonStatic.Clients.Web3.Solana.Models
+namespace NevesCS.Abstractions.Clients.Web3.Solana.Models
 {
+    [ExcludeFromCodeCoverage]
     public sealed record TokenAccountInfoResponse
     {
         [JsonPropertyName("type")]
@@ -11,6 +13,7 @@ namespace NevesCS.NonStatic.Clients.Web3.Solana.Models
         public TokenAccountInfoResponseResultValueDataParsedInfo Info { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public sealed record TokenAccountInfoResponseResultValueDataParsedInfo
     {
         [JsonPropertyName("decimals")]

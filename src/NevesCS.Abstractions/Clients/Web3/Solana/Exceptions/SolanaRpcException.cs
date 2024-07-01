@@ -1,6 +1,6 @@
-using NevesCS.NonStatic.Models.Exceptions;
+using NevesCS.Abstractions.Exceptions;
 
-namespace NevesCS.NonStatic.Clients.Web3.Solana.Exceptions
+namespace NevesCS.Abstractions.Clients.Web3.Solana.Exceptions
 {
     public class SolanaRpcException : NevesCsException
     {

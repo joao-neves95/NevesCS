@@ -1,4 +1,4 @@
-namespace NevesCS.NonStatic.Models.Exceptions
+namespace NevesCS.Abstractions.Exceptions
 {
     public class HttpNevesCsException : NevesCsException
     {

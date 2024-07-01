@@ -1,7 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models
+namespace NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Models
 {
+    [ExcludeFromCodeCoverage]
     public record SolanaJupiterV6SwapTransactionResponse
     {
         public required string TxId { get; init; }

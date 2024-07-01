@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models
+namespace NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Models
 {
+    [ExcludeFromCodeCoverage]
     public record SolanaJupiterV6GetPriceApiResponse
     {
         [JsonPropertyName("data")]
@@ -11,6 +13,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models
         public decimal TimeTaken { get; set; }
     }
 
+    [ExcludeFromCodeCoverage]
     public record SolanaJupiterTokenPriceInfo
     {
         [JsonPropertyName("id")]

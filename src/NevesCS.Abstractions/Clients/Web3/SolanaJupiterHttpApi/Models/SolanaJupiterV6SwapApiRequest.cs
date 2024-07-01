@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models
+namespace NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Models
 {
+    [ExcludeFromCodeCoverage]
     public readonly record struct SolanaJupiterV6SwapApiRequest
     {
         [JsonPropertyName("quoteResponse")]

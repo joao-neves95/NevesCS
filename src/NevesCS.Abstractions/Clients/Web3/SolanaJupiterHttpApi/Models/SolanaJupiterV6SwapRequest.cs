@@ -1,5 +1,8 @@
-namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Models
+using System.Diagnostics.CodeAnalysis;
+
+namespace NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Models
 {
+    [ExcludeFromCodeCoverage]
     public readonly record struct SolanaJupiterV6SwapRequest
     {
         public required readonly string BaseAssetAddress { get; init; }
