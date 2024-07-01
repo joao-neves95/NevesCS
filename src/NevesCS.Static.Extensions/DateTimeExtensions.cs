@@ -6,15 +6,6 @@ namespace NevesCS.Static.Extensions
 {
     public static class DateTimeExtensions
     {
-        /// <summary>
-        ///  Gets a <see cref="System.DateTime"/> value that represents the date component of the current System.DateTimeOffset object.
-        ///
-        /// </summary>
-        public static DateTimeOffset GetDateWithOffset(this DateTimeOffset source)
-        {
-            return DateTimeUtils.GetDateWithOffset(source);
-        }
-
         public static DateTime SetTime(
             this DateTime sourceDateTime,
             double? hours = null,
@@ -34,7 +25,7 @@ namespace NevesCS.Static.Extensions
             double? milliseconds = null,
             double? microseconds = null)
         {
-            return DateTimeUtils.SetTime(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds);
+            return DateTimeUtils.SetTime(sourceDateTime, hours, minutes, seconds, milliseconds, microseconds);
         }
 
         public static DateTime SetTicks(this DateTime sourceDateTime, long ticks)
@@ -89,6 +80,14 @@ namespace NevesCS.Static.Extensions
 
         public static DateTimeOffset ToNext(
             this DateTimeOffset source,
+            TimeComponent timeComponent,
+            double componentQuantity = Ints.One)
+        {
+            return DateTimeUtils.ToNext(source, timeComponent, componentQuantity);
+        }
+
+        public static DateTime ToNext(
+            this DateTime source,
             TimeComponent timeComponent,
             double componentQuantity = Ints.One)
         {

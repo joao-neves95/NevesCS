@@ -1,10 +1,12 @@
-using NevesCS.Abstractions.Traits;
+using NevesCS.Abstractions.Types;
+
+using System.Diagnostics.CodeAnalysis;
 
 namespace NevesCS.NonStatic.Models.ValueTypes
 {
-    public readonly struct FiniteDateRangeValue : IConvertible<(DateTimeOffset start, DateTimeOffset end)>
+    public readonly struct FiniteDateRangeValue : IFiniteDateRange
     {
-        public FiniteDateRangeValue(DateTimeOffset start, DateTimeOffset end)
+        public FiniteDateRangeValue([NotNull, DisallowNull] DateTimeOffset start, DateTimeOffset end)
         {
             if (start == default)
             {
@@ -24,18 +26,6 @@ namespace NevesCS.NonStatic.Models.ValueTypes
 
         public DateTimeOffset End { get; }
 
-        public override readonly int GetHashCode()
-        {
-            return HashCode.Combine(Start, End);
-        }
-
-        public override readonly bool Equals(object obj)
-        {
-            return obj is FiniteDateRangeValue dr
-                && dr.Start == Start
-                && dr.End == End;
-        }
-
         public static bool operator ==(FiniteDateRangeValue left, FiniteDateRangeValue right)
         {
             return left.Equals(right);
@@ -46,9 +36,29 @@ namespace NevesCS.NonStatic.Models.ValueTypes
             return !left.Equals(right);
         }
 
-        public (DateTimeOffset start, DateTimeOffset end) To<Out>()
+        public override bool Equals([NotNullWhen(true)] object? obj)
         {
-            return (Start, End);
+            return obj is IFiniteDateRange dr && this.Equals(dr);
+        }
+
+        public bool Equals(IFiniteDateRange? other)
+        {
+            return Start == other?.Start && End == other.End;
+        }
+
+        public bool Equals(IFiniteDateRange? x, IFiniteDateRange? y)
+        {
+            return x?.Equals(y) ?? false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Start, End);
+        }
+
+        public int GetHashCode([DisallowNull] IFiniteDateRange obj)
+        {
+            return HashCode.Combine(Start, End, obj.Start, obj.End);
         }
     }
 }
