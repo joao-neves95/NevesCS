@@ -9,9 +9,9 @@ namespace NevesCS.Static.Extensions
             return ObjectUtils.IsNull(@object);
         }
 
-        public static T ThrowIfNull<T>(this T? @object)
+        public static T ThrowIfNull<T>(this T? @object, Type type)
         {
-            return ObjectUtils.ThrowIfNull(@object);
+            return ObjectUtils.ThrowIfNull(@object, type);
         }
 
         public static T ThrowIfNull<T>(this T? @object, string parameterName)
@@ -43,19 +43,19 @@ namespace NevesCS.Static.Extensions
         /// Enumerates the same instance reference (<paramref name="source"/>) times the number defined by <paramref name="repeatTimes"/>.
         ///
         /// </summary>
-        public static IEnumerable<T> Enumerate<T>(this T source, int repeatTimes = 0)
+        public static IEnumerable<T> Enumerate<T>(this T source, int count)
         {
-            return ObjectUtils.Enumerate(source, repeatTimes);
+            return ObjectUtils.Enumerate(source, count);
         }
 
         /// <summary>
-        /// Enumerates clones of the source instance times the number defined by <paramref name="repeatTimes"/>.
+        /// Enumerates clones of the source instance times the number defined by <paramref name="count"/>.
         ///
         /// </summary>
-        public static IEnumerable<T> EnumerateClones<T>(this ICloneable source, int repeatTimes = 0)
+        public static IEnumerable<T> EnumerateClones<T>(this ICloneable source, int count)
             where T : ICloneable
         {
-            return ObjectUtils.EnumerateClones<T>(source, repeatTimes);
+            return ObjectUtils.EnumerateClones<T>(source, count);
         }
 
         /// <summary>

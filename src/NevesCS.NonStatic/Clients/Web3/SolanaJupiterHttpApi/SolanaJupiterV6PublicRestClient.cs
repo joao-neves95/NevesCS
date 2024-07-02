@@ -12,7 +12,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
 
         public SolanaJupiterV6PublicRestClient(IHttpClientFactory httpClientFactory)
         {
-            HttpClientFactory = ObjectUtils.ThrowIfNull(httpClientFactory);
+            HttpClientFactory = ObjectUtils.ThrowIfNull(httpClientFactory, typeof(IHttpClientFactory));
         }
 
         /// <summary>
