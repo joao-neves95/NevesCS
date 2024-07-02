@@ -30,54 +30,53 @@ namespace NevesCS.Static.Utils
         }
 
         /// <summary>
-        /// Get an item by key, or adds a new return value from the <paramref name="valueFactory"/>.
+        /// Gets an item by key, or adds a new <typeparamref name="TValue"/> instance.
+        ///
+        /// </summary>
+        public static TValue GetOrCreate<TKey, TValue>(
+            IDictionary<TKey, TValue> target,
+            TKey key)
+            where TValue : new()
+        {
+            if (!target.TryGetValue(key, out TValue? value))
+            {
+                value = new TValue();
+                target.Add(key, value);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Gets an item by key, or adds a new value from the <paramref name="valueFactory"/>.
         ///
         /// </summary>
         public static TValue GetOrCreate<TKey, TValue>(
             IDictionary<TKey, TValue> target,
             TKey key,
-            Func<TValue>? valueFactory = null)
-            where TValue : new()
+            Func<TValue> valueFactory)
         {
-            if (!target.TryGetValue(key, out TValue? existingValue))
+            if (!target.TryGetValue(key, out TValue? value))
             {
-                if (valueFactory == null)
-                {
-                    existingValue = new TValue();
-                }
-                else
-                {
-                    existingValue = valueFactory();
-                }
-
-                target.Add(key, existingValue);
+                value = valueFactory();
+                target.Add(key, value);
             }
 
-            return existingValue;
+            return value;
         }
 
         /// <summary>
-        /// Get an item by key, or adds a new return value from the <paramref name="valueFactory"/>.
+        /// Get an item by key, or adds a new return value from the <paramref name="asyncValueFactory"/>.
         ///
         /// </summary>
         public static async Task<TValue> GetOrCreateAsync<TKey, TValue>(
             IDictionary<TKey, TValue> target,
             TKey key,
-            Func<Task<TValue>>? valueFactory = null)
-
-            where TValue : new()
+            Func<Task<TValue>> asyncValueFactory)
         {
             if (!target.TryGetValue(key, out TValue? existingValue))
             {
-                if (valueFactory == null)
-                {
-                    existingValue = new TValue();
-                }
-                else
-                {
-                    existingValue = await valueFactory();
-                }
-
+                existingValue = await asyncValueFactory();
                 target.Add(key, existingValue);
             }
 
