@@ -7,7 +7,7 @@ namespace NevesCS.Static.Utils
             return new string(source);
         }
 
-        public static bool EqualsIgnoreCase(string source, string target)
+        public static bool EqualsIgnoreCase(string? source, string target)
         {
             return source?.Equals(target, StringComparison.OrdinalIgnoreCase) == true;
         }

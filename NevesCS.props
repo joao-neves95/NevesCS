@@ -5,11 +5,12 @@
     <RepositoryUrl>https://github.com/joao-neves95/NevesCS</RepositoryUrl>
 
     <!--<TargetFrameworks>net6.0;net7.0</TargetFrameworks>-->
-    <TargetFramework>net7.0</TargetFramework>
-    <LangVersion>11</LangVersion>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
+    <!--<IsTrimmable>true</IsTrimmable>-->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -17,7 +18,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
 
-    <FrameworkVersion>0.4.0</FrameworkVersion>
+    <FrameworkVersion>0.5.0</FrameworkVersion>
 
     <SwashbuckleVersion>6.5.0</SwashbuckleVersion>
   </PropertyGroup>

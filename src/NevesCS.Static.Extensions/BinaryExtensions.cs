@@ -9,6 +9,7 @@ namespace NevesCS.Static.Extensions
         ///
         /// </summary>
         public static byte[] SerializeObjectIntoRawBytes<T>(this T target)
+            where T : class
         {
             return BinaryUtils.SerializeObject(target);
         }

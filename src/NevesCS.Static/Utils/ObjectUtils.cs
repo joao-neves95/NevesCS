@@ -9,23 +9,11 @@ namespace NevesCS.Static.Utils
             return @object == null;
         }
 
-        public static T? SetIfNotNull<T>(T? target, T? newValue)
-        {
-            if (IsNull(newValue))
-            {
-                return target;
-            }
-
-            target = newValue;
-
-            return target;
-        }
-
-        public static T ThrowIfNull<T>(T? @object)
+        public static T ThrowIfNull<T>(T? @object, Type type)
         {
             if (@object == null)
             {
-                throw new ArgumentNullException(typeof(T).Name);
+                throw new ArgumentNullException(type.Name);
             }
 
             return @object;
@@ -39,6 +27,23 @@ namespace NevesCS.Static.Utils
             }
 
             return @object;
+        }
+
+        public static T Set<T>(T target, Action<T> setter)
+        {
+            setter(target);
+
+            return target;
+        }
+
+        public static T? SetIfNotNull<T>(T? target, Action<T> setter)
+        {
+            if (IsNull(target))
+            {
+                return target;
+            }
+
+            return Set(target!, setter);
         }
 
         public static TOut Into<TIn, TOut>(TIn source, Func<TIn, TOut> convertFunction)
@@ -59,28 +64,46 @@ namespace NevesCS.Static.Utils
         }
 
         /// <summary>
-        /// Repeats the same instance (<paramref name="source"/>) times the number defined by <paramref name="repeatTimes"/>.
+        /// Repeats the same instance (<paramref name="source"/>) times the number defined by <paramref name="count"/>.
         ///
         /// </summary>
-        public static IEnumerable<T> Enumerate<T>(T source, int repeatTimes)
+        public static IEnumerable<T> Enumerate<T>(T source, int count)
         {
-            for (int i = 1; i <= repeatTimes; ++i)
+            for (int i = 1; i <= count; ++i)
             {
                 yield return source;
             }
         }
 
         /// <summary>
-        /// Enumerates clones of the source instance times the number defined by <paramref name="repeatTimes"/>.
+        /// Enumerates clones of the source instance times the number defined by <paramref name="count"/>.
         ///
         /// </summary>
-        public static IEnumerable<T> EnumerateClones<T>(ICloneable source, int repeatTimes = 0)
+        public static IEnumerable<T> EnumerateClones<T>(ICloneable source, int count = 0)
             where T : ICloneable
         {
-            for (int i = 1; i <= repeatTimes; ++i)
+            for (int i = 1; i <= count; ++i)
             {
                 yield return (T)source.Clone();
             }
+        }
+
+        /// <summary>
+        /// Creates a new array with the object.
+        ///
+        /// </summary>
+        public static object[] ToArray(object source)
+        {
+            return ToArray<object>(source);
+        }
+
+        /// <summary>
+        /// Creates a new array with the object.
+        ///
+        /// </summary>
+        public static T[] ToArray<T>(object source)
+        {
+            return new[] { (T)source };
         }
 
         /// <summary>

@@ -9,14 +9,9 @@ namespace NevesCS.Static.Extensions
             return ObjectUtils.IsNull(@object);
         }
 
-        public static T? SetIfNotNull<T>(this T? target, T? newValue)
+        public static T ThrowIfNull<T>(this T? @object, Type type)
         {
-            return ObjectUtils.SetIfNotNull(target, newValue);
-        }
-
-        public static T ThrowIfNull<T>(this T? @object)
-        {
-            return ObjectUtils.ThrowIfNull(@object);
+            return ObjectUtils.ThrowIfNull(@object, type);
         }
 
         public static T ThrowIfNull<T>(this T? @object, string parameterName)
@@ -29,6 +24,16 @@ namespace NevesCS.Static.Extensions
             return target.Contains(@object);
         }
 
+        public static T Set<T>(this T target, Action<T> setter)
+        {
+            return ObjectUtils.Set(target, setter);
+        }
+
+        public static T? SetIfNotNull<T>(this T? target, Action<T> setter)
+        {
+            return ObjectUtils.SetIfNotNull(target, setter);
+        }
+
         public static TOut Into<TIn, TOut>(this TIn source, Func<TIn, TOut> convertFunction)
         {
             return ObjectUtils.Into(source, convertFunction);
@@ -38,19 +43,37 @@ namespace NevesCS.Static.Extensions
         /// Enumerates the same instance reference (<paramref name="source"/>) times the number defined by <paramref name="repeatTimes"/>.
         ///
         /// </summary>
-        public static IEnumerable<T> Enumerate<T>(this T source, int repeatTimes = 0)
+        public static IEnumerable<T> Enumerate<T>(this T source, int count)
         {
-            return ObjectUtils.Enumerate(source, repeatTimes);
+            return ObjectUtils.Enumerate(source, count);
         }
 
         /// <summary>
-        /// Enumerates clones of the source instance times the number defined by <paramref name="repeatTimes"/>.
+        /// Enumerates clones of the source instance times the number defined by <paramref name="count"/>.
         ///
         /// </summary>
-        public static IEnumerable<T> EnumerateClones<T>(this ICloneable source, int repeatTimes = 0)
+        public static IEnumerable<T> EnumerateClones<T>(this ICloneable source, int count)
             where T : ICloneable
         {
-            return ObjectUtils.EnumerateClones<T>(source, repeatTimes);
+            return ObjectUtils.EnumerateClones<T>(source, count);
+        }
+
+        /// <summary>
+        /// Creates a new array with the object.
+        ///
+        /// </summary>
+        public static object[] ToArray(this object source)
+        {
+            return ObjectUtils.ToArray(source);
+        }
+
+        /// <summary>
+        /// Creates a new array with the object.
+        ///
+        /// </summary>
+        public static T[] ToArray<T>(this object source)
+        {
+            return ObjectUtils.ToArray<T>(source);
         }
 
         /// <summary>

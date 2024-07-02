@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\NevesCS.props" />
+
+  <PropertyGroup>
+    <Version>$(FrameworkVersion)</Version>
+
+    <PackageId>NevesCS.NonStatic.Models</PackageId>
+    <Product>NevesCS.NonStatic.Models</Product>
+    <Description>Library with reference and value type models.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NevesCS.Abstractions\NevesCS.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

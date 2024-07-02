@@ -9,7 +9,7 @@ namespace NevesCS.Static.Extensions
             return new string(source);
         }
 
-        public static bool EqualsIgnoreCase(this string source, string target)
+        public static bool EqualsIgnoreCase(this string? source, string target)
         {
             return StringUtils.EqualsIgnoreCase(source, target);
         }

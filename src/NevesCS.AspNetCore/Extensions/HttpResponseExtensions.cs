@@ -1,3 +1,4 @@
+using NevesCS.Abstractions.Services;
 using NevesCS.AspNetCore.Abstractions.Interfaces;
 
 using Newtonsoft.Json;
@@ -15,7 +16,9 @@ namespace NevesCS.AspNetCore.Extensions
         /// <param name="response"></param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
-        public static async Task<T?> ReadContentAsAsync<T>(this HttpResponseMessage response, CancellationToken cancellationToken = default)
+        public static async Task<T?> ReadContentAsAsync<T>(
+            this HttpResponseMessage response,
+            CancellationToken cancellationToken = default)
         {
             var dataAsString = await response.ReadContentAsStringAsync(cancellationToken);
 
@@ -34,13 +37,13 @@ namespace NevesCS.AspNetCore.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="response"></param>
-        /// <param name="jsonClient"></param>
+        /// <param name="jsonParser"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
         public static async Task<T?> ReadContentAsAsync<T>(
             this HttpResponseMessage response,
-            IJsonClientAdapter jsonClient,
+            IJsonParser jsonParser,
             CancellationToken cancellationToken = default)
         {
             var dataAsString = await response.ReadContentAsStringAsync(cancellationToken);
@@ -50,10 +53,12 @@ namespace NevesCS.AspNetCore.Extensions
                 return default;
             }
 
-            return jsonClient.DeserializeObject<T>(dataAsString);
+            return jsonParser.DeserializeObject<T>(dataAsString);
         }
 
-        private static async Task<string?> ReadContentAsStringAsync(this HttpResponseMessage response, CancellationToken cancellationToken = default)
+        private static async Task<string?> ReadContentAsStringAsync(
+            this HttpResponseMessage response,
+            CancellationToken cancellationToken = default)
         {
             if (!response.IsSuccessStatusCode)
             {

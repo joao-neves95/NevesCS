@@ -9,44 +9,28 @@ namespace NevesCS.Tests.Static
     public class ObjectUtilsTests
     {
         [Fact]
-        public void SetIfNotNull_Should_NotSet_IfNull()
+        public void Set_Should_Set()
         {
+            const string str = "whatever";
+
             MockClass mockClass = new();
-            MockClass nullMockClass = null!;
-            mockClass.SetIfNotNull(nullMockClass).Should().NotBeNull();
-
-            object targetObj = 123;
-            object nullObject = null!;
-            targetObj.SetIfNotNull(nullObject).Should().NotBeNull();
-
-            decimal? targetNum = 123;
-            decimal? nullNum = null;
-            targetNum.SetIfNotNull(nullNum).Should().NotBeNull();
+            mockClass.SetIfNotNull(m => m.UselessString = str);
+            mockClass.UselessString.Should().Be(str);
         }
 
         [Fact]
-        public void SetIfNotNull_Should_Set_IfNotNull()
+        public void SetIfNotNull_Should_NotSet_IfNull()
         {
-            MockClass mockClass = new() { UselessList = new() { "1" } };
-            MockClass newClass = new() { UselessList = new() { "2" } };
-            mockClass.SetIfNotNull(newClass)?.UselessList[0].Should().Be("2");
+            const string str = "whatever";
 
-            MockClass mockNullClass = null!;
-            mockNullClass.SetIfNotNull(newClass)?.UselessList[0].Should().Be("2");
+            MockClass? mockClass = new();
+            mockClass.SetIfNotNull(m => m.UselessString = str);
+            mockClass.UselessString.Should().Be(str);
 
-            object targetObj = 123;
-            object newObject = 321;
-            targetObj.SetIfNotNull(newObject).Should().Be(321);
-
-            object targetNullObj = null!;
-            targetNullObj.SetIfNotNull(newObject).Should().Be(321);
-
-            decimal? targetNum = 123;
-            decimal? newNum = 321;
-            targetNum.SetIfNotNull(newNum).Should().Be(321);
-
-            decimal? targetNullNum = null;
-            targetNullNum.SetIfNotNull(newNum).Should().Be(321);
+            MockClass? nullClass = null;
+            nullClass.SetIfNotNull(m => m.UselessString = str);
+            nullClass.Should().Be(null);
+            nullClass!?.UselessString.Should().Be(null);
         }
 
         [Fact]
@@ -54,10 +38,10 @@ namespace NevesCS.Tests.Static
         {
             MockClass mockClass = null!;
 
-            MockClass action1() => mockClass.ThrowIfNull();
-            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass);
+            MockClass action1() => mockClass.ThrowIfNull(nameof(mockClass));
+            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass, nameof(mockClass));
 
-            Array.ForEach(new[] { action1, action2 }, action => action.Should().Throw<ArgumentNullException>().WithParameterName(nameof(MockClass)));
+            Array.ForEach(new[] { action1, action2 }, action => action.Should().Throw<ArgumentNullException>().WithParameterName(nameof(mockClass)));
         }
 
         [Fact]
@@ -65,8 +49,8 @@ namespace NevesCS.Tests.Static
         {
             MockClass mockClass = new();
 
-            MockClass action1() => mockClass.ThrowIfNull();
-            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass);
+            MockClass action1() => mockClass.ThrowIfNull(nameof(mockClass));
+            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass, nameof(mockClass));
 
             Array.ForEach(new[] { action1, action2 }, action => action.Should().NotThrow());
         }
@@ -111,6 +95,20 @@ namespace NevesCS.Tests.Static
             subject.EnumerateClones<DataGame>(1).ToArray().Length.Should().Be(1);
             subject.EnumerateClones<DataGame>(3).ToArray().Length.Should().Be(3);
             subject.EnumerateClones<DataGame>(10).ToArray().Length.Should().Be(10);
+        }
+
+        [Fact]
+        public void ToArray_Should_CreateNewArrayWithTheObject()
+        {
+            DataGame subject = new() { AppId = 123 };
+
+            var array1 = subject.ToArray();
+            var array2 = ObjectUtils.ToArray(subject);
+
+            array1[0].Should().BeSameAs(subject);
+            array1.Should().HaveCount(1);
+            array2[0].Should().BeSameAs(subject);
+            array2.Should().HaveCount(1);
         }
 
         [Fact]

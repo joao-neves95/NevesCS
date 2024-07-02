@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-using NevesCS.Static.Enums;
+using NevesCS.NonStatic.Models;
 using NevesCS.Static.Extensions;
 using NevesCS.Static.Utils;
 
@@ -16,6 +16,15 @@ namespace NevesCS.Tests.Static
         {
             enumValue.GetDescription().Should().Be(expected);
             EnumUtils.GetDescription(enumValue).Should().Be(expected);
+        }
+
+        [Theory]
+        [InlineData(ResultType.Failure, "Failure")]
+        [InlineData(ResultType.Warning, "Warning")]
+        [InlineData(ResultType.Success, "Success")]
+        public void Should_GetTheEnumFromTheDescriptionAttribute(ResultType enumValue, string description)
+        {
+            EnumUtils.FromDescription<ResultType>(description).Should().Be(enumValue);
         }
     }
 }
