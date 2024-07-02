@@ -22,8 +22,8 @@ namespace NevesCS.AspNetCore.Adapters
             HttpClient httpClient,
             IJsonParser jsonClient)
         {
-            _httpClient = httpClient.ThrowIfNull();
-            _jsonClient = jsonClient.ThrowIfNull();
+            _httpClient = httpClient.ThrowIfNull(nameof(httpClient));
+            _jsonClient = jsonClient.ThrowIfNull(nameof(jsonClient));
 
             _sleepDurationPolicy = GetSleepDurationPolicy(
                 !appConfig.IsNull() ? appConfig.Value.NumberOfHttpRetries : 3)

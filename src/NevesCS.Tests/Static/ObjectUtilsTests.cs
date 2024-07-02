@@ -38,10 +38,10 @@ namespace NevesCS.Tests.Static
         {
             MockClass mockClass = null!;
 
-            MockClass action1() => mockClass.ThrowIfNull();
-            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass);
+            MockClass action1() => mockClass.ThrowIfNull(nameof(mockClass));
+            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass, nameof(mockClass));
 
-            Array.ForEach(new[] { action1, action2 }, action => action.Should().Throw<ArgumentNullException>().WithParameterName(nameof(MockClass)));
+            Array.ForEach(new[] { action1, action2 }, action => action.Should().Throw<ArgumentNullException>().WithParameterName(nameof(mockClass)));
         }
 
         [Fact]
@@ -49,8 +49,8 @@ namespace NevesCS.Tests.Static
         {
             MockClass mockClass = new();
 
-            MockClass action1() => mockClass.ThrowIfNull();
-            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass);
+            MockClass action1() => mockClass.ThrowIfNull(nameof(mockClass));
+            MockClass action2() => ObjectUtils.ThrowIfNull(mockClass, nameof(mockClass));
 
             Array.ForEach(new[] { action1, action2 }, action => action.Should().NotThrow());
         }
