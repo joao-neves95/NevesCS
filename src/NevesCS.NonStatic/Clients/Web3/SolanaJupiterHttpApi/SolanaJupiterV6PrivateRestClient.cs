@@ -41,11 +41,13 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
         }
 
         /// <summary>
-        /// Performs a trade swap through the Jupiter aggregator.
+        /// Performs a trade swap through the Jupiter aggregator. <br/>
+        /// <see href="https://station.jup.ag/docs/apis/swap-api"/> <br/>
+        /// <see href="https://jup.ag/swap"/>
         ///
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        /// <exception cref="SolanaJupiterApiException"></exception>
+        /// <exception cref="SolanaJupiterApiHttpException"></exception>
         /// <exception cref="SolanaRpcException"></exception>
         public async Task<SolanaJupiterV6SwapTransactionResponse?> SwapAsync(
             SolanaJupiterV6SwapRequest request,
@@ -56,9 +58,9 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
                 throw new ArgumentOutOfRangeException(nameof(request));
             }
 
+            // TODO: Stop receiving a factory and let the client handle their own concurrency issues.
             using var httpClient = HttpClientFactory.CreateClient();
 
-            // TODO: Implement an RpcClient object pool Factory
             // - https://learn.microsoft.com/en-us/aspnet/core/performance/objectpool
             // - https://stackoverflow.com/questions/75605876/how-to-create-an-objectpool-in-net-6-for-a-custom-parameterless-class
             var rpcClient = CreateNewRpcClient(httpClient);
@@ -140,12 +142,13 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
              */
             var splippageBps = request.SlippagePercentage * 100;
 
-            return (await httpClient.GetFromJsonAsync<SolanaJupiterV6QuoteApiResponse>(
+            return await SolanaJupiterHttpApiUtils.TryGetOrThrowAsync<SolanaJupiterV6QuoteApiResponse>(
+                httpClient,
                 $"{SolanaJupiterConstants.BaseUrlApiQuote}/quote"
                 + $"?inputMint={tokenIn}&outputMint={tokenOut}"
                 + $"&amount={amountIn}"
                 + $"&slippageBps={splippageBps}",
-                cancellationToken));
+                cancellationToken);
         }
 
         public async Task<byte[]> GetSwapTransactionAsync(SolanaJupiterV6QuoteApiResponse quoteResponse, CancellationToken cancellationToken = default)
@@ -157,7 +160,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
         /// Gets the raw swap transaction to send to the Solana RPC client.
         ///
         /// </summary>
-        /// <exception cref="SolanaJupiterApiException"></exception>
+        /// <exception cref="SolanaJupiterApiHttpException"></exception>
         public async Task<byte[]> GetSwapTransactionAsync(
             SolanaJupiterV6QuoteApiResponse quoteResponse,
             HttpClient httpClient,
@@ -174,7 +177,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
 
             if (!swapTxResponse.IsSuccessStatusCode)
             {
-                throw new SolanaJupiterApiException(
+                throw new SolanaJupiterApiHttpException(
                     swapTxResponse,
                     await swapTxResponse?.RequestMessage?.Content?.ReadAsStringAsync());
             }

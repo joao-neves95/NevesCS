@@ -15,16 +15,38 @@ namespace NevesCS.Abstractions.Exceptions
         }
 
         public HttpNevesCsException(HttpResponseMessage message, string? requestContent)
-            : base(
-                  $"ERROR HTTP REQUEST" +
-                  $" - '{message?.RequestMessage?.Method?.Method}'" +
-                  $" '{message?.RequestMessage?.RequestUri}'"
-                  + (string.IsNullOrEmpty(requestContent) ? string.Empty : $": '{requestContent}'"),
-                  new HttpRequestException(
-                      message?.ReasonPhrase ?? message?.StatusCode.ToString(),
-                      null,
-                      message?.StatusCode))
+        : base(
+              BuildErrorMessage(
+                  message?.RequestMessage?.Method?.Method,
+                  message?.RequestMessage?.RequestUri.OriginalString,
+                  requestContent),
+              new HttpRequestException(
+                  message?.ReasonPhrase ?? message?.StatusCode.ToString(),
+                  null,
+                  message?.StatusCode))
         {
+        }
+
+        public HttpNevesCsException(HttpMethod httpMethod, Uri requestUri, string? requestContent, Exception? innerException)
+            : base(
+                  BuildErrorMessage(httpMethod.Method, requestUri.OriginalString, requestContent),
+                  innerException)
+        {
+        }
+
+        public HttpNevesCsException(string httpMethod, string requestUri, string? requestContent, Exception? innerException)
+            : base(
+                  BuildErrorMessage(httpMethod, requestUri, requestContent),
+                  innerException)
+        {
+        }
+
+        private static string BuildErrorMessage(string httpMethod, string requestUri, string? requestContent)
+        {
+            return "HTTP REQUEST ERROR" +
+                $" - '{httpMethod}'" +
+                $" '{requestUri}'"
+                + (string.IsNullOrEmpty(requestContent) ? string.Empty : $": '{requestContent}'");
         }
     }
 }
