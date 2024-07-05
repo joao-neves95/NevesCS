@@ -26,7 +26,9 @@ namespace NevesCS.Static.Utils
             }
         }
 
-        public static async Task<TResult> TryCatchAsync<TResult>(Func<Task<TResult>> asyncTryFunc, Func<Exception, Task<TResult>> unsafeAsyncCatchFunc)
+        public static async Task<TResult> TryCatchAsync<TResult>(
+            Func<Task<TResult>> asyncTryFunc,
+            Func<Exception, Task<TResult>> unsafeAsyncCatchFunc)
         {
             try
             {
