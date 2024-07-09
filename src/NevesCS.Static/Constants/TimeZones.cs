@@ -10,5 +10,9 @@ namespace NevesCS.Static.Constants
         public static readonly TimeZoneInfo London = TimeZoneUtils.GetTimeZone(TimeZoneIds.LONDON);
 
         public static readonly TimeZoneInfo Berlin = TimeZoneUtils.GetTimeZone(TimeZoneIds.BERLIN);
+
+        public static readonly TimeZoneInfo Istanbul = TimeZoneUtils.GetTimeZone(TimeZoneIds.ISTANBUL);
+
+        public static readonly TimeZoneInfo AustraliaLordHowe = TimeZoneUtils.GetTimeZone(TimeZoneIds.AUSTRALIA_LORD_HOWE);
     }
 }
