@@ -11,7 +11,7 @@ namespace NevesCS.Static.Utils
 
         public static T ThrowIfNull<T>(T? @object, Type type)
         {
-            if (@object == null)
+            if (IsNull(@object))
             {
                 throw new ArgumentNullException(type.Name);
             }
@@ -21,7 +21,7 @@ namespace NevesCS.Static.Utils
 
         public static T ThrowIfNull<T>(T? @object, string parameterName)
         {
-            if (@object == null)
+            if (IsNull(@object))
             {
                 throw new ArgumentNullException(parameterName);
             }
