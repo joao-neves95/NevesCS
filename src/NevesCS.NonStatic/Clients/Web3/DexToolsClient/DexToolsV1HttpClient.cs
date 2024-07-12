@@ -1,13 +1,9 @@
 using NevesCS.Abstractions.Clients.Web3.DexTools;
-using NevesCS.Abstractions.Clients.Web3.DexTools.Exceptions;
 using NevesCS.Abstractions.Clients.Web3.DexTools.Models;
 using NevesCS.Abstractions.Services;
 using NevesCS.NonStatic.Clients.Web3.DexToolsClient.Extensions;
 using NevesCS.NonStatic.Services.ThreadRateLimiters;
-using NevesCS.Static.Constants;
 using NevesCS.Static.Utils;
-
-using System.Net.Http.Json;
 
 namespace NevesCS.NonStatic.Clients.Web3.DexToolsClient
 {
