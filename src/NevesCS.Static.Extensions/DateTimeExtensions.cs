@@ -8,22 +8,22 @@ namespace NevesCS.Static.Extensions
     {
         public static DateTime SetTime(
             this DateTime sourceDateTime,
-            double? hours = null,
-            double? minutes = null,
-            double? seconds = null,
-            double? milliseconds = null,
-            double? microseconds = null)
+            int hours,
+            int minutes,
+            int seconds,
+            int milliseconds,
+            int microseconds)
         {
             return DateTimeUtils.SetTime(sourceDateTime, hours, minutes, seconds, milliseconds, microseconds);
         }
 
         public static DateTimeOffset SetTime(
             this DateTimeOffset sourceDateTime,
-            double? hours = null,
-            double? minutes = null,
-            double? seconds = null,
-            double? milliseconds = null,
-            double? microseconds = null)
+            int hours,
+            int minutes,
+            int seconds,
+            int milliseconds,
+            int microseconds)
         {
             return DateTimeUtils.SetTime(sourceDateTime, hours, minutes, seconds, milliseconds, microseconds);
         }
