@@ -4,19 +4,32 @@ namespace NevesCS.Static.Extensions
 {
     public static class DateTimeOffsetTimeZoneExtensions
     {
-        public static DateTimeOffset ToUtcOffset(this DateTimeOffset localDateTime, TimeZoneInfo sourceTimeZone)
-        {
-            return DateTimeOffsetTimeZoneUtils.ToUtcOffset(localDateTime, sourceTimeZone);
-        }
-
         public static DateTimeOffset ToUtcOffset(this DateTime localDateTime, TimeZoneInfo sourceTimeZone)
         {
             return DateTimeOffsetTimeZoneUtils.ToUtcOffset(localDateTime, sourceTimeZone);
         }
 
-        public static DateTime ToUtc(this DateTime localDateTime, TimeZoneInfo sourceTimeZone)
+        public static bool IsUtc(this DateTimeOffset dateTime)
         {
-            return DateTimeOffsetTimeZoneUtils.ToUtc(localDateTime, sourceTimeZone);
+            return DateTimeOffsetTimeZoneUtils.IsUtc(dateTime);
+        }
+
+        /// <summary>
+        /// Checks if the given DateTimeOffset is the last day of the month in the specified time zone.
+        ///
+        /// </summary>
+        public static bool IsLastDayOfTheMonth(this DateTimeOffset utcDate, TimeZoneInfo timeZone)
+        {
+            return DateTimeOffsetTimeZoneUtils.IsLastDayOfTheMonth(utcDate, timeZone);
+        }
+
+        /// <summary>
+        /// Counts the number of days in the specified time zone.
+        ///
+        /// </summary>
+        public static int DaysInMonth(DateTimeOffset utcDate, TimeZoneInfo timeZone)
+        {
+            return DateTimeOffsetTimeZoneUtils.DaysInMonth(utcDate, timeZone);
         }
 
         /// <summary>
@@ -27,6 +40,16 @@ namespace NevesCS.Static.Extensions
         public static DateTimeOffset AddDays(this DateTimeOffset date, double days, TimeZoneInfo timeZone)
         {
             return DateTimeOffsetTimeZoneUtils.AddDays(date, days, timeZone);
+        }
+
+        /// <summary>
+        /// Returns the UTC date for date plus the specified weeks in accordance with local timezone. <br/>
+        /// This is a DST aware method.
+        ///
+        /// </summary>
+        public static DateTimeOffset AddWeeks(this DateTimeOffset utcDate, double weeks, TimeZoneInfo timeZone)
+        {
+            return DateTimeOffsetTimeZoneUtils.AddWeeks(utcDate, weeks, timeZone);
         }
 
         /// <summary>
@@ -49,6 +72,11 @@ namespace NevesCS.Static.Extensions
             return DateTimeOffsetTimeZoneUtils.AddYears(date, years, timeZone);
         }
 
+        /// <summary>
+        /// Returns the UTC date corresponding to the start of day for the UTC date in accordance with local timezone. <br/>
+        /// This is a DST aware method.
+        ///
+        /// </summary>
         public static DateTimeOffset ToStartOfDay(this DateTimeOffset date, TimeZoneInfo timeZone)
         {
             return DateTimeOffsetTimeZoneUtils.ToStartOfDay(date, timeZone);
@@ -59,14 +87,23 @@ namespace NevesCS.Static.Extensions
             return DateTimeOffsetTimeZoneUtils.ToStartOfWeek(date, timeZone);
         }
 
+        public static DateTimeOffset ToNextDayOfWeek(this DateTimeOffset dateTime, DayOfWeek targetDayOfWeek, TimeZoneInfo timeZone)
+        {
+            return DateTimeOffsetTimeZoneUtils.ToNextDayOfWeek(dateTime, targetDayOfWeek, timeZone);
+        }
+
         public static DateTimeOffset ToStartOfMonth(this DateTimeOffset date, TimeZoneInfo timeZone)
         {
             return DateTimeOffsetTimeZoneUtils.ToStartOfMonth(date, timeZone);
         }
 
-        public static DateTimeOffset ToNextDayOfWeek(this DateTimeOffset dateTime, DayOfWeek targetDayOfWeek, TimeZoneInfo timeZone)
+        /// <summary>
+        /// Converts the given date to the last day of the month in the specified time zone.
+        ///
+        /// </summary>
+        public static DateTime ToLastDayOfTheMonth(this DateTime date, TimeZoneInfo timeZone)
         {
-            return DateTimeOffsetTimeZoneUtils.ToNextDayOfWeek(dateTime, targetDayOfWeek, timeZone);
+            return DateTimeOffsetTimeZoneUtils.ToLastDayOfTheMonth(date, timeZone);
         }
     }
 }

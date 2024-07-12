@@ -4,24 +4,36 @@ namespace NevesCS.Static.Utils
 {
     public static class DateTimeOffsetTimeZoneUtils
     {
-        public static DateTimeOffset ToUtcOffset(DateTimeOffset localDateTime, TimeZoneInfo sourceTimeZone)
-        {
-            return ToUtcOffset(localDateTime.DateTime, sourceTimeZone);
-        }
-
         public static DateTimeOffset ToUtcOffset(DateTime localDateTime, TimeZoneInfo sourceTimeZone)
         {
-            return new DateTimeOffset(ToUtc(localDateTime, sourceTimeZone), TimeSpan.Zero);
+            return new DateTimeOffset(
+                TimeZoneInfo.ConvertTimeToUtc(localDateTime, sourceTimeZone),
+                TimeSpan.Zero);
         }
 
-        public static DateTime ToUtc(DateTime localDateTime, TimeZoneInfo sourceTimeZone)
+        public static bool IsUtc(this DateTimeOffset dateTime)
         {
-            if (localDateTime.Kind == DateTimeKind.Utc)
-            {
-                return localDateTime;
-            }
+            return dateTime.Offset == TimeSpan.Zero;
+        }
 
-            return TimeZoneInfo.ConvertTimeToUtc(localDateTime, sourceTimeZone);
+        /// <summary>
+        /// Checks if the given DateTimeOffset is the last day of the month in the specified time zone.
+        ///
+        /// </summary>
+        public static bool IsLastDayOfTheMonth(DateTimeOffset utcDate, TimeZoneInfo timeZone)
+        {
+            var localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate.UtcDateTime, timeZone);
+            return localDate.Day == DateTime.DaysInMonth(localDate.Year, localDate.Month);
+        }
+
+        /// <summary>
+        /// Counts the number of days in the specified time zone.
+        ///
+        /// </summary>
+        public static int DaysInMonth(DateTimeOffset utcDate, TimeZoneInfo timeZone)
+        {
+            var localDate = TimeZoneInfo.ConvertTimeFromUtc(utcDate.UtcDateTime, timeZone);
+            return DateTime.DaysInMonth(localDate.Year, localDate.Month);
         }
 
         /// <summary>
@@ -35,6 +47,16 @@ namespace NevesCS.Static.Utils
                 .AddDays(days);
 
             return ToUtcOffset(localDate, timeZone);
+        }
+
+        /// <summary>
+        /// Returns the UTC date for date plus the specified weeks in accordance with local timezone. <br/>
+        /// This is a DST aware method.
+        ///
+        /// </summary>
+        public static DateTimeOffset AddWeeks(DateTimeOffset utcDate, double weeks, TimeZoneInfo timeZone)
+        {
+            return AddDays(utcDate, weeks * 7, timeZone);
         }
 
         /// <summary>
@@ -86,39 +108,35 @@ namespace NevesCS.Static.Utils
             var localDate = TimeZoneInfo.ConvertTimeFromUtc(date.UtcDateTime, timeZone);
             var newDate = ToStartOfDay(localDate, timeZone);
 
+            var daysToAdd = 0;
+
             switch (newDate.DayOfWeek)
             {
                 case DayOfWeek.Monday:
                     break;
                 case DayOfWeek.Tuesday:
-                    newDate = newDate.AddDays(-Ints.One);
+                    daysToAdd = -Ints.One;
                     break;
                 case DayOfWeek.Wednesday:
-                    newDate = newDate.AddDays(-Ints.Two);
+                    daysToAdd = -Ints.Two;
                     break;
                 case DayOfWeek.Thursday:
-                    newDate = newDate.AddDays(-Ints.Three);
+                    daysToAdd = -Ints.Three;
                     break;
                 case DayOfWeek.Friday:
-                    newDate = newDate.AddDays(-Ints.Four);
+                    daysToAdd = -Ints.Four;
                     break;
                 case DayOfWeek.Saturday:
-                    newDate = newDate.AddDays(-Ints.Five);
+                    daysToAdd = -Ints.Five;
                     break;
                 case DayOfWeek.Sunday:
-                    newDate = newDate.AddDays(-Ints.Six);
+                    daysToAdd = -Ints.Six;
                     break;
             }
 
+            newDate = AddDays(newDate, daysToAdd, timeZone);
+
             return newDate.ToUniversalTime();
-        }
-
-        public static DateTimeOffset ToStartOfMonth(DateTimeOffset date, TimeZoneInfo timeZone)
-        {
-            var localDate = TimeZoneInfo.ConvertTimeFromUtc(date.UtcDateTime, timeZone);
-
-            return ToStartOfDay(date, timeZone)
-                .AddDays(-(localDate.Day - 1));
         }
 
         public static DateTimeOffset ToNextDayOfWeek(DateTimeOffset dateTime, DayOfWeek targetDayOfWeek, TimeZoneInfo timeZone)
@@ -126,9 +144,49 @@ namespace NevesCS.Static.Utils
             var localDate = TimeZoneInfo.ConvertTimeFromUtc(dateTime.UtcDateTime, timeZone);
             var currentDayOfWeek = localDate.DayOfWeek;
 
-            return ToUtcOffset(localDate
-                .AddDays(targetDayOfWeek - currentDayOfWeek),
-                timeZone);
+            localDate = AddDays(localDate, targetDayOfWeek - currentDayOfWeek, timeZone).DateTime;
+
+            return ToUtcOffset(localDate, timeZone);
+        }
+
+        public static DateTimeOffset ToStartOfMonth(DateTimeOffset date, TimeZoneInfo timeZone)
+        {
+            var localDate = TimeZoneInfo.ConvertTimeFromUtc(date.UtcDateTime, timeZone);
+
+            return AddDays(ToStartOfDay(date, timeZone), -(localDate.Day - 1), timeZone);
+        }
+
+        /// <summary>
+        /// Converts the given date to the last day of the month in the specified time zone.
+        ///
+        /// </summary>
+        public static DateTime ToLastDayOfTheMonth(this DateTime date, TimeZoneInfo timeZone)
+        {
+            var localDate = date;
+
+            if (date.Kind == DateTimeKind.Utc)
+            {
+                localDate = TimeZoneInfo.ConvertTimeFromUtc(date.ToUniversalTime(), timeZone);
+
+                return new DateTime(
+                    localDate.Year,
+                    localDate.Month,
+                    DateTime.DaysInMonth(localDate.Year, localDate.Month),
+                    localDate.Hour,
+                    localDate.Minute,
+                    localDate.Second,
+                    date.Kind)
+                    .ToUniversalTime();
+            }
+
+            return new DateTime(
+                localDate.Year,
+                localDate.Month,
+                DateTime.DaysInMonth(localDate.Year, localDate.Month),
+                localDate.Hour,
+                localDate.Minute,
+                localDate.Second,
+                date.Kind);
         }
     }
 }
