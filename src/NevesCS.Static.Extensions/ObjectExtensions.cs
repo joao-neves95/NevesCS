@@ -24,21 +24,6 @@ namespace NevesCS.Static.Extensions
             return target.Contains(@object);
         }
 
-        public static T Set<T>(this T target, Action<T> setter)
-        {
-            return ObjectUtils.Set(target, setter);
-        }
-
-        public static T? SetIfNotNull<T>(this T? target, Action<T> setter)
-        {
-            return ObjectUtils.SetIfNotNull(target, setter);
-        }
-
-        public static TOut Into<TIn, TOut>(this TIn source, Func<TIn, TOut> convertFunction)
-        {
-            return ObjectUtils.Into(source, convertFunction);
-        }
-
         /// <summary>
         /// Enumerates the same instance reference (<paramref name="source"/>) times the number defined by <paramref name="repeatTimes"/>.
         ///
