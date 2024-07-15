@@ -1,4 +1,4 @@
-﻿using NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Exceptions;
+using NevesCS.Abstractions.Clients.Web3.SolanaJupiterHttpApi.Exceptions;
 using NevesCS.Static.Constants;
 using NevesCS.Static.Utils;
 
@@ -6,7 +6,7 @@ using System.Net.Http.Json;
 
 namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
 {
-    internal static class SolanaJupiterHttpApiUtils
+    internal static class SolanaJupiterHttpUtils
     {
         public static async Task<TResult> TryGetOrThrowAsync<TResult>(
             HttpClient httpClient,

@@ -78,7 +78,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
             }
 
             var httpClient = GetHttpClient();
-            var rpcClient = CreateNewRpcClient(httpClient);
+            var rpcClient = GetRpcClient(httpClient);
 
             var quoteResponse = await GetQuoteAsync(request, httpClient, rpcClient, cancellationToken);
 
@@ -114,7 +114,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
         public async Task<SolanaJupiterV6QuoteApiResponse?> GetQuoteAsync(SolanaJupiterV6SwapRequest request, CancellationToken cancellationToken = default)
         {
             var httpClient = GetHttpClient();
-            var response = await GetQuoteAsync(request, httpClient, CreateNewRpcClient(httpClient), cancellationToken);
+            var response = await GetQuoteAsync(request, httpClient, GetRpcClient(httpClient), cancellationToken);
 
             if (HasFactory)
             {
@@ -168,7 +168,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
              */
             var splippageBps = request.SlippagePercentage * 100;
 
-            return await SolanaJupiterHttpApiUtils.TryGetOrThrowAsync<SolanaJupiterV6QuoteApiResponse>(
+            return await SolanaJupiterHttpUtils.TryGetOrThrowAsync<SolanaJupiterV6QuoteApiResponse>(
                 httpClient,
                 $"{SolanaJupiterConstants.BaseUrlApiQuote}/quote"
                 + $"?inputMint={tokenIn}&outputMint={tokenOut}"
@@ -221,7 +221,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
             return HttpClient ?? HttpClientFactory!.CreateClient();
         }
 
-        private IRpcClient CreateNewRpcClient(HttpClient httpClient)
+        private IRpcClient GetRpcClient(HttpClient httpClient)
         {
             return RpcClient ?? ClientFactory.GetClient(cluster: RpcClusterType, httpClient: httpClient);
         }

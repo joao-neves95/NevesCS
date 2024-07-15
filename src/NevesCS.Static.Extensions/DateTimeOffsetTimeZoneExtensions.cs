@@ -9,6 +9,11 @@ namespace NevesCS.Static.Extensions
             return DateTimeOffsetTimeZoneUtils.ToUtcOffset(localDateTime, sourceTimeZone);
         }
 
+        public static DateTime ToLocalDateTime(this DateTimeOffset localDateTime, TimeZoneInfo sourceTimeZone)
+        {
+            return DateTimeOffsetTimeZoneUtils.ToLocalDateTime(localDateTime, sourceTimeZone);
+        }
+
         public static bool IsUtc(this DateTimeOffset dateTime)
         {
             return DateTimeOffsetTimeZoneUtils.IsUtc(dateTime);
