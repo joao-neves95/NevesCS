@@ -6,7 +6,10 @@ namespace NevesCS.Static.Utils
 {
     public static class TimeZoneUtils
     {
-        public static readonly TimeZoneInfo London = GetTimeZone(TimeZoneIds.EUROPE_LONDON_UNIX, TimeZoneIds.EUROPE_LONDON_WINDOWS);
+        public static TimeZoneInfo GetTimeZone(SystemTimeZoneIdsRecord systemTimeZoneSystemIds)
+        {
+            return GetTimeZone(systemTimeZoneSystemIds.Unix, systemTimeZoneSystemIds.Windows);
+        }
 
         public static TimeZoneInfo GetTimeZone(string unixTimezoneName, string windowsTimezoneName)
         {
@@ -34,7 +37,7 @@ namespace NevesCS.Static.Utils
 
         public static DateTimeOffset ConvertToLondonTimeZone(DateTimeOffset source)
         {
-            return ConvertToTimeZone(source, London);
+            return ConvertToTimeZone(source, TimeZones.London);
         }
 
         public static DateTimeOffset ConvertToTimeZone(DateTimeOffset source, TimeZoneInfo timeZoneInfo)

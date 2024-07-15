@@ -29,6 +29,7 @@ namespace NevesCS.Static.Utils
                 sourceDate.Minute,
                 sourceDate.Second,
                 sourceDate.Millisecond,
+                sourceDate.Microsecond,
                 offset);
         }
 
@@ -53,11 +54,11 @@ namespace NevesCS.Static.Utils
 
         public static DateTimeOffset SetTime(
             DateTimeOffset sourceDateTime,
-            double? hours = null,
-            double? minutes = null,
-            double? seconds = null,
-            double? milliseconds = null,
-            double? microseconds = null)
+            int hours,
+            int minutes,
+            int seconds,
+            int milliseconds,
+            int microseconds)
         {
             return From(
                 SetTime(sourceDateTime.DateTime, hours, minutes, seconds, milliseconds, microseconds),
@@ -66,42 +67,23 @@ namespace NevesCS.Static.Utils
 
         public static DateTime SetTime(
             DateTime sourceDateTime,
-            double? hours = null,
-            double? minutes = null,
-            double? seconds = null,
-            double? milliseconds = null,
-            double? microseconds = null)
+            int hours,
+            int minutes,
+            int seconds,
+            int milliseconds,
+            int microseconds)
         {
-            var newDate = ToStartOfDay(sourceDateTime);
-
-            if (hours != null)
-            {
-                newDate = newDate.AddHours(hours.Value);
-            }
-
-            if (minutes != null)
-            {
-                newDate = newDate.AddMinutes(minutes.Value);
-            }
-
-            if (seconds != null)
-            {
-                newDate = newDate.AddSeconds(seconds.Value);
-            }
-
-            if (milliseconds != null)
-            {
-                newDate = newDate.AddMilliseconds(milliseconds.Value);
-            }
-
-            if (microseconds != null)
-            {
-                newDate = newDate.AddMicroseconds(microseconds.Value);
-            }
-
-            return newDate;
+            return new DateTime(
+                sourceDateTime.Year,
+                sourceDateTime.Month,
+                sourceDateTime.Day,
+                hours,
+                minutes,
+                seconds,
+                milliseconds,
+                microseconds,
+                sourceDateTime.Kind);
         }
-
         public static DateTimeOffset SetTicks(DateTimeOffset sourceDateTime, long ticks)
         {
             return From(SetTicks(sourceDateTime.DateTime, ticks), sourceDateTime.Offset);
@@ -129,7 +111,7 @@ namespace NevesCS.Static.Utils
 
         public static DateTime ToStartOfDay(DateTime date)
         {
-            return date.AddTicks(-date.TimeOfDay.Ticks);
+            return new DateTime(date.Year, date.Month, date.Day, 00, 00, 00, 00, 00, date.Kind);
         }
 
         public static DateTimeOffset ToEndOfDay(DateTimeOffset date)

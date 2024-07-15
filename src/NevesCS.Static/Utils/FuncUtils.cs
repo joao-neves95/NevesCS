@@ -13,5 +13,31 @@ namespace NevesCS.Static.Utils
                 yield return sourceFactory();
             }
         }
+
+        public static TResult TryCatch<TResult>(Func<TResult> tryFunc, Func<Exception, TResult> unsafeCatchFunc)
+        {
+            try
+            {
+                return tryFunc();
+            }
+            catch (Exception ex)
+            {
+                return unsafeCatchFunc(ex);
+            }
+        }
+
+        public static async Task<TResult> TryCatchAsync<TResult>(
+            Func<Task<TResult>> asyncTryFunc,
+            Func<Exception, Task<TResult>> unsafeAsyncCatchFunc)
+        {
+            try
+            {
+                return await asyncTryFunc();
+            }
+            catch (Exception ex)
+            {
+                return await unsafeAsyncCatchFunc(ex);
+            }
+        }
     }
 }

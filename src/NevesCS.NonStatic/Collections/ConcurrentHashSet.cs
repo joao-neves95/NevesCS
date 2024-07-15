@@ -2,7 +2,7 @@ using NevesCS.Abstractions.Traits;
 
 namespace NevesCS.NonStatic.Collections
 {
-    public sealed class ConcurrentHashSet<T> : ICountable, IDisposable
+    public class ConcurrentHashSet<T> : ICountable, IDisposable
     {
         private readonly HashSet<T> InternalHashSet = new();
 

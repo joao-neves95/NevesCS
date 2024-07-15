@@ -11,7 +11,7 @@ namespace NevesCS.Static.Utils
 
         public static T ThrowIfNull<T>(T? @object, Type type)
         {
-            if (@object == null)
+            if (IsNull(@object))
             {
                 throw new ArgumentNullException(type.Name);
             }
@@ -21,34 +21,12 @@ namespace NevesCS.Static.Utils
 
         public static T ThrowIfNull<T>(T? @object, string parameterName)
         {
-            if (@object == null)
+            if (IsNull(@object))
             {
                 throw new ArgumentNullException(parameterName);
             }
 
             return @object;
-        }
-
-        public static T Set<T>(T target, Action<T> setter)
-        {
-            setter(target);
-
-            return target;
-        }
-
-        public static T? SetIfNotNull<T>(T? target, Action<T> setter)
-        {
-            if (IsNull(target))
-            {
-                return target;
-            }
-
-            return Set(target!, setter);
-        }
-
-        public static TOut Into<TIn, TOut>(TIn source, Func<TIn, TOut> convertFunction)
-        {
-            return convertFunction(source);
         }
 
         /// <summary>
@@ -103,7 +81,7 @@ namespace NevesCS.Static.Utils
         /// </summary>
         public static T[] ToArray<T>(object source)
         {
-            return new[] { (T)source };
+            return [(T)source];
         }
 
         /// <summary>
@@ -185,7 +163,7 @@ namespace NevesCS.Static.Utils
                 throw new NullReferenceException(propertyName);
             }
 
-            methodInfo.Invoke(targetProperty, new[] { value });
+            methodInfo.Invoke(targetProperty, [value]);
         }
     }
 }

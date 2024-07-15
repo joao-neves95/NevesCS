@@ -8,11 +8,22 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
 {
     public sealed class SolanaJupiterV6PublicRestClient : ISolanaJupiterV6PublicClient
     {
-        private readonly IHttpClientFactory HttpClientFactory;
+        private readonly HttpClient? HttpClient;
+
+        private readonly IHttpClientFactory? HttpClientFactory;
+
+        private readonly bool HasFactory;
+
+        public SolanaJupiterV6PublicRestClient(HttpClient httpClient)
+        {
+            HttpClient = ObjectUtils.ThrowIfNull(httpClient, nameof(httpClient));
+        }
 
         public SolanaJupiterV6PublicRestClient(IHttpClientFactory httpClientFactory)
         {
             HttpClientFactory = ObjectUtils.ThrowIfNull(httpClientFactory, typeof(IHttpClientFactory));
+
+            HasFactory = true;
         }
 
         /// <summary>
@@ -22,11 +33,19 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
             SolanaJupiterV6GetPriceRequest request,
             CancellationToken cancellationToken = default)
         {
-            using var httpClient = HttpClientFactory.CreateClient();
+            var httpClient = HasFactory ? HttpClientFactory.CreateClient() : HttpClient;
 
-            return await httpClient.GetFromJsonAsync<SolanaJupiterV6GetPriceApiResponse>(
-                $"{SolanaJupiterConstants.BaseUrlApiPrice}/price?ids={string.Join(',', request.Ids)}&vsToken={request.VsToken}",
-                cancellationToken);
+            var response = await httpClient
+                .GetFromJsonAsync<SolanaJupiterV6GetPriceApiResponse>(
+                    $"{SolanaJupiterConstants.BaseUrlApiPrice}/price?ids={string.Join(',', request.Ids)}&vsToken={request.VsToken}",
+                    cancellationToken);
+
+            if (HasFactory)
+            {
+                httpClient.Dispose();
+            }
+
+            return response;
         }
     }
 }

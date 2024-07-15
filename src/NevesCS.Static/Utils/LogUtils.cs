@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace NevesCS.Static.Utils
 {
     public static class LogUtils
@@ -9,6 +11,15 @@ namespace NevesCS.Static.Utils
         public static string BuildConstructorNameLogHeader(string className)
         {
             return $"[{className}.ctor()]";
+        }
+
+        /// <summary>
+        /// "[Class.Method()]"
+        ///
+        /// </summary>
+        public static string BuildMethodNameLogHeader(MethodInfo methodInfo)
+        {
+            return BuildMethodNameLogHeader(methodInfo.DeclaringType?.Name ?? string.Empty, methodInfo.Name);
         }
 
         /// <summary>
