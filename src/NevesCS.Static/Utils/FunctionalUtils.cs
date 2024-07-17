@@ -23,5 +23,15 @@ namespace NevesCS.Static.Utils
 
             return Set(target!, setter);
         }
+
+        public static T? OrIfNull<T>(T? target, Func<T> factoryFunction)
+        {
+            if (!ObjectUtils.IsNull(target))
+            {
+                return target;
+            }
+
+            return factoryFunction();
+        }
     }
 }

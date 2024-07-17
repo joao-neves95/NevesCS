@@ -18,5 +18,10 @@ namespace NevesCS.Static.Extensions
         {
             return FunctionalUtils.SetIfNotNull(target, setter);
         }
+
+        public static T? OrIfNull<T>(this T? target, Func<T> factoryFunction)
+        {
+            return FunctionalUtils.OrIfNull(target, factoryFunction);
+        }
     }
 }
