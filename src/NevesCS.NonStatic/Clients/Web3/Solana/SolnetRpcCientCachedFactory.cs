@@ -25,10 +25,13 @@ namespace NevesCS.NonStatic.Clients.Web3.Solana
             Options = ObjectUtils.ThrowIfNull(options, nameof(options));
             RpcClusterType = ObjectUtils.ThrowIfNull(rpcClusterType, nameof(rpcClusterType));
             HttpClientFactory = ObjectUtils.ThrowIfNull(httpClientFactory, nameof(httpClientFactory));
+
+            LastExpiredCacheItemsCheck = DateTimeOffset.UtcNow;
         }
 
         public IRpcClient Create(string key)
         {
+            DeleteCacheItemIfExpired(key, null);
             CheckAndDeleteExpiredCacheItems();
 
             return DictionaryUtils
@@ -41,14 +44,37 @@ namespace NevesCS.NonStatic.Clients.Web3.Solana
                 .RpcClient;
         }
 
+        private DateTimeOffset LastExpiredCacheItemsCheck;
+
         private void CheckAndDeleteExpiredCacheItems()
         {
+            var now = DateTimeOffset.UtcNow;
+
+            if ((now - LastExpiredCacheItemsCheck) < Options.TimeBetweenExpiredCacheItemsChecks)
+            {
+                return;
+            }
+
             foreach (var item in CachedRpcClients)
             {
-                if ((DateTimeOffset.UtcNow - item.Value.CreatedAt) > Options.MaxLifetime)
-                {
-                    CachedRpcClients.Remove(item.Key, out _);
-                }
+                DeleteCacheItemIfExpired(item.Key, item.Value);
+            }
+
+            LastExpiredCacheItemsCheck = DateTimeOffset.UtcNow;
+        }
+
+        private void DeleteCacheItemIfExpired(string key, CacheItem? cacheItem)
+        {
+            cacheItem ??= CachedRpcClients.GetValueOrDefault(key);
+
+            if (ObjectUtils.IsNull(cacheItem))
+            {
+                return;
+            }
+
+            if ((DateTimeOffset.UtcNow - cacheItem.Value.CreatedAt) > Options.MaxLifetime)
+            {
+                CachedRpcClients.Remove(key, out _);
             }
         }
 

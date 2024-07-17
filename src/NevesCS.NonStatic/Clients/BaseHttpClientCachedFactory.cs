@@ -18,12 +18,15 @@ namespace NevesCS.NonStatic.Clients
         {
             Options = ObjectUtils.ThrowIfNull(options, nameof(options));
             HttpClientFactory = ObjectUtils.ThrowIfNull(httpClientFactory, nameof(httpClientFactory));
+
+            LastExpiredCacheItemsCheck = DateTimeOffset.UtcNow;
         }
 
         protected abstract TService CreateNewInstance(string key, HttpClient httpClient);
 
         public TService Create(string key)
         {
+            DeleteCacheItemIfExpired(key, null);
             CheckAndDeleteExpiredCacheItems();
 
             return CreateNewInstance(
@@ -35,15 +38,38 @@ namespace NevesCS.NonStatic.Clients
                 .HttpClient);
         }
 
+        private DateTimeOffset LastExpiredCacheItemsCheck;
+
         private void CheckAndDeleteExpiredCacheItems()
         {
+            var now = DateTimeOffset.UtcNow;
+
+            if ((now - LastExpiredCacheItemsCheck) < Options.TimeBetweenExpiredCacheItemsChecks)
+            {
+                return;
+            }
+
             foreach (var item in CachedHttpClients)
             {
-                if ((DateTimeOffset.UtcNow - item.Value.CreatedAt) > Options.MaxLifetime)
-                {
-                    item.Value.HttpClient.Dispose();
-                    CachedHttpClients.Remove(item.Key, out _);
-                }
+                DeleteCacheItemIfExpired(item.Key, item.Value);
+            }
+
+            LastExpiredCacheItemsCheck = DateTimeOffset.UtcNow;
+        }
+
+        private void DeleteCacheItemIfExpired(string key, CacheItem? cacheItem)
+        {
+            cacheItem ??= CachedHttpClients.GetValueOrDefault(key);
+
+            if (ObjectUtils.IsNull(cacheItem))
+            {
+                return;
+            }
+
+            if ((DateTimeOffset.UtcNow - cacheItem.Value.CreatedAt) > Options.MaxLifetime)
+            {
+                cacheItem.Value.HttpClient.Dispose();
+                CachedHttpClients.Remove(key, out _);
             }
         }
 
