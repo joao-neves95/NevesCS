@@ -72,7 +72,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
             SolanaJupiterV6SwapRequest request,
             CancellationToken cancellationToken = default)
         {
-            if (request.Amount <= 0)
+            if (request.AmountOfInputToken <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(request));
             }
@@ -159,7 +159,7 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
              * each token by looking up the decimals for that token".
              * E.g. USDC has 6 decimals, so 1 = 1000000
              */
-            var amountIn = (int)(request.Amount * (decimal)(Math.Pow(10, tokenInDecimalCount)));
+            var amountIn = (int)(request.AmountOfInputToken * (decimal)(Math.Pow(10, tokenInDecimalCount)));
 
             /*
              * The slippage % in BPS.
