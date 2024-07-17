@@ -2,24 +2,24 @@ using System.Collections;
 
 namespace NevesCS.NonStatic.Collections
 {
-    public class FixedLengthAutoDequeue<T> : IEnumerable<T>
+    public class FixedSizeAutoDequeue<T> : IEnumerable<T>
     {
         private readonly uint FixedSize;
 
-        private readonly LinkedList<T> Data = new();
+        private readonly Queue<T> Data = new();
 
-        public FixedLengthAutoDequeue(uint fixedSize)
+        public FixedSizeAutoDequeue(uint fixedSize)
         {
             FixedSize = fixedSize;
         }
 
-        public FixedLengthAutoDequeue(uint fixedSize, IEnumerable<T> initValues)
+        public FixedSizeAutoDequeue(uint fixedSize, IEnumerable<T> initValues)
         {
             FixedSize = fixedSize;
 
             foreach (var value in initValues)
             {
-                Data.AddLast(value);
+                Enqueue(value);
             }
         }
 
@@ -47,10 +47,10 @@ namespace NevesCS.NonStatic.Collections
         {
             if (Data.Count == FixedSize)
             {
-                Data.RemoveFirst();
+                Data.Dequeue();
             }
 
-            Data.AddLast(newItem);
+            Data.Enqueue(newItem);
         }
 
         public void Clear()
@@ -60,7 +60,7 @@ namespace NevesCS.NonStatic.Collections
 
         public T? Peek()
         {
-            return Data.LastOrDefault();
+            return Data.Peek();
         }
     }
 }

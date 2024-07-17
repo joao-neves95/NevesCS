@@ -7,7 +7,7 @@ namespace NevesCS.NonStatic.Services.ThreadRateLimiters
     /// Thread safe. Can be used between multiple threads to synchronize them.
     ///
     /// </summary>
-    public sealed class SyncTimeIntervalThreadRateLimiter : IThreadRateLimiter
+    public sealed class SyncTimeIntervalThreadRateLimiter : IThreadRateLimiter, IDisposable
     {
         private readonly TimeSpan IntervalInBetween;
         private readonly bool ShouldLock;
@@ -46,6 +46,8 @@ namespace NevesCS.NonStatic.Services.ThreadRateLimiters
 
         private long LastReleaseTicks;
 
+        private bool disposedValue;
+
         public void Reset()
         {
             LastReleaseTicks = Clock.GetTime().Ticks;
@@ -68,6 +70,25 @@ namespace NevesCS.NonStatic.Services.ThreadRateLimiters
                 Reset();
                 _Semaphore.Release();
             }
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _Semaphore.Dispose();
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
