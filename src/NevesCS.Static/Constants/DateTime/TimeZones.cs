@@ -2,7 +2,7 @@ using NevesCS.Static.Utils;
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace NevesCS.Static.Constants
+namespace NevesCS.Static.Constants.DateTime
 {
     [ExcludeFromCodeCoverage]
     public static class TimeZones

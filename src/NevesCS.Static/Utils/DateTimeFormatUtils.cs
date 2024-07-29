@@ -1,4 +1,4 @@
-using NevesCS.Static.Constants;
+using NevesCS.Static.Constants.DateTime;
 
 namespace NevesCS.Static.Utils
 {

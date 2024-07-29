@@ -2,7 +2,7 @@ using NevesCS.Static.Utils;
 
 using System.Collections.Immutable;
 
-namespace NevesCS.Static.Constants
+namespace NevesCS.Static.Constants.DateTime
 {
     public static class DaysOfWeek
     {
@@ -12,11 +12,9 @@ namespace NevesCS.Static.Constants
                 .ToImmutableArray();
 
         public static readonly ImmutableArray<DayOfWeek> WeekendDaysOfWeek =
-            new[]
-            {
+            [
                 DayOfWeek.Saturday,
                 DayOfWeek.Sunday
-            }
-            .ToImmutableArray();
+            ];
     }
 }

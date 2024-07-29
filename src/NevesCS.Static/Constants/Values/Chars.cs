@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace NevesCS.Static.Constants
+namespace NevesCS.Static.Constants.Values
 {
     [ExcludeFromCodeCoverage]
     public static class Chars

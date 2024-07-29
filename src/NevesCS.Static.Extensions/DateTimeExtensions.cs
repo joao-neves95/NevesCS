@@ -1,5 +1,5 @@
 using NevesCS.Abstractions.Options;
-using NevesCS.Static.Constants;
+using NevesCS.Static.Constants.Values;
 using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
