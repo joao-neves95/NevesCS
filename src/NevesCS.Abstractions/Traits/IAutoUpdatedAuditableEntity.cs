@@ -1,6 +1,6 @@
 namespace NevesCS.Abstractions.Traits
 {
-    public interface IAuditableEntity
+    public interface IAutoUpdatedAuditableEntity
     {
         public DateTimeOffset CreationDate { get; }
 
