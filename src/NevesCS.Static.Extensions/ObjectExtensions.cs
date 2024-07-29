@@ -9,6 +9,11 @@ namespace NevesCS.Static.Extensions
             return ObjectUtils.IsNull(@object);
         }
 
+        public static bool IsNullOrDefault<T>(this T? @object)
+        {
+            return ObjectUtils.IsNullOrDefault(@object);
+        }
+
         public static T ThrowIfNull<T>(this T? @object, Type type)
         {
             return ObjectUtils.ThrowIfNull(@object, type);
@@ -17,6 +22,11 @@ namespace NevesCS.Static.Extensions
         public static T ThrowIfNull<T>(this T? @object, string parameterName)
         {
             return ObjectUtils.ThrowIfNull(@object, parameterName);
+        }
+
+        public static T AssertNotNull<T>(this T? @object, string parameterName)
+        {
+            return ObjectUtils.AssertNotNull(@object, parameterName);
         }
 
         public static bool IsIn<TIn>(this TIn? @object, IEnumerable<TIn> target)

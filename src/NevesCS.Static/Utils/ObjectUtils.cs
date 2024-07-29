@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace NevesCS.Static.Utils
@@ -9,6 +11,11 @@ namespace NevesCS.Static.Utils
             return @object == null;
         }
 
+        public static bool IsNullOrDefault<T>(T? @object)
+        {
+            return @object == null || Equals(@object, default(T?));
+        }
+
         public static T ThrowIfNull<T>(T? @object, Type type)
         {
             if (IsNull(@object))
@@ -16,7 +23,7 @@ namespace NevesCS.Static.Utils
                 throw new ArgumentNullException(type.Name);
             }
 
-            return @object;
+            return @object!;
         }
 
         public static T ThrowIfNull<T>(T? @object, string parameterName)
@@ -26,7 +33,14 @@ namespace NevesCS.Static.Utils
                 throw new ArgumentNullException(parameterName);
             }
 
-            return @object;
+            return @object!;
+        }
+
+        public static T AssertNotNull<T>(T? @object, string parameterName)
+        {
+            Debug.Assert(!IsNull(@object), parameterName);
+
+            return @object!;
         }
 
         /// <summary>
