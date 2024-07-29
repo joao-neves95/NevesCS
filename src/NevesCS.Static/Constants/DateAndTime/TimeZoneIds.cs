@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace NevesCS.Static.Constants.DateTime
+namespace NevesCS.Static.Constants.DateAndTime
 {
     /// <summary>
     /// Windows: <see href="https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones"/> <br/>

@@ -2,7 +2,7 @@ using NevesCS.Static.Utils;
 
 using System.Collections.Immutable;
 
-namespace NevesCS.Static.Constants.DateTime
+namespace NevesCS.Static.Constants.DateAndTime
 {
     public static class DaysOfWeek
     {

@@ -1,4 +1,4 @@
-namespace NevesCS.Static.Constants.DateTime
+namespace NevesCS.Static.Constants.DateAndTime
 {
     public static class TimeTicks
     {
