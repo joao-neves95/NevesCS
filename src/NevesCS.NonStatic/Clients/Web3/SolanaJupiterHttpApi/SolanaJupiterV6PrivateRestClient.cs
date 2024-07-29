@@ -8,6 +8,7 @@ using NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi.Abstractions;
 using NevesCS.Static.Utils.Web3.Solana;
 
 using Solnet.Rpc;
+using Solnet.Rpc.Types;
 using Solnet.Wallet;
 
 using System.Net.Http.Json;
@@ -93,7 +94,9 @@ namespace NevesCS.NonStatic.Clients.Web3.SolanaJupiterHttpApi
                 throw new SolanaRpcException(JsonParser.SerializeObject(simulation));
             }
 
-            var txResponse = (await rpcClient.SendTransactionAsync(tx));
+            var txResponse = (await rpcClient.SendTransactionAsync(
+                transaction: tx,
+                commitment: Commitment.Finalized));
 
             if (!txResponse.WasSuccessful || txResponse.ErrorData != null)
             {
