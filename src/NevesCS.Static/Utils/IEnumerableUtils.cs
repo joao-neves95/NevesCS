@@ -33,6 +33,13 @@ namespace NevesCS.Static.Utils
             }
         }
 
+        public static IEnumerable<TValue> OrEmpty<TValue>(IEnumerable<TValue>? enumeration)
+        {
+            return ObjectUtils.IsNull(enumeration)
+                ? []
+                : enumeration!;
+        }
+
         public static bool ContainsObjectValue<TObject, TValue>(IEnumerable<TValue> enumeration, TObject testObject, Func<TObject, TValue> selector)
         {
             return enumeration.Contains(selector(testObject));

@@ -24,6 +24,11 @@ namespace NevesCS.Static.Extensions
             return IEnumerableUtils.TryGetElementAtOr(enumeration, index, defaultValue);
         }
 
+        public static IEnumerable<TValue> OrEmpty<TValue>(this IEnumerable<TValue>? enumeration)
+        {
+            return IEnumerableUtils.OrEmpty(enumeration);
+        }
+
         public static bool ContainsObjectValue<TObject, TValue>(this IEnumerable<TValue> enumeration, TObject testObject, Func<TObject, TValue> selector)
         {
             return IEnumerableUtils.ContainsObjectValue(enumeration, testObject, selector);
