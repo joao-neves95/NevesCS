@@ -1,3 +1,4 @@
+using NevesCS.Abstractions.Types;
 using NevesCS.Static.Utils;
 
 namespace NevesCS.Static.Extensions
@@ -26,6 +27,25 @@ namespace NevesCS.Static.Extensions
         public static bool IsLastDayOfTheMonth(this DateTimeOffset utcDate, TimeZoneInfo timeZone)
         {
             return DateTimeOffsetTimeZoneUtils.IsLastDayOfTheMonth(utcDate, timeZone);
+        }
+
+        public static bool IsInBetween(
+            this DateTimeOffset utcTargetDate,
+            IFiniteDateRange utcFiniteDateRange,
+            TimeZoneInfo timeZone,
+            bool inclusive)
+        {
+            return IsInBetween(utcTargetDate, utcFiniteDateRange.Start, utcFiniteDateRange.End, timeZone, inclusive);
+        }
+
+        public static bool IsInBetween(
+            this DateTimeOffset utcTargetDate,
+            DateTimeOffset utcStartDate,
+            DateTimeOffset utcEndDate,
+            TimeZoneInfo timeZone,
+            bool inclusive)
+        {
+            return IsInBetween(utcTargetDate, utcStartDate, utcEndDate, timeZone, inclusive);
         }
 
         /// <summary>
