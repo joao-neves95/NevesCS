@@ -14,13 +14,13 @@ namespace NevesCS.Static.Extensions.Vendor
         /// supporting external assemblies.
         ///
         /// </summary>
-        /// <typeparam name="KnownType">A known type inside to the Assembly where the <paramref name="typeName"/> belongs to.</typeparam>
+        /// <typeparam name="KnownType">A known type embedded in the Assembly where the <paramref name="typeName"/> belongs to.</typeparam>
         /// <param name="table"></param>
         /// <param name="typeName"></param>
         /// <returns></returns>
         public static object? CreateInstanceByTypeName<KnownType>(this Table table, string typeName)
         {
-            var modelType = TypeUtils.GetTypeByNameFromKnownType<KnownType>(typeName);
+            var modelType = ReflectionUtils.GetTypeFrom<KnownType>(typeName);
 
             return table.GetFirstCreateInstanceMethodInfo(modelType)!.CallFirstCreateInstanceMethodInfo(table);
         }
