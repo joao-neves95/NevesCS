@@ -1,6 +1,6 @@
 using NevesCS.Static.Constants;
 
-namespace NevesCS.Static.Utils.SqlBuilders.Functions
+namespace NevesCS.Static.Utils.Sql.Functions
 {
     public static class SqlCurrentDatetimeFunction
     {

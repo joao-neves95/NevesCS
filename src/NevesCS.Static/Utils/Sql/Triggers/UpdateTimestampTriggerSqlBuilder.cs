@@ -1,7 +1,7 @@
 using NevesCS.Static.Constants;
-using NevesCS.Static.Utils.SqlBuilders.Functions;
+using NevesCS.Static.Utils.Sql.Functions;
 
-namespace NevesCS.Static.Utils.SqlBuilders.Triggers
+namespace NevesCS.Static.Utils.Sql.Triggers
 {
     public static class UpdateTimestampTriggerSqlBuilder
     {
@@ -28,9 +28,9 @@ namespace NevesCS.Static.Utils.SqlBuilders.Triggers
         {
             return databaseVendor switch
             {
-                DatabaseVendorName.Sqlite => SqlLiteDrop(tableName, columnName),
-                DatabaseVendorName.MySql => MySqlDrop(tableName, columnName),
-                DatabaseVendorName.PostgreSql => PostgreSqlDrop(tableName, columnName),
+                DatabaseVendorName.Sqlite => DropTriggerSqlBuilder.SqlLite(SqlLiteTriggerName(tableName, columnName)),
+                DatabaseVendorName.MySql => DropTriggerSqlBuilder.MySql(MySqlTriggerName(tableName, columnName)),
+                DatabaseVendorName.PostgreSql => DropTriggerSqlBuilder.PostgreSql(PostgreSqlTriggerName(tableName, columnName)),
 
                 _ => throw new NotImplementedException(),
             };
@@ -55,11 +55,6 @@ namespace NevesCS.Static.Utils.SqlBuilders.Triggers
                 """;
         }
 
-        public static string SqlLiteDrop(string tableName, string columnName)
-        {
-            return $"DROP TRIGGER IF EXISTS {SqlLiteTriggerName(tableName, columnName)};";
-        }
-
         public static string MySqlTriggerName(string tableName, string columnName)
         {
             return $"{tableName}_{columnName}_UPDATE";
@@ -77,11 +72,6 @@ namespace NevesCS.Static.Utils.SqlBuilders.Triggers
                     WHERE {fkName} = NEW.{fkName};
                 END;
                 """;
-        }
-
-        public static string MySqlDrop(string tableName, string columnName)
-        {
-            return $"DROP TRIGGER IF EXISTS {MySqlTriggerName(tableName, columnName)};";
         }
 
         public static string PostgreSqlTriggerName(string tableName, string columnName)
@@ -103,16 +93,11 @@ namespace NevesCS.Static.Utils.SqlBuilders.Triggers
                 END;
                 $$ LANGUAGE plpgsql;
 
-                CREATE TRIGGER {MySqlTriggerName(tableName, columnName)}
+                CREATE TRIGGER {PostgreSqlTriggerName(tableName, columnName)}
                 AFTER UPDATE ON "{tableName}"
                 FOR EACH ROW
                 EXECUTE FUNCTION update_column_with_now('{columnName}', '{fkName}');
                 """;
-        }
-
-        public static string PostgreSqlDrop(string tableName, string columnName)
-        {
-            return $"DROP TRIGGER IF EXISTS {MySqlTriggerName(tableName, columnName)} ON {tableName};";
         }
     }
 }
