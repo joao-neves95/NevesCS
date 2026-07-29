@@ -100,6 +100,11 @@ public static class DictionaryUtils
 
         where TKey : notnull
     {
+        if (source is null || !source.Any())
+        {
+            return new ConcurrentDictionary<TKey, TValue>();
+        }
+
         return new ConcurrentDictionary<TKey, TValue>(source);
     }
 }

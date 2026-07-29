@@ -65,6 +65,26 @@ namespace NevesCS.Tests.Static
             allValues.Should().BeEquivalentTo(new[] { "a", "b" });
         }
 
+        [Fact]
+        public void ToConcurrentDictionary_Should_ReturnEmpty_If_SourceIsNull()
+        {
+            Dictionary<string, object> source = null!;
+
+            var result = DictionaryUtils.ToConcurrentDictionary(source);
+
+            result.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void ToConcurrentDictionary_Should_ReturnEmpty_If_SourceIsEmpty()
+        {
+            var source = new Dictionary<string, object>();
+
+            var result = source.ToConcurrentDictionary();
+
+            result.Should().BeEmpty();
+        }
+
         private void VerifyGetOrCreateResult(Dictionary<string, object> targetDict, string key, string value, bool wasCalled)
         {
             var targetDict2 = targetDict.CloneIntoNew();
