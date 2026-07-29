@@ -6,7 +6,7 @@ public static class ObjectUtils
 {
     public static bool IsNull<T>(T? @object)
     {
-        return @object == null;
+        return @object is null;
     }
 
     public static bool IsNotNull<T>(T? @object)
@@ -53,8 +53,9 @@ public static class ObjectUtils
     }
 
     public static TOut? CastAs<TOut>(object @object)
+        where TOut : class
     {
-        return @object is not TOut ? default : (TOut)@object;
+        return @object as TOut;
     }
 
     /// <summary>
