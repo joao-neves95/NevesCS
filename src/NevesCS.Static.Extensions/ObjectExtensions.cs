@@ -65,6 +65,7 @@ namespace NevesCS.Static.Extensions
         }
 
         public static TOut? CastAs<TOut>(this object @object)
+            where TOut : class
         {
             return ObjectUtils.CastAs<TOut>(@object);
         }
