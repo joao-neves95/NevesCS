@@ -11,5 +11,10 @@ namespace NevesCS.Static.Utils
         {
             return Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         }
+
+        public static async Task<DirectoryInfo> CreateDirectoryAsync(string path)
+        {
+            return await Task.Run(() => Directory.CreateDirectory(path));
+        }
     }
 }
