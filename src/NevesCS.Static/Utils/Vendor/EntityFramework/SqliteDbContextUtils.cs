@@ -13,7 +13,7 @@ public static class SqliteDbContextUtils
     /// <c>1</c>/<c>0</c> for success/failure if <paramref name="checkSuccess"/> is <c>true</c>; otherwise the
     /// PRAGMA's raw (not reliable) row count.
     /// </returns>
-    public static async Task<int> SetJournalModeWal<TDbContext>(
+    public static async Task<int> SetJournalModeWalAsync<TDbContext>(
         TDbContext dbContext,
         bool checkSuccess,
         CancellationToken cancellationToken = default)
