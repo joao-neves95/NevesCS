@@ -8,19 +8,25 @@ namespace NevesCS.Static.Utils.SqlBuilders
         ///
         /// </summary>
         /// <param name="dataSource">The location.</param>
-        /// <param name="failIfMissing">If the database file doesn't exist, the default behaviour is to create a new file.</param>
         /// <param name="readOnly">Read only connection.</param>
+        /// <param name="failIfMissing">If the database file doesn't exist, the default behaviour is to create a new file.</param>
+        /// <param name="defaultTimeout">Default command timeout, in seconds, before a busy/locked error is raised.</param>
         /// <param name="password">Pass 'null' to use no password.</param>
+        /// <remarks>
+        /// WAL mode isn't a connection-string concept in Microsoft.Data.Sqlite; enable it by executing
+        /// <c>PRAGMA journal_mode=WAL;</c> as a command against the open connection.
+        /// </remarks>
         public static string BuildSQLiteAdoNet(
             string dataSource,
             bool failIfMissing,
             bool readOnly,
+            int? defaultTimeout,
             string? password)
         {
-            return $"Data Source={dataSource};" +
-                   (password == null ? "" : $"Password={password};") +
-                   (readOnly ? "Mode=ReadOnly;" : "") +
-                   (failIfMissing ? "Mode=ReadWrite;" : "Mode=ReadWriteCreate;");
+            return $"Data Source={dataSource};"
+                   + (password == null ? "" : $"Password={password};")
+                   + (readOnly ? "Mode=ReadOnly;" : failIfMissing ? "Mode=ReadWrite;" : "Mode=ReadWriteCreate;")
+                   + ((defaultTimeout ?? -1) > 0 ? $"Default Timeout={defaultTimeout}" : string.Empty);
         }
 
         public static string AppendToSQLiteAdoNetDataSource(string connectionString, string appender)
