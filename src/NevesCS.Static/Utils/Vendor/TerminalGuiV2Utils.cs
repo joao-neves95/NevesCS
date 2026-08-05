@@ -25,10 +25,15 @@ public static class TerminalGuiV2Utils
         return new DataTableSource(dataTable);
     }
 
-    public static DataTableSource AddRowToTableView(TableView tableView, object[] rowData)
+    public static DataTableSource AddRowToTableView(TableView tableView, object[] rowData, bool updateView)
     {
         var dataTableSource = (DataTableSource)tableView.Table!;
         dataTableSource.DataTable.Rows.Add(rowData);
+
+        if (updateView)
+        {
+            tableView.Update();
+        }
 
         return dataTableSource;
     }
