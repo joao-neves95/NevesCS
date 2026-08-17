@@ -24,6 +24,11 @@ namespace NevesCS.NonStatic.Patterns
 
         private readonly ConcurrentDictionary<string, CacheItem> CachedItems = [];
 
+        // Expired items are moved here instead of being disposed immediately, so that callers who
+        // already received the service from Create() get at least one full CheckExpiredCacheItemsEvery
+        // interval to finish using it before it's actually disposed.
+        private ConcurrentBag<TService> PendingDisposalItems = [];
+
         private readonly Task? BackgroundJob;
 
         public CachedServiceFactoryManager(
@@ -46,7 +51,7 @@ namespace NevesCS.NonStatic.Patterns
 
         public TService Create(string key)
         {
-            DeleteCacheItemIfExpired(key, null);
+            RemoveIfExpired(key, null);
 
             return CachedItems.GetOrAdd(key, k => new CacheItem(ServiceFactory.Create(k))).Service;
         }
@@ -71,13 +76,15 @@ namespace NevesCS.NonStatic.Patterns
 
         private void CheckAndDeleteExpiredCacheItems()
         {
+            DisposePendingItems();
+
             foreach (var item in CachedItems)
             {
-                DeleteCacheItemIfExpired(item.Key, item.Value);
+                RemoveIfExpired(item.Key, item.Value);
             }
         }
 
-        private void DeleteCacheItemIfExpired(string key, CacheItem? cacheItem)
+        private void RemoveIfExpired(string key, CacheItem? cacheItem)
         {
             cacheItem ??= CachedItems.GetValueOrDefault(key);
 
@@ -91,12 +98,23 @@ namespace NevesCS.NonStatic.Patterns
                 return;
             }
 
-            if (cacheItem.Value.Service is IDisposable disposableService)
+            if (CachedItems.TryRemove(key, out var removedItem))
             {
-                disposableService.Dispose();
+                PendingDisposalItems.Add(removedItem.Service);
             }
+        }
 
-            CachedItems.Remove(key, out _);
+        private void DisposePendingItems()
+        {
+            var itemsToDispose = Interlocked.Exchange(ref PendingDisposalItems, []);
+
+            foreach (var service in itemsToDispose)
+            {
+                if (service is IDisposable disposableService)
+                {
+                    disposableService.Dispose();
+                }
+            }
         }
 
         public void Dispose()
@@ -111,6 +129,8 @@ namespace NevesCS.NonStatic.Patterns
             {
                 // Task was canceled, swallow the exception.
             }
+
+            DisposePendingItems();
 
             foreach (var cachedItem in CachedItems.Values)
             {

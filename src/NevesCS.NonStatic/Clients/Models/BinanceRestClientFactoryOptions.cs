@@ -2,10 +2,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace NevesCS.NonStatic.Clients.Models;
 
-public readonly record struct  BinanceRestClientCachedFactoryOptions
+public readonly record struct BinanceRestClientFactoryOptions
 {
     [SetsRequiredMembers]
-    public BinanceRestClientCachedFactoryOptions(string apiKey, string apiSecret)
+    public BinanceRestClientFactoryOptions(string apiKey, string apiSecret)
     {
         ApiKey = apiKey;
         ApiSecret = apiSecret;

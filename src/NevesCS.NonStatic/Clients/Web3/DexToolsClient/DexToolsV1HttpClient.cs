@@ -24,20 +24,16 @@ public sealed class DexToolsV1HttpClient : IDexToolsClient
 
     private readonly IThreadRateLimiter ThreadRateLimiter;
 
-    public DexToolsV1HttpClient(HttpClient httpClient)
+    public DexToolsV1HttpClient(HttpClient httpClient) : this(httpClient, null)
     {
-        HttpClient = httpClient;
-        SetDefaultRequestHeaders();
-
-        ThreadRateLimiter = new NoOpThreadRateLimiter();
     }
 
-    public DexToolsV1HttpClient(HttpClient httpClient, IThreadRateLimiter rateLimiter)
+    public DexToolsV1HttpClient(HttpClient httpClient, IThreadRateLimiter? rateLimiter)
     {
         HttpClient = httpClient;
         SetDefaultRequestHeaders();
 
-        ThreadRateLimiter = rateLimiter;
+        ThreadRateLimiter = rateLimiter ?? new NoOpThreadRateLimiter();
     }
 
     private bool UserAgentWasUpdated;
