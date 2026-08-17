@@ -49,15 +49,15 @@ namespace NevesCS.Static.Utils
         ///
         /// </summary>
         /// <param name="assemblyPath">E.g.: "path/to/your/project.dll"</param>
-        /// <param name="wherePredicate"></param>
+        /// <param name="where"></param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetAllTypesFromExternalAssembly(string assemblyPath, Func<Type, bool> wherePredicate)
+        public static IEnumerable<Type> GetAllTypesFromExternalAssembly(string assemblyPath, Func<Type, bool> where)
         {
             var assembly = Assembly.LoadFrom(assemblyPath);
 
             return assembly
                 .GetTypes()
-                .Where(wherePredicate);
+                .Where(where);
         }
 
         /// <summary>
@@ -65,14 +65,14 @@ namespace NevesCS.Static.Utils
         ///
         /// </summary>
         /// <typeparam name="KnownType">A known type from the assembly to perform the search in.</typeparam>
-        /// <param name="wherePredicate"></param>
+        /// <param name="where"></param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetAllTypesFrom<KnownType>(Func<Type, bool> wherePredicate)
+        public static IEnumerable<Type> GetAllTypesFrom<KnownType>(Func<Type, bool> where)
         {
             return typeof(KnownType)
                 .Assembly
                 .GetTypes()
-                .Where(wherePredicate);
+                .Where(where);
         }
 
         public static Type? GetTypeByNameFromAssembly(Assembly assembly, string typeName)
