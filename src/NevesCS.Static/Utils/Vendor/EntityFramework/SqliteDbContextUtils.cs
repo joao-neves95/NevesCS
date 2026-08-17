@@ -32,4 +32,20 @@ public static class SqliteDbContextUtils
 
         return await dbContext.Database.ExecuteSqlRawAsync("PRAGMA journal_mode=WAL;", cancellationToken);
     }
+
+    /// <summary>
+    /// Queries the database backing <paramref name="dbContext"/> for its current journal mode without changing it.
+    /// </summary>
+    /// <returns><c>true</c> if the journal mode is currently WAL.</returns>
+    public static async Task<bool> CheckIsWalJournalModeAsync<TDbContext>(
+        TDbContext dbContext,
+        CancellationToken cancellationToken = default)
+
+        where TDbContext : DbContext
+    {
+        return (await dbContext.Database
+            .SqlQueryRaw<string>("PRAGMA journal_mode;")
+            .SingleAsync(cancellationToken))
+            == "wal";
+    }
 }

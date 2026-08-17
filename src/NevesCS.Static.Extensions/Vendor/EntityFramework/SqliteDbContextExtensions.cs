@@ -15,4 +15,17 @@ public static class SqliteDbContextExtensions
     {
         return await SqliteDbContextUtils.SetJournalModeWalAsync(dbContext, checkSuccess, cancellationToken);
     }
+
+    /// <summary>
+    /// Queries the database backing <paramref name="dbContext"/> for its current journal mode without changing it.
+    /// </summary>
+    /// <returns><c>true</c> if the journal mode is currently WAL.</returns>
+    public static async Task<bool> CheckIsWalJournalModeAsync<TDbContext>(
+        this TDbContext dbContext,
+        CancellationToken cancellationToken = default)
+
+        where TDbContext : DbContext
+    {
+        return await SqliteDbContextUtils.CheckIsWalJournalModeAsync(dbContext, cancellationToken);
+    }
 }
