@@ -7,6 +7,16 @@ namespace NevesCS.NonStatic.Services;
 /// <inheritdoc/>
 public sealed class Debouncer<TInAction> : IDebouncer<TInAction>, IDisposable
 {
+    private readonly object _lock = new();
+
+    private bool _didInit;
+    private bool _disposed;
+
+    private Action<TInAction> _action = null!;
+    private int _millisecondDelay;
+    private Timer _timer = null!;
+    private TInAction _latestValue = default!;
+
     public Debouncer()
     {
     }
@@ -16,75 +26,83 @@ public sealed class Debouncer<TInAction> : IDebouncer<TInAction>, IDisposable
         Initialize(action, millisecondDelay);
     }
 
-    private Action<TInAction> action;
-
-    private int millisecondDelay;
-
-    private Timer timer;
-
-    private bool initialized;
-
-    private TInAction latestValue;
-
     public void Initialize(Action<TInAction> action, int millisecondDelay)
     {
-        this.action = action;
-        this.millisecondDelay = millisecondDelay;
-        timer = new Timer(OnTimerElapsed, null, Timeout.Infinite, Timeout.Infinite);
+        lock (_lock)
+        {
+            ThrowIfDisposed();
 
-        initialized = true;
+            if (_didInit)
+            {
+                throw new InvalidOperationException("Instance already initialized.");
+            }
+
+            _action = action;
+            _millisecondDelay = millisecondDelay;
+            _timer = new Timer(OnTimerElapsed, null, Timeout.Infinite, Timeout.Infinite);
+            _didInit = true;
+        }
+    }
+
+    public void Trigger(TInAction value)
+    {
+        lock (_lock)
+        {
+            ThrowIfDisposed();
+            ThrowIfNotInitialized();
+
+            _latestValue = value;
+            _timer.Change(_millisecondDelay, Timeout.Infinite);
+        }
+    }
+
+    private void OnTimerElapsed(object? state)
+    {
+        TInAction snapshot;
+
+        lock (_lock)
+        {
+            if (!_didInit || _disposed)
+            {
+                return;
+            }
+
+            snapshot = _latestValue;
+        }
+
+        _action.Invoke(snapshot);
     }
 
     #region IDisposable
 
-    private bool disposed;
-
     public void Dispose()
     {
-        if (disposed)
+        lock (_lock)
         {
-            return;
+            if (_disposed)
+            {
+                return;
+            }
+
+            _timer?.Dispose();
+            _disposed = true;
         }
 
-        timer.Dispose();
-        disposed = true;
         GC.SuppressFinalize(this);
     }
 
     #endregion IDisposable
 
-    public void Trigger(TInAction value)
-    {
-        ThrowIfNotInitialized();
-        ThrowIfDisposed();
-
-        latestValue = value;
-        timer.Change(millisecondDelay, Timeout.Infinite);
-    }
-
-    private void OnTimerElapsed(object state)
-    {
-        ThrowIfNotInitialized();
-        ThrowIfDisposed();
-
-        if (disposed)
-        {
-            return;
-        }
-
-        action.Invoke(latestValue);
-    }
-
     private void ThrowIfDisposed()
     {
-        if (disposed)
+        if (_disposed)
         {
-            throw new ObjectDisposedException($"{nameof(Debouncer<>)} was already disposed.");
+            throw new ObjectDisposedException(nameof(Debouncer<TInAction>));
         }
     }
 
     private void ThrowIfNotInitialized()
     {
-        Debug.Assert(initialized);
+        Debug.Assert(_didInit, ".Initialize() must be called first to register an action.");
     }
 }

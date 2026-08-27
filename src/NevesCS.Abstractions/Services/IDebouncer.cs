@@ -1,6 +1,7 @@
 namespace NevesCS.Abstractions.Services;
 
 /// <summary>
+/// Used to discard operations during a specific time interval, and only track the last operation.
 /// Used to ensure a specified action is only called once after a specified period of inactivity.
 ///
 /// </summary>
